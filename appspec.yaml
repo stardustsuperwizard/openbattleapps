@@ -4,18 +4,20 @@ alerts:
 name: openbattleapps
 region: nyc
 services:
-- build_command: openssl x509 -passin pass:passwd -req -days 365 -in openbattles.csr
-    -signkey openbattles.key -out openbattles.crt
+- build_command: |2+
+
   environment_slug: python
   github:
     branch: main
     repo: stardustsuperwizard/openbattleapps
-  http_port: 8443
+  health_check:
+    http_path: /
+  http_port: 8080
   instance_count: 1
   instance_size_slug: basic-xxs
   name: openbattleapps
   routes:
   - path: /
-  run_command: "gunicorn wsgi:app --worker-tmp-dir /dev/shm --bind 0.0.0.0:8443 --log-level=debug
-    --workers=3 --certfile=openbattles.crt --keyfile=openbattles.key"
+  run_command: gunicorn wsgi:app --worker-tmp-dir /dev/shm --bind 0.0.0.0:8080 --log-level=debug
+    --workers=3
   source_dir: /
