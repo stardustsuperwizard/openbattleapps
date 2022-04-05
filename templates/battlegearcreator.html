@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Battle System</title>
-    <script defer src="alpine.js"></script>
-    <script src="EasyIDB.js"></script>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <a href="{{ url_for('index') }}">Back</a>
+    </div>
     <div 
     x-data="{ 
         gearName: '',
@@ -124,66 +118,11 @@
         </div>
     </div>
 
+    {% block javascript %}
     <script>
-tables = [
-    {
-        'name': 'Gear',
-        'options': {
-            autoIncrement: true,
-            keyPath: 'id'
-        },
-        'index': [
-            {
-                indexName: 'gearName',
-                keyPath: 'gearName',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'distance',
-                keyPath: 'distance',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'attacks',
-                keyPath: 'attacks',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'strength',
-                keyPath: 'strength',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'saveModifier',
-                keyPath: 'saveModifier',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'totalPointCost',
-                keyPath: 'totalPointCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-        ]
-    }
-]
-const idb = new EasyIDB('mainDB', tables, 2);
-idb.getDB();
-
 async function addEntry(unit) {
     let result = await idb.createEntry('Gear', {
-        gearName: unit.unitName,
+        gearName: unit.gearName,
         distance: unit.DST,
         attacks: unit.A,
         strength: unit.S,
@@ -193,5 +132,5 @@ async function addEntry(unit) {
     return result;
 }
     </script>
-</body>
-</html>
+    {% endblock %}
+{% endblock %}

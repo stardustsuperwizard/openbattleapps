@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Battle System</title>
-    <script defer src="alpine.js"></script>
-    <script src="EasyIDB.js"></script>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <a href="{{ url_for('index') }}">Back</a>
+    </div>
     <div 
     x-data="{ 
         unitName: '',
@@ -153,132 +147,21 @@
         </div>
     </div>
 
+    {% block javascript %}
     <script>
-tables = [
-    {
-        'name': 'Units',
-        'options': {
-            autoIncrement: true,
-            keyPath: 'id'
-        },
-        'index': [
-            {
-                indexName: 'unitName',
-                keyPath: 'unitName',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'rangedCombatValue',
-                keyPath: 'rangedCombatValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'rangedCombatCost',
-                keyPath: 'rangedCombatCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'closeCombatValue',
-                keyPath: 'closeCombatValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'closeCombatCost',
-                keyPath: 'closeCombatCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'toughnessValue',
-                keyPath: 'toughnessValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'toughnessCost',
-                keyPath: 'toughnessCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'hitPointsValue',
-                keyPath: 'hitPointsValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'hitPointsCost',
-                keyPath: 'hitPointsCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'combatSaveValue',
-                keyPath: 'combatSaveValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'combatSaveCost',
-                keyPath: 'combatSaveCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'movementValue',
-                keyPath: 'movementValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'movementCost',
-                keyPath: 'movementCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'totalPointCost',
-                keyPath: 'totalPointCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-        ]
+    async function addEntry(unit) {
+        let result = await idb.createEntry('Units', {
+            unitName: unit.unitName,
+            rangedCombatValue: unit.RC,
+            closeCombatValue: unit.CC,
+            toughnessValue: unit.T,
+            hitPointsValue: unit.HP,
+            combatSaveValue: unit.CS,
+            movementValue: unit.M,
+            totalPointCost: unit.PointCost,
+        }).then(function(request) { return request.result });
+        return result;
     }
-]
-const idb = new EasyIDB('mainDB', tables, 2);
-idb.getDB();
-
-async function addEntry(unit) {
-    let result = await idb.createEntry('Units', {
-        unitName: unit.unitName,
-        rangedCombatValue: unit.RC,
-        closeCombatValue: unit.CC,
-        toughnessValue: unit.T,
-        hitPointsValue: unit.HP,
-        combatSaveValue: unit.CS,
-        movementValue: unit.M,
-        totalPointCost: unit.PointCost,
-    }).then(function(request) { return request.result });
-    return result;
-}
     </script>
-</body>
-</html>
+    {% endblock %}
+{% endblock %}

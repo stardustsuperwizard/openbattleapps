@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Battle System</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon/favicon.ico') }}">
+
+    <script defer src="{{ url_for('static', filename='js/alpine.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/EasyIDB.js') }}"></script>
+</head>
+<body>
+
+    {% block content %}{% endblock %}
+    
+
+<script>
+tables = [
+    {
+        'name': 'Units',
+        'options': {
+            autoIncrement: true,
+            keyPath: 'id'
+        },
+        'index': [
+            {
+                indexName: 'unitName',
+                keyPath: 'unitName',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'rangedCombatValue',
+                keyPath: 'rangedCombatValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'rangedCombatCost',
+                keyPath: 'rangedCombatCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'closeCombatValue',
+                keyPath: 'closeCombatValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'closeCombatCost',
+                keyPath: 'closeCombatCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'toughnessValue',
+                keyPath: 'toughnessValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'toughnessCost',
+                keyPath: 'toughnessCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'hitPointsValue',
+                keyPath: 'hitPointsValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'hitPointsCost',
+                keyPath: 'hitPointsCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'combatSaveValue',
+                keyPath: 'combatSaveValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'combatSaveCost',
+                keyPath: 'combatSaveCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'movementValue',
+                keyPath: 'movementValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'movementCost',
+                keyPath: 'movementCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'totalPointCost',
+                keyPath: 'totalPointCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+        ]
+    },
+    {
+        'name': 'Gear',
+        'options': {
+            autoIncrement: true,
+            keyPath: 'id'
+        },
+        'index': [
+            {
+                indexName: 'gearName',
+                keyPath: 'gearName',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'distance',
+                keyPath: 'distance',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'attacks',
+                keyPath: 'attacks',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'strength',
+                keyPath: 'strength',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'saveModifier',
+                keyPath: 'saveModifier',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'totalPointCost',
+                keyPath: 'totalPointCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+        ]
+    }
+]
+const idb = new EasyIDB('mainDB', tables, 3);
+idb.getDB();
+</script>
+{% block javascript %}{% endblock %}
+</body>
+</html>
