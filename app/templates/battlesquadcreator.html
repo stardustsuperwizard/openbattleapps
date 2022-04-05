@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <a href="{{ url_for('index') }}">Back</a>
+    </div>
+    <div 
+    x-data="{ 
+        squadName: '',
+        squadUnits: [],  
+        
+        units: [],
+        gear: [],
+
+        async populateData(){
+            this.units = await idb.readTable('Units');
+            this.gear = await idb.readTable('Gear');
+        },
+        addUnitToSquad(){
+            this.squadUnits.push({
+                'id': this.squadUnits.length + 1,
+                'name': '',
+                'unitId': 0,
+                'cost': 0,
+                'quantity': 0,
+                'gear': []
+            });
+        },
+        addGearToSquad(squadUnit) {
+            console.log(squadUnit);
+            squadUnit.gear.push({
+                'id': squadUnit.gear.length + 1,
+                'name': '',
+                'unitId': 0,
+                'cost': 0,
+                'quantity': 0
+            });
+        },
+        deleteUnitFromSquad(index){
+            this.squadUnits.splice(index, 1);
+        },
+        selectedGear(gear, squadUnit) {
+            squadUnit.gear.push({
+                'id': gear.id,
+                'pointCost': gear.totalCost
+            });
+        },
+        selectedUnit(unit, squadUnit) {
+            squadUnit.unitId = unit.id;
+            squadUnit.cost = unit.totalPointCost;
+        }
+    }"
+    x-init="populateData()">
+        <form action="">
+            <div>
+                <div>
+                    <label for="squadName">Squad name:</label><br>
+                    <input type="text" name="squadName" id="squadName" x-model="squadName">
+                </div>
+
+                <div>
+                    <button x-on:click.prevent="addUnitToSquad">Add Unit</button>
+                </div>
+                <template x-for="(squadUnit, index) in squadUnits" :key="index">
+                    <div>
+                        <div>
+                            <select name="unit" id="unit">
+                                <option value="unit">Choose a unit:</option>
+                                <template x-for="unit in units">
+                                    <option value="unit" x-text="unit.unitName" x-on:click="selectedUnit(unit, squadUnit)"></option>
+                                </template>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="squadUnitName">Name:</label><br>
+                            <input type="text" name="squadUnitName" id="squadUnitName" x-model="squadUnit.name">
+                        </div>
+                        <div>
+                            <label for="squadUnitQuantity">Quantity:</label><br>
+                            <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" x-model="squadUnit.quantity">
+                        </div>
+                        <div>
+                            <button x-on:click.prevent="addGearToSquad(squadUnit)">Add Gear</button>
+                        </div>
+                        <template x-for="(gear, gindex) in squadUnit.gear" :key="gindex">
+                            <div>
+                                <select name="gear" id="gear">
+                                    <option value="gear">Choose gear:</option>
+                                    <template x-for="g in squadUnit.gear">
+                                        <option value="gear" x-text="g.Name" x-on:click="selectedGear(g, squadUnit)"></option>
+                                    </template>
+                                </select>
+                            </div>
+                        </template>
+                        <div>
+                            <p x-text="squadUnit.unitId"></p>
+                            <p x-text="squadUnit.name"></p>
+                            <p x-text="squadUnit.cost"></p>
+                            <p x-text="squadUnit.quantity"></p>
+                            <p x-text="(squadUnit.cost * squadUnit.quantity)"></p>
+                        </div>
+                        <div>
+                            <button x-on:click.prevent="deleteUnitFromSquad(index)">Delete</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </form>
+        <!-- <div>
+            <table x-ref="myTable">
+                <tr>
+                    <td></td>
+                    <td>Unit Name</td>
+                    <td>RC</td>
+                    <td>CC</td>
+                    <td>T</td>
+                    <td>HP</td>
+                    <td>CS</td>
+                    <td>M</td>
+                    <td>Point Cost</td>
+                </tr>
+                <template x-for="(unit, index) in units">
+                    <tr>
+                        <td><button x-on:click="loadUnit(index)" x-text="index"></button></td>
+                        <template x-for="value in unit">
+                            <td x-text="value"></td>
+                        </template>
+                        <td><button x-on:click="deleteUnit(index, unit.id)" x-text="index">Delete</button></td>
+                    </tr>
+                </template>
+            </table>
+        </div> -->
+    </div>
+
+    {% block javascript %}
+    <script>
+    async function addEntry(unit) {
+        let result = await idb.createEntry('Units', {
+            unitName: unit.unitName,
+            rangedCombatValue: unit.RC,
+            closeCombatValue: unit.CC,
+            toughnessValue: unit.T,
+            hitPointsValue: unit.HP,
+            combatSaveValue: unit.CS,
+            movementValue: unit.M,
+            totalPointCost: unit.PointCost,
+        }).then(function(request) { return request.result });
+        return result;
+    }
+    </script>
+    {% endblock %}
+{% endblock %}
