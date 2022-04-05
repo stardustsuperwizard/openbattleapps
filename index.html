@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Battle System</title>
+    <script defer src="alpine.js"></script>
+    <script src="EasyIDB.js"></script>
+</head>
+<body>
+    <div 
+    x-data="{ 
+        unitName: '',
+        rcvalue: 0,
+        ccvalue: 0,
+        tvalue: 2,
+        hpvalue: 1,
+        csvalue: 0,
+        movement: 0,
+
+        units: [],
+        unitsAvailable: false,
+        
+        get pointcostRC() { return Math.pow(1.50, this.rcvalue) - 1 },
+        get pointcostCC() {return Math.pow(1.75, this.ccvalue) - 1 },
+        get pointcostTough() {return Math.pow(1.15, this.tvalue) },
+        get pointcostHP() {return Math.pow(1.15, this.hpvalue) * this.hpvalue },
+        get pointcostCS() {return this.csvalue * 1.75 },
+        get pointcostMove() {return Math.pow(1.20, this.movement) - 1 },
+        get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostTough + this.pointcostHP + this.pointcostCS + this.pointcostMove ) * this.hpvalue },
+
+        async addToUnits() { 
+            let unit = {
+                'unitName': this.unitName,
+                'RC': this.rcvalue,
+                'CC': this.ccvalue,
+                'T': this.tvalue,
+                'HP': this.hpvalue,
+                'CS': this.csvalue,
+                'M': this.movement,
+                'PointCost': this.totalCost
+            }
+            unit.id = await addEntry(unit);
+            this.units.push(unit); 
+            this.unitsAvailable = true;
+            this.resetForm();
+        },
+
+        resetForm() {
+            this.unitName = '';
+            this.rcvalue = 0;
+            this.ccvalue = 0;
+            this.tvalue = 2;
+            this.hpvalue = 1;
+            this.csvalue = 0;
+            this.movement = 0;
+        },
+
+        loadUnit(index) {
+            this.unitName = this.units[index].unitName;
+            this.rcvalue = this.units[index].RC;
+            this.ccvalue = this.units[index].CC;
+            this.tvalue = this.units[index].T;
+            this.hpvalue = this.units[index].HP;
+            this.csvalue = this.units[index].CS;
+            this.movement = this.units[index].M;
+        },
+
+        deleteUnit(index, id) {
+            idb.deleteEntry('Units', id);
+            this.units.splice(index, 1);
+            if (this.units.length === 0) {
+                this.unitsAvailable = false;
+            }
+        }
+    }"
+    x-init="units = await idb.readTable('Units')">
+        <form action="">
+            <div>
+                <div>
+                    <label for="unitName">Unit name:</label><br>
+                    <input type="text" name="unitName" id="unitName" x-model="unitName">
+                </div>
+
+                <div>
+                    <label for="unitRangedCombatValue">Ranged Combat:</label><br>
+                    <input type="number" min="0" max="5" name="unitRangedCombatValue" id="unitRangedCombatValue" x-model="rcvalue">
+                    <input type="number" name="unitRangedCombatCost" id="unitRangedCombatCost" x-bind:value="pointcostRC" disabled><br>
+                </div>
+
+                <div>
+                    <label for="unitCloseCombatValue">Close Combat:</label><br>
+                    <input type="number" min="0" max="5" name="unitCloseCombatValue" id="unitCloseCombatValue" x-model="ccvalue">
+                    <input type="number" name="unitCloseCombatCost" id="unitCloseCombatCost" x-bind:value="pointcostCC" disabled><br>
+                </div>
+
+                <div>
+                    <label for="unitToughnessValue">Toughness:</label><br>
+                    <input type="number" min="2" name="unitToughnessValue" id="unitToughnessValue" x-model="tvalue">
+                    <input type="number" name="unitToughnessCost" id="unitToughnessCost" x-bind:value="pointcostTough" disabled><br>
+                </div>
+
+                <div>
+                    <label for="unitHitPointsValue">Hit Points:</label><br>
+                    <input type="number" min="1" value="1" name="unitHitPointsValue" id="unitHitPointsValue" x-model="hpvalue">
+                    <input type="number" name="unitHitPointsCost" id="unitHitPointsCost" x-bind:value="pointcostHP" disabled><br>
+                </div>
+
+                <div>
+                    <label for="unitCombatSaveValue">Combat Save:</label><br>
+                    <input type="number" min="0" max="5" name="unitCombatSaveValue" id="unitCombatSaveValue" x-model="csvalue">
+                    <input type="number" name="unitCombatSaveCost" id="unitCombatSaveCost" x-bind:value="pointcostCS" disabled><br>
+                </div>
+
+                <div>
+                    <label for="unitMovementValue">Movement:</label><br>
+                    <input type="number" min="0" name="unitMovementValue" id="unitMovementVealue" x-model="movement">
+                    <input type="number" name="unitMovementost" id="unitMovementCost" x-bind:value="pointcostMove" disabled><br>
+                </div>
+
+                <div>
+                    <label for="unitTotalCost">Total Cost:</label><br>
+                    <input type="number" name="unitTotalCost" id="unitTotalCost" x-bind:value="totalCost" disabled>
+                </div>
+            </div>
+            <input type="Button" value="Add" x-on:click.prevent="addToUnits">
+            <input type="Button" value="Clear" x-on:click.prevent="resetForm">
+        </form>
+        <div>
+            <table x-ref="myTable">
+                <tr>
+                    <td></td>
+                    <td>Unit Name</td>
+                    <td>RC</td>
+                    <td>CC</td>
+                    <td>T</td>
+                    <td>HP</td>
+                    <td>CS</td>
+                    <td>M</td>
+                    <td>Point Cost</td>
+                </tr>
+                <template x-for="(unit, index) in units">
+                    <tr>
+                        <td><button x-on:click="loadUnit(index)" x-text="index"></button></td>
+                        <template x-for="value in unit">
+                            <td x-text="value"></td>
+                        </template>
+                        <td><button x-on:click="deleteUnit(index, unit.id)" x-text="index">Delete</button></td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </div>
+
+    <script>
+tables = [
+    {
+        'name': 'Units',
+        'options': {
+            autoIncrement: true,
+            keyPath: 'id'
+        },
+        'index': [
+            {
+                indexName: 'unitName',
+                keyPath: 'unitName',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'rangedCombatValue',
+                keyPath: 'rangedCombatValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'rangedCombatCost',
+                keyPath: 'rangedCombatCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'closeCombatValue',
+                keyPath: 'closeCombatValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'closeCombatCost',
+                keyPath: 'closeCombatCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'toughnessValue',
+                keyPath: 'toughnessValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'toughnessCost',
+                keyPath: 'toughnessCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'hitPointsValue',
+                keyPath: 'hitPointsValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'hitPointsCost',
+                keyPath: 'hitPointsCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'combatSaveValue',
+                keyPath: 'combatSaveValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'combatSaveCost',
+                keyPath: 'combatSaveCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'movementValue',
+                keyPath: 'movementValue',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'movementCost',
+                keyPath: 'movementCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'totalPointCost',
+                keyPath: 'totalPointCost',
+                objectParameters: {
+                    unique: false
+                }
+            },
+        ]
+    }
+]
+const idb = new EasyIDB('mainDB', tables, 2);
+idb.getDB();
+
+async function addEntry(unit) {
+    let result = await idb.createEntry('Units', {
+        unitName: unit.unitName,
+        rangedCombatValue: unit.RC,
+        closeCombatValue: unit.CC,
+        toughnessValue: unit.T,
+        hitPointsValue: unit.HP,
+        combatSaveValue: unit.CS,
+        movementValue: unit.M,
+        totalPointCost: unit.PointCost,
+    }).then(function(request) { return request.result });
+    return result;
+}
+    </script>
+</body>
+</html>
