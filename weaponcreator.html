@@ -19,11 +19,11 @@
 
         units: [],
 
-        get saveModifierCost() { return Math.pow(1.25, this.saveModifier) - 1 },
+        get saveModifierCost() { return Math.pow(1.75, this.saveModifier) - 1 },
         get strengthCost() { return Math.pow(1.11, this.strength) * this.strength },
         get attacksCost() { return ( Math.pow(1.5, this.attacks) - 1 ) },
         get distanceCost() { return ((this.distance * 6) * 0.25) / 6 },
-        get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost ) },
+        get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost ) * (this.attacks / 2 )},
 
         async addToGear() { 
             let gear = {
@@ -51,7 +51,7 @@
             this.gearName = this.units[index].gearName;
             this.distance = this.units[index].DST;
             this.attacks = this.units[index].A;
-            this.stength = this.units[index].S;
+            this.strength = this.units[index].S;
             this.saveModifier = this.units[index].SM;
         },
 
@@ -76,7 +76,7 @@
 
                 <div>
                     <label for="gearAttackValue">Attacks:</label><br>
-                    <input type="number" min="0" name="gearAttackValue" id="gearAttackValue" x-model="attacks">
+                    <input type="number" min="1" name="gearAttackValue" id="gearAttackValue" x-model="attacks">
                     <input type="number" name="gearAttackCost" id="gearAttackCost" x-bind:value="attacksCost" disabled><br>
                 </div>
 
