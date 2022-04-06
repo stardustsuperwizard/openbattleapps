@@ -42,7 +42,7 @@
                                 <select name="gear" id="gear">
                                     <option value="gear">Choose gear:</option>
                                     <template x-for="each in gear">
-                                        <option value="gear" x-value="each.gearName" x-text="each.gearName" x-on:click="selectedGear(gindex, each, squadUnit)" x-bind:selected="each.id === g.gearId"></option>
+                                        <option value="gear" x-value="each.gearName" x-text="each.gearName" x-on:click="selectedGear(each, g)" x-bind:selected="each.id === g.gearId"></option>
                                     </template>
                                 </select>
                                 <label for="gearQuantity">Quantity:</label><br>
@@ -53,7 +53,7 @@
                             </div>
                         </template>
                         <div>
-                            <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="(squadUnit.cost * squadUnit.quantity)" disabled>
+                            <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="totalCost" disabled>
                             <p x-text="squadUnits"></p>
                             <p x-text="squadUnit.unitId"></p>
                             <p x-text="squadUnit.name"></p>
@@ -109,14 +109,12 @@
                 });
             },
             addGearToSquad(squadUnit) {
-                console.log(squadUnit);
                 squadUnit.gear.push({
                     'id': squadUnit.gear.length + 1,
                     'name': '',
                     'gearId': 0,
                     'cost': 0,
-                    'quantity': 0,
-                    'totalGearCost': 0
+                    'quantity': 0
                 });
             },
             deleteItem(index, theArray){
@@ -124,21 +122,26 @@
                 console.log(index);
                 theArray.splice(index, 1);
             },
-            selectedGear(index, gear, squadUnit) {
-                squadUnit.gear[index]['gearId'] = gear.id;
-                squadUnit.gear[index]['cost'] = gear.totalPointCost;
+            selectedGear(gear, squadUnitGear) {
+                console.log(gear);
+                console.log(squadUnitGear);
+                squadUnitGear.gearId = gear.id;
+                squadUnitGear.cost = gear.totalPointCost;
             },
             selectedUnit(unit, squadUnit) {
                 squadUnit.unitId = unit.id;
                 squadUnit.cost = unit.totalPointCost;
             },
-            totalCost(squadUnit) {
-                console.log(squadUnit);
-                let totalCost = 0;
+            get totalCost() {
+                let totalUnitCost = 0;
                 let totalGearCost = 0;
-                squadUnit.gear.forEach(function(element) {totalGearCost = totalGearCost + element.totalGearCost });
-                totalCost = (squadUnit.qauntity * squadUnit.cost) + (totalGearCost);
-                return totalCost
+                this.squadUnits.forEach(function(element) { 
+                    totalUnitCost = totalUnitCost + (element.cost * element.quantity);
+                    element.gear.forEach(function(e) {
+                        totalGearCost = totalGearCost + (e.cost * e.quantity )
+                    });
+                });
+                return totalUnitCost + totalGearCost
             }
         }
     }
