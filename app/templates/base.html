@@ -175,9 +175,39 @@ tables = [
                 }
             },
         ]
-    }
+    },
+    {
+        'name': 'battleSquads',
+        'options': {
+            autoIncrement: true,
+            keyPath: 'id'
+        },
+        'index': [
+            {
+                indexName: 'squadName',
+                keyPath: 'squadName',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'squadGear',
+                keyPath: 'squadGear',
+                objectParameters: {
+                    unique: false
+                }
+            },
+            {
+                indexName: 'squadUnits',
+                keyPath: 'squadUnits',
+                objectParameters: {
+                    unique: false
+                }
+            },
+        ]
+    },
 ]
-const idb = new EasyIDB('mainDB', tables, 3);
+const idb = new EasyIDB('mainDB', tables, 6);
 idb.getDB();
 </script>
 {% block javascript %}{% endblock %}

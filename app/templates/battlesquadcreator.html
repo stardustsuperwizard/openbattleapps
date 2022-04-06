@@ -53,19 +53,16 @@
                             </div>
                         </template>
                         <div>
-                            <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="totalCost" disabled>
-                            <p x-text="squadUnits"></p>
-                            <p x-text="squadUnit.unitId"></p>
-                            <p x-text="squadUnit.name"></p>
-                            <p x-text="squadUnit.cost"></p>
-                            <p x-text="squadUnit.quantity"></p>
-                            <p x-text="(squadUnit.cost * squadUnit.quantity)"></p>
-                        </div>
-                        <div>
                             <button x-on:click.prevent="deleteItem(index, squadUnits)">Delete</button>
                         </div>
                     </div>
                 </template>
+                <div>
+                    <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="totalCostCalculator" disabled>
+                </div>
+                <div>
+                    <input type="Button" value="Save" x-on:click.prevent="addToSqaudsTable">
+                </div>
             </div>
         </form>
     </div>
@@ -73,17 +70,15 @@
     {% block javascript %}
     <script>
     async function addEntry(unit) {
-        let result = await idb.createEntry('Units', {
-            unitName: unit.unitName,
-            rangedCombatValue: unit.RC,
-            closeCombatValue: unit.CC,
-            toughnessValue: unit.T,
-            hitPointsValue: unit.HP,
-            combatSaveValue: unit.CS,
-            movementValue: unit.M,
-            totalPointCost: unit.PointCost,
+        let result = await idb.createEntry('battleSquads', {
+            squadName: unit.squadName,
+            squadUnits: JSON.parse(JSON.stringify(unit.squadUnits))
         }).then(function(request) { return request.result });
         return result;
+    }
+
+    async function getData(table, id) {
+        return await idb.readTableEntry(table, id)
     }
 
     function main() {
@@ -94,9 +89,17 @@
             units: [],
             gear: [],
 
-            async populateData(){
+            async populateData() {
                 this.units = await idb.readTable('Units');
                 this.gear = await idb.readTable('Gear');
+            },
+            async addToSqaudsTable() {
+                let squad = {
+                    'squadName': this.squadName,
+                    'squadUnits': this.squadUnits,
+                }
+                console.log(squad);
+                squad.id = await addEntry(squad);
             },
             addUnitToSquad(){
                 this.squadUnits.push({
@@ -111,20 +114,15 @@
             addGearToSquad(squadUnit) {
                 squadUnit.gear.push({
                     'id': squadUnit.gear.length + 1,
-                    'name': '',
                     'gearId': 0,
                     'cost': 0,
                     'quantity': 0
                 });
             },
             deleteItem(index, theArray){
-                console.log(theArray);
-                console.log(index);
                 theArray.splice(index, 1);
             },
             selectedGear(gear, squadUnitGear) {
-                console.log(gear);
-                console.log(squadUnitGear);
                 squadUnitGear.gearId = gear.id;
                 squadUnitGear.cost = gear.totalPointCost;
             },
@@ -132,7 +130,7 @@
                 squadUnit.unitId = unit.id;
                 squadUnit.cost = unit.totalPointCost;
             },
-            get totalCost() {
+            totalCostCalculator() {
                 let totalUnitCost = 0;
                 let totalGearCost = 0;
                 this.squadUnits.forEach(function(element) { 
