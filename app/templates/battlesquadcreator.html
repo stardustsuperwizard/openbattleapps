@@ -32,7 +32,7 @@
                         </div>
                         <div>
                             <label for="squadUnitQuantity">Quantity:</label><br>
-                            <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" x-model="squadUnit.quantity">
+                            <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" x-model.number="squadUnit.quantity">
                         </div>
                         <div>
                             <button x-on:click.prevent="addGearToSquad(squadUnit)">Add Gear</button>
@@ -46,7 +46,7 @@
                                     </template>
                                 </select>
                                 <label for="gearQuantity">Quantity:</label><br>
-                                <input type="number" min="0" name="gearQuantity" id="gearQuantity" x-model="g.quantity">
+                                <input type="number" min="0" name="gearQuantity" id="gearQuantity" x-model.number="g.quantity">
                                 <label for="gearCost">Cost:</label><br>
                                 <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" x-bind:value="(g.quantity * g.cost)" x-model="g.totalGearCost" disabled>
                                 <button x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
@@ -58,7 +58,7 @@
                     </div>
                 </template>
                 <div>
-                    <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="totalCostCalculator" disabled>
+                    <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="(promiseUnitCost + promiseGearCost)" x-init="$watch('squadUnits', () => totalCostCalculator())" disabled>
                 </div>
                 <div>
                     <input type="Button" value="Save" x-on:click.prevent="addToSqaudsTable">
@@ -69,11 +69,9 @@
 
     {% block javascript %}
     <script>
-    async function addEntry(unit) {
-        let result = await idb.createEntry('battleSquads', {
-            squadName: unit.squadName,
-            squadUnits: JSON.parse(JSON.stringify(unit.squadUnits))
-        }).then(function(request) { return request.result });
+    async function addEntry(entry) {
+        let result = await idb.createEntry('battleSquads', entry)
+            .then(function(request) { return request.result });
         return result;
     }
 
@@ -85,28 +83,42 @@
         return { 
             squadName: '',
             squadUnits: [],
+            squadId: null,
             
             units: [],
             gear: [],
+
+            promiseUnitCost: 0,
+            promiseGearCost: 0,
 
             async populateData() {
                 this.units = await idb.readTable('Units');
                 this.gear = await idb.readTable('Gear');
             },
             async addToSqaudsTable() {
-                let squad = {
-                    'squadName': this.squadName,
-                    'squadUnits': this.squadUnits,
+                let squad;
+                if (this.squadId != null) {
+                    squad = {
+                        'squadName': this.squadName,
+                        'squadUnits': JSON.parse(JSON.stringify(this.squadUnits)),
+                        'id': this.squadId
+                    }
+                } else {
+                    squad = {
+                        'squadName': this.squadName,
+                        'squadUnits': JSON.parse(JSON.stringify(this.squadUnits))
+                    }
                 }
                 console.log(squad);
-                squad.id = await addEntry(squad);
+                console.log(this.squadId);
+                this.squadId = await addEntry(squad);
+                console.log(this.squadId);
             },
             addUnitToSquad(){
                 this.squadUnits.push({
                     'id': this.squadUnits.length + 1,
                     'name': '',
                     'unitId': 0,
-                    'cost': 0,
                     'quantity': 0,
                     'gear': []
                 });
@@ -115,7 +127,6 @@
                 squadUnit.gear.push({
                     'id': squadUnit.gear.length + 1,
                     'gearId': 0,
-                    'cost': 0,
                     'quantity': 0
                 });
             },
@@ -131,16 +142,31 @@
                 squadUnit.cost = unit.totalPointCost;
             },
             totalCostCalculator() {
-                let totalUnitCost = 0;
-                let totalGearCost = 0;
-                this.squadUnits.forEach(function(element) { 
-                    totalUnitCost = totalUnitCost + (element.cost * element.quantity);
-                    element.gear.forEach(function(e) {
-                        totalGearCost = totalGearCost + (e.cost * e.quantity )
-                    });
+                this.promiseUnitCost = 0;
+                this.promiseGearCost = 0;
+                this.squadUnits.forEach((element) => {
+                    // console.log(element);
+                    if (element) {
+                        // console.log(element);
+                        idb.readTableEntry('Units', element.unitId).then((response) => {
+                            // console.log(e);
+                            if (response) {
+                                this.promiseUnitCost = this.promiseUnitCost + (response.totalPointCost * element.quantity);
+                            }
+                        });
+                        if (element.gear) {
+                            element.gear.forEach((e) => {
+                                // console.log(e);
+                                idb.readTableEntry('Gear', e.gearId).then((response) => {
+                                    if (response) {
+                                        this.promiseGearCost = this.promiseGearCost + (response.totalPointCost * e.quantity);
+                                    }
+                                });
+                            });
+                        }
+                    }
                 });
-                return totalUnitCost + totalGearCost
-            }
+            },
         }
     }
     </script>
