@@ -3,9 +3,7 @@
     <div>
         <a href="{{ url_for('index') }}">Back</a>
     </div>
-    <div 
-    x-data="main()"
-    x-init="getBattleGear()">
+    <div x-data="main()">
         <form action="">
             <div>
                 <div>
@@ -46,9 +44,9 @@
             <input type="Button" value="Clear" x-on:click.prevent="resetForm">
         </form>
         <div>
-            <table x-ref="myTable">
+            <table x-init="getBattleGear()">
                 <tr>
-                    <td></td>
+                    <td>Id</td>
                     <td>Gear Name</td>
                     <td>DST</td>
                     <td>A</td>
@@ -58,9 +56,13 @@
                 </tr>
                 <template x-for="(gear, index) in units">
                     <tr>
-                        <template x-for="value in gear">
-                            <td x-text="value"></td>
-                        </template>
+                        <td x-text="gear.id"></td>
+                        <td x-text="gear.gearName"></td>
+                        <td x-text="gear.distance"></td>
+                        <td x-text="gear.attacks"></td>
+                        <td x-text="gear.strength"></td>
+                        <td x-text="gear.saveModifier"></td>
+                        <td x-text="gear.totalPointCost"></td>
                         <td><button x-on:click="editBattleGear(gear.id)">Edit</button></td>
                         <td><button x-on:click="deleteGear(gear.id)">Delete</button></td>
                     </tr>
@@ -91,6 +93,7 @@
 
             async getBattleGear() {
                 this.units = await idb.readTable('Gear');
+                // console.log(this.units);
             },
 
             addBattleGear() {
@@ -120,15 +123,16 @@
                 // console.log(this.squadId);
                 idb.createEntry('Gear', tempGear)
                     .then((resp) => {
-                        console.log(resp);
-                        this.gearId = resp.result;
-                        this.resstForm();
+                        // console.log(resp);
+                        // this.gearId = resp.result;
+                        this.resetForm();
                         this.getBattleGear();
                     });
                 // console.log(this.squadId);
             },
 
             resetForm() {
+                this.gearId = null;
                 this.gearName = '';
                 this.distance = 0;
                 this.attacks = 1;
@@ -137,7 +141,7 @@
             },
 
             editBattleGear(gearId) {
-                console.log(gearId);    
+                // console.log(gearId);    
                 idb.readTableEntry('Gear', gearId)
                     .then((resp) => {
                         console.log(resp);
