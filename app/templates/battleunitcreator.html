@@ -54,13 +54,13 @@
                     <input type="number" name="unitTotalCost" id="unitTotalCost" x-bind:value="totalCost" disabled>
                 </div>
             </div>
-            <input type="Button" value="Add" x-on:click.prevent="addToUnits">
+            <input type="Button" value="Save" x-on:click.prevent="addBattleUnit">
             <input type="Button" value="Clear" x-on:click.prevent="resetForm">
         </form>
         <div>
-            <table x-ref="myTable">
+            <table x-init="getBattleUnits()">
                 <tr>
-                    <td></td>
+                    <td>Id</td>
                     <td>Unit Name</td>
                     <td>RC</td>
                     <td>CC</td>
@@ -72,11 +72,17 @@
                 </tr>
                 <template x-for="(unit, index) in units">
                     <tr>
-                        <td><button x-on:click="loadUnit(index)" x-text="index"></button></td>
-                        <template x-for="value in unit">
-                            <td x-text="value"></td>
-                        </template>
-                        <td><button x-on:click="deleteUnit(index, unit.id)" x-text="index">Delete</button></td>
+                        <td x-text="unit.id"></td>
+                        <td x-text="unit.unitName"></td>
+                        <td x-text="unit.rangedCombatValue"></td>
+                        <td x-text="unit.closeCombatValue"></td>
+                        <td x-text="unit.toughnessValue"></td>
+                        <td x-text="unit.hitPointsValue"></td>
+                        <td x-text="unit.combatSaveValue"></td>
+                        <td x-text="unit.movementValue"></td>
+                        <td x-text="unit.totalPointCost"></td>
+                        <td><button x-on:click="editBattleUnit(unit.id)">Edit</button></td>
+                        <td><button x-on:click="deleteBattleUnit(unit.id)">Delete</button></td>
                     </tr>
                 </template>
             </table>
@@ -85,22 +91,9 @@
 
     {% block javascript %}
     <script>
-    async function addEntry(unit) {
-        let result = await idb.createEntry('Units', {
-            unitName: unit.unitName,
-            rangedCombatValue: unit.RC,
-            closeCombatValue: unit.CC,
-            toughnessValue: unit.T,
-            hitPointsValue: unit.HP,
-            combatSaveValue: unit.CS,
-            movementValue: unit.M,
-            totalPointCost: unit.PointCost,
-        }).then(function(request) { return request.result });
-        return result;
-    }
-
     function main() {
         return { 
+            unitId: null,
             unitName: '',
             rcvalue: 0,
             ccvalue: 0,
@@ -110,7 +103,6 @@
             movement: 0,
 
             units: [],
-            unitsAvailable: false,
             
             get pointcostRC() { return Math.pow(1.50, this.rcvalue) - 1 },
             get pointcostCC() {return Math.pow(1.75, this.ccvalue) - 1 },
@@ -120,24 +112,73 @@
             get pointcostMove() {return Math.pow(1.20, this.movement) - 1 },
             get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostTough + this.pointcostHP + this.pointcostCS + this.pointcostMove ) * this.hpvalue },
 
-            async addToUnits() { 
-                let unit = {
-                    'unitName': this.unitName,
-                    'RC': this.rcvalue,
-                    'CC': this.ccvalue,
-                    'T': this.tvalue,
-                    'HP': this.hpvalue,
-                    'CS': this.csvalue,
-                    'M': this.movement,
-                    'PointCost': this.totalCost
-                }
-                unit.id = await addEntry(unit);
-                this.units.push(unit); 
-                this.unitsAvailable = true;
-                this.resetForm();
-            },
 
+            async getBattleUnits() {
+                this.units = await idb.readTable('Units');
+                // console.log(this.units);
+            },
+            addBattleUnit() {
+                // console.log('hello')
+                let tempUnit;
+                if (this.unitId != null) {
+                    tempUnit = {
+                        id: this.unitId,
+                        unitName: this.unitName,
+                        rangedCombatValue: this.rcvalue,
+                        closeCombatValue: this.ccvalue,
+                        toughnessValue: this.tvalue,
+                        hitPointsValue: this.hpvalue,
+                        combatSaveValue: this.csvalue,
+                        movementValue: this.movement,
+                        totalPointCost: this.totalCost,
+                    }
+                } else {
+                    tempUnit = {
+                        unitName: this.unitName,
+                        rangedCombatValue: this.rcvalue,
+                        closeCombatValue: this.ccvalue,
+                        toughnessValue: this.tvalue,
+                        hitPointsValue: this.hpvalue,
+                        combatSaveValue: this.csvalue,
+                        movementValue: this.movement,
+                        totalPointCost: this.totalCost,
+                    }
+                }
+                // console.log(tempGear); 
+                // console.log(this.squadId);
+                idb.createEntry('Units', tempUnit)
+                    .then((resp) => {
+                        // console.log(resp);
+                        // this.gearId = resp.result;
+                        this.resetForm();
+                        this.getBattleUnits();
+                    });
+                // console.log(this.squadId);
+            },
+            editBattleUnit(unitId) {
+                // console.log(gearId);    
+                idb.readTableEntry('Units', unitId)
+                    .then((resp) => {
+                        // console.log(resp);
+                        this.unitId = resp.id,
+                        this.unitName = resp.unitName;
+                        this.rcvalue = resp.rangedCombatValue;
+                        this.ccvalue = resp.closeCombatValue;
+                        this.tvalue = resp.toughnessValue;
+                        this.hpvalue = resp.hitPointsValue;
+                        this.csvalue = resp.combatSaveValue;
+                        this.movement = resp.movementValue;
+                    });
+            },
+            deleteBattleUnit(unitId) {
+                // console.log(gearId);
+                idb.deleteEntry('Units', unitId)
+                    .then((resp) => {
+                        this.getBattleUnits();
+                    });
+            },
             resetForm() {
+                this.unitId = null,
                 this.unitName = '';
                 this.rcvalue = 0;
                 this.ccvalue = 0;
@@ -146,24 +187,6 @@
                 this.csvalue = 0;
                 this.movement = 0;
             },
-
-            loadUnit(index) {
-                this.unitName = this.units[index].unitName;
-                this.rcvalue = this.units[index].RC;
-                this.ccvalue = this.units[index].CC;
-                this.tvalue = this.units[index].T;
-                this.hpvalue = this.units[index].HP;
-                this.csvalue = this.units[index].CS;
-                this.movement = this.units[index].M;
-            },
-
-            deleteUnit(index, id) {
-                idb.deleteEntry('Units', id);
-                this.units.splice(index, 1);
-                if (this.units.length === 0) {
-                    this.unitsAvailable = false;
-                }
-            }
         }
     }
     </script>
