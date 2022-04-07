@@ -88,16 +88,6 @@
 
     {% block javascript %}
     <script>
-    async function addEntry(entry) {
-        let result = await idb.createEntry('battleSquads', entry)
-            .then(function(request) { return request.result });
-        return result;
-    }
-
-    async function getData(table, id) {
-        return await idb.readTableEntry(table, id)
-    }
-
     function main() {
         return { 
 
@@ -114,7 +104,7 @@
             editSquad(squadId) {
                 idb.readTableEntry('battleSquads', squadId)
                     .then((resp) => {
-                        this.squadId = resp.squadId;
+                        this.squadId = resp.id;
                         this.squadName = resp.squadName;
                         this.squadUnits = resp.squadUnits;
                     });
@@ -152,7 +142,7 @@
                 // console.log(this.squadId);
                 idb.createEntry('battleSquads', squad)
                     .then((resp) => {
-                        console.log(resp);
+                        // console.log(resp);
                         this.squadId = resp.result;
                         this.squads = this.getSquads();
                     });
