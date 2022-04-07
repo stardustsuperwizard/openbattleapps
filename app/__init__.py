@@ -14,9 +14,9 @@ def battlegearcreator():
     return render_template('battlegearcreator.html')
 
 
-@app.route('/battlesquadcreator', methods=['GET'])
-def battlesquadcreator():
-    return render_template('battlesquadcreator.html')
+@app.route('/battlesquadscreator', methods=['GET'])
+def battlesquadscreator():
+    return render_template('battlesquadscreator.html')
 
 
 @app.route('/battleunitcreator', methods=['GET'])

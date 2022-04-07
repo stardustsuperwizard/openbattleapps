@@ -4,71 +4,7 @@
         <a href="{{ url_for('index') }}">Back</a>
     </div>
     <div 
-    x-data="{ 
-        unitName: '',
-        rcvalue: 0,
-        ccvalue: 0,
-        tvalue: 2,
-        hpvalue: 1,
-        csvalue: 0,
-        movement: 0,
-
-        units: [],
-        unitsAvailable: false,
-        
-        get pointcostRC() { return Math.pow(1.50, this.rcvalue) - 1 },
-        get pointcostCC() {return Math.pow(1.75, this.ccvalue) - 1 },
-        get pointcostTough() {return Math.pow(1.15, this.tvalue) },
-        get pointcostHP() {return Math.pow(1.15, this.hpvalue) * this.hpvalue },
-        get pointcostCS() {return this.csvalue * 1.75 },
-        get pointcostMove() {return Math.pow(1.20, this.movement) - 1 },
-        get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostTough + this.pointcostHP + this.pointcostCS + this.pointcostMove ) * this.hpvalue },
-
-        async addToUnits() { 
-            let unit = {
-                'unitName': this.unitName,
-                'RC': this.rcvalue,
-                'CC': this.ccvalue,
-                'T': this.tvalue,
-                'HP': this.hpvalue,
-                'CS': this.csvalue,
-                'M': this.movement,
-                'PointCost': this.totalCost
-            }
-            unit.id = await addEntry(unit);
-            this.units.push(unit); 
-            this.unitsAvailable = true;
-            this.resetForm();
-        },
-
-        resetForm() {
-            this.unitName = '';
-            this.rcvalue = 0;
-            this.ccvalue = 0;
-            this.tvalue = 2;
-            this.hpvalue = 1;
-            this.csvalue = 0;
-            this.movement = 0;
-        },
-
-        loadUnit(index) {
-            this.unitName = this.units[index].unitName;
-            this.rcvalue = this.units[index].RC;
-            this.ccvalue = this.units[index].CC;
-            this.tvalue = this.units[index].T;
-            this.hpvalue = this.units[index].HP;
-            this.csvalue = this.units[index].CS;
-            this.movement = this.units[index].M;
-        },
-
-        deleteUnit(index, id) {
-            idb.deleteEntry('Units', id);
-            this.units.splice(index, 1);
-            if (this.units.length === 0) {
-                this.unitsAvailable = false;
-            }
-        }
-    }"
+    x-data="main()"
     x-init="units = await idb.readTable('Units')">
         <form action="">
             <div>
@@ -161,6 +97,74 @@
             totalPointCost: unit.PointCost,
         }).then(function(request) { return request.result });
         return result;
+    }
+
+    function main() {
+        return { 
+            unitName: '',
+            rcvalue: 0,
+            ccvalue: 0,
+            tvalue: 2,
+            hpvalue: 1,
+            csvalue: 0,
+            movement: 0,
+
+            units: [],
+            unitsAvailable: false,
+            
+            get pointcostRC() { return Math.pow(1.50, this.rcvalue) - 1 },
+            get pointcostCC() {return Math.pow(1.75, this.ccvalue) - 1 },
+            get pointcostTough() {return Math.pow(1.15, this.tvalue) },
+            get pointcostHP() {return Math.pow(1.15, this.hpvalue) * this.hpvalue },
+            get pointcostCS() {return this.csvalue * 1.75 },
+            get pointcostMove() {return Math.pow(1.20, this.movement) - 1 },
+            get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostTough + this.pointcostHP + this.pointcostCS + this.pointcostMove ) * this.hpvalue },
+
+            async addToUnits() { 
+                let unit = {
+                    'unitName': this.unitName,
+                    'RC': this.rcvalue,
+                    'CC': this.ccvalue,
+                    'T': this.tvalue,
+                    'HP': this.hpvalue,
+                    'CS': this.csvalue,
+                    'M': this.movement,
+                    'PointCost': this.totalCost
+                }
+                unit.id = await addEntry(unit);
+                this.units.push(unit); 
+                this.unitsAvailable = true;
+                this.resetForm();
+            },
+
+            resetForm() {
+                this.unitName = '';
+                this.rcvalue = 0;
+                this.ccvalue = 0;
+                this.tvalue = 2;
+                this.hpvalue = 1;
+                this.csvalue = 0;
+                this.movement = 0;
+            },
+
+            loadUnit(index) {
+                this.unitName = this.units[index].unitName;
+                this.rcvalue = this.units[index].RC;
+                this.ccvalue = this.units[index].CC;
+                this.tvalue = this.units[index].T;
+                this.hpvalue = this.units[index].HP;
+                this.csvalue = this.units[index].CS;
+                this.movement = this.units[index].M;
+            },
+
+            deleteUnit(index, id) {
+                idb.deleteEntry('Units', id);
+                this.units.splice(index, 1);
+                if (this.units.length === 0) {
+                    this.unitsAvailable = false;
+                }
+            }
+        }
     }
     </script>
     {% endblock %}

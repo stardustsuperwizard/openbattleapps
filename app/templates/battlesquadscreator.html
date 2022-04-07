@@ -62,9 +62,28 @@
                 </div>
                 <div>
                     <input type="Button" value="Save" x-on:click.prevent="addToSqaudsTable">
+                    <input type="Button" value="Clear" x-on:click.prevent="resetForm">
                 </div>
             </div>
         </form>
+        <table x-init="getSquads()">
+            <tr>
+                <td>Id</td>
+                <td>Squad</td>
+                <td>details</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <template x-for="(squad) in squads">
+                <tr>
+                    <td x-text="squad.id"></td>
+                    <td x-text="squad.squadName"></td>
+                    <td x-text="JSON.stringify(squad.squadUnits)"></td>
+                    <td><button x-on:click="editSquad(squad.id)">Edit</button></td>
+                    <td><button x-on:click="deleteSquad(squad.id)">Delete</button></td>
+                </tr>
+            </template>
+        </table>
     </div>
 
     {% block javascript %}
@@ -81,6 +100,26 @@
 
     function main() {
         return { 
+
+            squads: [],
+            async getSquads() {
+                this.squads = await idb.readTable('battleSquads');
+            },
+            deleteSquad(squadId) {
+                idb.deleteEntry('battleSquads', squadId)
+                    .then((resp) => {
+                        this.squads = this.getSquads();
+                    });
+            },
+            editSquad(squadId) {
+                idb.readTableEntry('battleSquads', squadId)
+                    .then((resp) => {
+                        this.squadId = resp.squadId;
+                        this.squadName = resp.squadName;
+                        this.squadUnits = resp.squadUnits;
+                    });
+            },
+
             squadName: '',
             squadUnits: [],
             squadId: null,
@@ -111,7 +150,12 @@
                 }
                 // console.log(squad);
                 // console.log(this.squadId);
-                this.squadId = await addEntry(squad);
+                idb.createEntry('battleSquads', squad)
+                    .then((resp) => {
+                        console.log(resp);
+                        this.squadId = resp.result;
+                        this.squads = this.getSquads();
+                    });
                 // console.log(this.squadId);
             },
             addUnitToSquad(){
@@ -129,6 +173,11 @@
                     'gearId': 0,
                     'quantity': 0
                 });
+            },
+            resetForm() {
+                this.squadId = null;
+                this.squadName = null;
+                this.squadUnits = [];
             },
             deleteItem(index, theArray){
                 theArray.splice(index, 1);
