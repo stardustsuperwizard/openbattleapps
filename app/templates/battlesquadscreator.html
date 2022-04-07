@@ -48,7 +48,7 @@
                                 <label for="gearQuantity">Quantity:</label><br>
                                 <input type="number" min="0" name="gearQuantity" id="gearQuantity" x-model.number="g.quantity">
                                 <label for="gearCost">Cost:</label><br>
-                                <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" x-bind:value="(g.quantity * g.cost)" x-model="g.totalGearCost" disabled>
+                                <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" x-bind:value="(g.quantity * getBattleGearCost(g.gearId))" disabled>
                                 <button x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
                             </div>
                         </template>
@@ -149,6 +149,15 @@
                     });
                 // console.log(this.squadId);
             },
+            async getBattleGearCost(gearId) {
+                if (gearId !== null) {
+                    let tempGear;
+                    tempGear = await idb.readTableEntry('Gear', gearId);
+                    return tempGear.totalPointCost
+                } else {
+                    return 1
+                }
+            },
             addUnitToSquad(){
                 this.squadUnits.push({
                     'id': this.squadUnits.length + 1,
@@ -161,7 +170,7 @@
             addGearToSquad(squadUnit) {
                 squadUnit.gear.push({
                     'id': squadUnit.gear.length + 1,
-                    'gearId': 0,
+                    'gearId': null,
                     'quantity': 0
                 });
             },
