@@ -95,7 +95,6 @@
                 this.units = await idb.readTable('Gear');
                 // console.log(this.units);
             },
-
             addBattleGear() {
                 // console.log('hello')
                 let tempGear;
@@ -130,16 +129,6 @@
                     });
                 // console.log(this.squadId);
             },
-
-            resetForm() {
-                this.gearId = null;
-                this.gearName = '';
-                this.distance = 0;
-                this.attacks = 1;
-                this.strength = 0;
-                this.saveModifier = 0;
-            },
-
             editBattleGear(gearId) {
                 // console.log(gearId);    
                 idb.readTableEntry('Gear', gearId)
@@ -153,14 +142,21 @@
                         this.saveModifier = resp.saveModifier;
                     });
             },
-
             deleteGear(gearId) {
                 // console.log(gearId);
                 idb.deleteEntry('Gear', gearId)
                     .then((resp) => {
                         this.getBattleGear();
                     });
-            }
+            },
+            resetForm() {
+                this.gearId = null;
+                this.gearName = '';
+                this.distance = 0;
+                this.attacks = 1;
+                this.strength = 0;
+                this.saveModifier = 0;
+            },
         }
     }
     </script>
