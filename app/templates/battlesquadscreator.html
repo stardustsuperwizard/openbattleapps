@@ -144,7 +144,8 @@
                     .then((resp) => {
                         // console.log(resp);
                         this.squadId = resp.result;
-                        this.squads = this.getSquads();
+                        this.resetForm();
+                        this.getSquads();
                     });
                 // console.log(this.squadId);
             },

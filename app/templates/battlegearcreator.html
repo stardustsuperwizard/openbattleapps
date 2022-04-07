@@ -4,57 +4,8 @@
         <a href="{{ url_for('index') }}">Back</a>
     </div>
     <div 
-    x-data="{ 
-        gearName: '',
-        saveModifier: 0,
-        strength: 0,
-        attacks: 1,
-        distance: 0,
-
-        units: [],
-
-        get saveModifierCost() { return Math.pow(1.75, this.saveModifier) - 1 },
-        get strengthCost() { return Math.pow(1.11, this.strength) * this.strength },
-        get attacksCost() { return ( Math.pow(1.5, this.attacks) - 1 ) },
-        get distanceCost() { return ((this.distance * 6) * 0.25) / 6 },
-        get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost ) * (this.attacks / 2 )},
-
-        async addToGear() { 
-            let gear = {
-                'gearName': this.gearName,
-                'DST': this.distance,
-                'A': this.attacks,
-                'S': this.strength,
-                'SM': this.saveModifier,
-                'PointCost': this.totalCost
-            }
-            gear.id = await addEntry(gear);
-            this.units.push(gear); 
-            this.resetForm();
-        },
-
-        resetForm() {
-            this.gearName = '';
-            this.distance = 0;
-            this.attacks = 1;
-            this.strength = 2;
-            this.saveModifier = 1;
-        },
-
-        loadGear(index) {
-            this.gearName = this.units[index].gearName;
-            this.distance = this.units[index].DST;
-            this.attacks = this.units[index].A;
-            this.strength = this.units[index].S;
-            this.saveModifier = this.units[index].SM;
-        },
-
-        deleteGear(index, id) {
-            idb.deleteEntry('Gear', id);
-            this.units.splice(index, 1);
-        }
-    }"
-    x-init="units = await idb.readTable('Gear')">
+    x-data="main()"
+    x-init="getBattleGear()">
         <form action="">
             <div>
                 <div>
@@ -64,25 +15,25 @@
 
                 <div>
                     <label for="gearDistanceValue">Distance:</label><br>
-                    <input type="number" min="0" name="gearDistanceValue" id="gearDistanceValue" x-model="distance">
+                    <input type="number" min="0" name="gearDistanceValue" id="gearDistanceValue" x-model.number="distance">
                     <input type="number" name="gearDistanceCost" id="gearDistanceCost" x-bind:value="distanceCost" disabled><br>
                 </div>
 
                 <div>
                     <label for="gearAttackValue">Attacks:</label><br>
-                    <input type="number" min="1" name="gearAttackValue" id="gearAttackValue" x-model="attacks">
+                    <input type="number" min="1" name="gearAttackValue" id="gearAttackValue" x-model.number="attacks">
                     <input type="number" name="gearAttackCost" id="gearAttackCost" x-bind:value="attacksCost" disabled><br>
                 </div>
 
                 <div>
                     <label for="gearStrengthValue">Strength:</label><br>
-                    <input type="number" min="0" name="gearStrengthValue" id="gearStrengthValue" x-model="strength">
+                    <input type="number" min="0" name="gearStrengthValue" id="gearStrengthValue" x-model.number="strength">
                     <input type="number" name="gearStrengthCost" id="gearStrengthCost" x-bind:value="strengthCost" disabled><br>
                 </div>
 
                 <div>
                     <label for="gearSaveModifierValue">Save Modifier:</label><br>
-                    <input type="number" min="0" max="5" name="gearSaveModifierValue" id="gearSaveModifierValue" x-model="saveModifier">
+                    <input type="number" min="0" max="5" name="gearSaveModifierValue" id="gearSaveModifierValue" x-model.number="saveModifier">
                     <input type="number" name="gearSaveModifierCost" id="gearSaveModifierCost" x-bind:value="saveModifierCost" disabled><br>
                 </div>
 
@@ -91,7 +42,7 @@
                     <input type="number" name="gearTotalCost" id="gearTotalCost" x-bind:value="totalCost" disabled>
                 </div>
             </div>
-            <input type="Button" value="Add" x-on:click.prevent="addToGear">
+            <input type="Button" value="Save" x-on:click.prevent="addBattleGear">
             <input type="Button" value="Clear" x-on:click.prevent="resetForm">
         </form>
         <div>
@@ -107,11 +58,11 @@
                 </tr>
                 <template x-for="(gear, index) in units">
                     <tr>
-                        <td><button x-on:click="loadGear(index)" x-text="index"></button></td>
                         <template x-for="value in gear">
                             <td x-text="value"></td>
                         </template>
-                        <td><button x-on:click="deleteGear(index, gear.id)" x-text="index">Delete</button></td>
+                        <td><button x-on:click="editBattleGear(gear.id)">Edit</button></td>
+                        <td><button x-on:click="deleteGear(gear.id)">Delete</button></td>
                     </tr>
                 </template>
             </table>
@@ -120,17 +71,94 @@
 
     {% block javascript %}
     <script>
-async function addEntry(unit) {
-    let result = await idb.createEntry('Gear', {
-        gearName: unit.gearName,
-        distance: unit.DST,
-        attacks: unit.A,
-        strength: unit.S,
-        saveModifier: unit.SM,
-        totalPointCost: unit.PointCost,
-    }).then(function(request) { return request.result });
-    return result;
-}
+    function main() {
+        return { 
+            gearId: null,
+            gearName: '',
+            saveModifier: 0,
+            strength: 0,
+            attacks: 1,
+            distance: 0,
+
+            units: [],
+
+            get saveModifierCost() { return Math.pow(1.75, this.saveModifier) - 1 },
+            get strengthCost() { return Math.pow(1.11, this.strength) * this.strength },
+            get attacksCost() { return ( Math.pow(1.5, this.attacks) - 1 ) },
+            get distanceCost() { return ((this.distance * 6) * 0.25) / 6 },
+            get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost ) * (this.attacks / 2 )},
+
+
+            async getBattleGear() {
+                this.units = await idb.readTable('Gear');
+            },
+
+            addBattleGear() {
+                // console.log('hello')
+                let tempGear;
+                if (this.gearId != null) {
+                    tempGear = {
+                        'id': this.gearId,
+                        'gearName': this.gearName,
+                        'distance': this.distance,
+                        'attacks': this.attacks,
+                        'strength': this.strength,
+                        'saveModifier': this.saveModifier,
+                        'totalPointCost': this.totalCost
+                    }
+                } else {
+                    tempGear = {
+                        'gearName': this.gearName,
+                        'distance': this.distance,
+                        'attacks': this.attacks,
+                        'strength': this.strength,
+                        'saveModifier': this.saveModifier,
+                        'totalPointCost': this.totalCost
+                    }
+                }
+                // console.log(tempGear); 
+                // console.log(this.squadId);
+                idb.createEntry('Gear', tempGear)
+                    .then((resp) => {
+                        console.log(resp);
+                        this.gearId = resp.result;
+                        this.resstForm();
+                        this.getBattleGear();
+                    });
+                // console.log(this.squadId);
+            },
+
+            resetForm() {
+                this.gearName = '';
+                this.distance = 0;
+                this.attacks = 1;
+                this.strength = 0;
+                this.saveModifier = 0;
+            },
+
+            editBattleGear(gearId) {
+                console.log(gearId);    
+                idb.readTableEntry('Gear', gearId)
+                    .then((resp) => {
+                        console.log(resp);
+                        this.gearId = resp.id;
+                        this.gearName = resp.gearName;
+                        this.distance = resp.distance;
+                        this.attacks = resp.attacks;
+                        this.strength = resp.strength;
+                        this.saveModifier = resp.saveModifier;
+                    });
+            },
+
+            deleteGear(gearId) {
+                // console.log(gearId);
+                idb.deleteEntry('Gear', gearId)
+                    .then((resp) => {
+                        this.getBattleGear();
+                    });
+            }
+        }
+    }
     </script>
     {% endblock %}
 {% endblock %}
