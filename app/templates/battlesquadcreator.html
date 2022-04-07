@@ -109,10 +109,10 @@
                         'squadUnits': JSON.parse(JSON.stringify(this.squadUnits))
                     }
                 }
-                console.log(squad);
-                console.log(this.squadId);
+                // console.log(squad);
+                // console.log(this.squadId);
                 this.squadId = await addEntry(squad);
-                console.log(this.squadId);
+                // console.log(this.squadId);
             },
             addUnitToSquad(){
                 this.squadUnits.push({
