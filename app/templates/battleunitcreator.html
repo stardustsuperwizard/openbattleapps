@@ -14,44 +14,50 @@
                 </div>
 
                 <div>
-                    <label for="unitRangedCombatValue">Ranged Combat:</label><br>
-                    <input type="number" min="0" max="5" name="unitRangedCombatValue" id="unitRangedCombatValue" x-model="rcvalue">
-                    <input type="number" name="unitRangedCombatCost" id="unitRangedCombatCost" x-bind:value="pointcostRC" disabled><br>
+                    <label for="rangedCombat">Ranged Combat:</label><br>
+                    <input type="number" min="0" max="5" name="rangedCombat" id="rangedCombat" x-model="rangedCombat">
+                    <input type="number" name="rangedCombat" id="rangedCombat" x-bind:value="pointcostRC" disabled><br>
                 </div>
 
                 <div>
-                    <label for="unitCloseCombatValue">Close Combat:</label><br>
-                    <input type="number" min="0" max="5" name="unitCloseCombatValue" id="unitCloseCombatValue" x-model="ccvalue">
-                    <input type="number" name="unitCloseCombatCost" id="unitCloseCombatCost" x-bind:value="pointcostCC" disabled><br>
+                    <label for="closeCombat">Close Combat:</label><br>
+                    <input type="number" min="0" max="5" name="closeCombat" id="closeCombat" x-model="closeCombat">
+                    <input type="number" name="closeCombat" id="closeCombat" x-bind:value="pointcostCC" disabled><br>
                 </div>
 
                 <div>
-                    <label for="unitToughnessValue">Toughness:</label><br>
-                    <input type="number" min="2" name="unitToughnessValue" id="unitToughnessValue" x-model="tvalue">
-                    <input type="number" name="unitToughnessCost" id="unitToughnessCost" x-bind:value="pointcostTough" disabled><br>
+                    <label for="physicalToughness">Physical Toughness:</label><br>
+                    <input type="number" min="2" name="physicalToughness" id="physicalToughness" x-model="physicalToughness">
+                    <input type="number" name="physicalToughness" id="physicalToughness" x-bind:value="pointcostPT" disabled><br>
                 </div>
 
                 <div>
-                    <label for="unitHitPointsValue">Hit Points:</label><br>
-                    <input type="number" min="1" value="1" name="unitHitPointsValue" id="unitHitPointsValue" x-model="hpvalue">
-                    <input type="number" name="unitHitPointsCost" id="unitHitPointsCost" x-bind:value="pointcostHP" disabled><br>
+                    <label for="mentalToughness">Mental Toughness:</label><br>
+                    <input type="number" min="2" name="mentalToughness" id="mentalToughness" x-model="mentalToughness">
+                    <input type="number" name="mentalToughness" id="mentalToughness" x-bind:value="pointcostMT" disabled><br>
                 </div>
 
                 <div>
-                    <label for="unitCombatSaveValue">Combat Save:</label><br>
-                    <input type="number" min="0" max="5" name="unitCombatSaveValue" id="unitCombatSaveValue" x-model="csvalue">
-                    <input type="number" name="unitCombatSaveCost" id="unitCombatSaveCost" x-bind:value="pointcostCS" disabled><br>
+                    <label for="hitPoints">Hit Points:</label><br>
+                    <input type="number" min="1" value="1" name="hitPoints" id="hitPoints" x-model="hitPoints">
+                    <input type="number" name="hitPoints" id="hitPoints" x-bind:value="pointcostHP" disabled><br>
                 </div>
 
                 <div>
-                    <label for="unitMovementValue">Movement:</label><br>
-                    <input type="number" min="0" name="unitMovementValue" id="unitMovementVealue" x-model="movement">
-                    <input type="number" name="unitMovementost" id="unitMovementCost" x-bind:value="pointcostMove" disabled><br>
+                    <label for="combatSave">Combat Save:</label><br>
+                    <input type="number" min="0" max="5" name="combatSave" id="combatSave" x-model="combatSave">
+                    <input type="number" name="combatSave" id="combatSave" x-bind:value="pointcostCS" disabled><br>
                 </div>
 
                 <div>
-                    <label for="unitTotalCost">Total Cost:</label><br>
-                    <input type="number" name="unitTotalCost" id="unitTotalCost" x-bind:value="totalCost" disabled>
+                    <label for="movement">Movement:</label><br>
+                    <input type="number" min="0" name="movement" id="movement" x-model="movement">
+                    <input type="number" name="movement" id="movement" x-bind:value="pointcostMV" disabled><br>
+                </div>
+
+                <div>
+                    <label for="TotalCost">Total Cost:</label><br>
+                    <input type="number" name="TotalCost" id="TotalCost" x-bind:value="totalCost" disabled>
                 </div>
             </div>
             <input type="Button" value="Save" x-on:click.prevent="addBattleUnit">
@@ -74,12 +80,13 @@
                     <tr>
                         <td x-text="unit.id"></td>
                         <td x-text="unit.unitName"></td>
-                        <td x-text="unit.rangedCombatValue"></td>
-                        <td x-text="unit.closeCombatValue"></td>
-                        <td x-text="unit.toughnessValue"></td>
-                        <td x-text="unit.hitPointsValue"></td>
-                        <td x-text="unit.combatSaveValue"></td>
-                        <td x-text="unit.movementValue"></td>
+                        <td x-text="unit.rangedCombat"></td>
+                        <td x-text="unit.closeCombat"></td>
+                        <td x-text="unit.physicalToughness"></td>
+                        <td x-text="unit.mentalToughness"></td>
+                        <td x-text="unit.hitPoints"></td>
+                        <td x-text="unit.combatSave"></td>
+                        <td x-text="unit.movement"></td>
                         <td x-text="unit.totalPointCost"></td>
                         <td><button x-on:click="editBattleUnit(unit.id)">Edit</button></td>
                         <td><button x-on:click="deleteBattleUnit(unit.id)">Delete</button></td>
@@ -95,22 +102,24 @@
         return { 
             unitId: null,
             unitName: '',
-            rcvalue: 0,
-            ccvalue: 0,
-            tvalue: 2,
-            hpvalue: 1,
-            csvalue: 0,
+            rangedCombat: 0,
+            closeCombat: 0,
+            physicalToughness: 2,
+            mentalToughness: 2,
+            hitPoints: 1,
+            combatSave: 0,
             movement: 0,
 
             units: [],
             
-            get pointcostRC() { return Math.pow(1.50, this.rcvalue) - 1 },
-            get pointcostCC() {return Math.pow(1.75, this.ccvalue) - 1 },
-            get pointcostTough() {return Math.pow(1.15, this.tvalue) },
-            get pointcostHP() {return Math.pow(1.15, this.hpvalue) * this.hpvalue },
-            get pointcostCS() {return this.csvalue * 1.75 },
-            get pointcostMove() {return Math.pow(1.20, this.movement) - 1 },
-            get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostTough + this.pointcostHP + this.pointcostCS + this.pointcostMove ) * this.hpvalue },
+            get pointcostRC() { return Math.pow(1.50, this.rangedCombat) - 1 },
+            get pointcostCC() {return Math.pow(1.75, this.closeCombat) - 1 },
+            get pointcostPT() {return Math.pow(1.15, this.physicalToughness) },
+            get pointcostMT() {return Math.pow(1.15, this.mentalToughness) },
+            get pointcostHP() {return Math.pow(1.15, this.hitPoints) },
+            get pointcostCS() {return 1.75 * this.combatSave },
+            get pointcostMV() {return Math.pow(1.20, this.movement) - 1 },
+            get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostPT + this.pointcostMT + this.pointcostHP + this.pointcostCS + this.pointcostMV ) * this.hitPoints },
 
 
             async getBattleUnits() {
@@ -124,23 +133,25 @@
                     tempUnit = {
                         id: this.unitId,
                         unitName: this.unitName,
-                        rangedCombatValue: this.rcvalue,
-                        closeCombatValue: this.ccvalue,
-                        toughnessValue: this.tvalue,
-                        hitPointsValue: this.hpvalue,
-                        combatSaveValue: this.csvalue,
-                        movementValue: this.movement,
+                        rangedCombat: this.rangedCombat,
+                        closeCombat: this.closeCombat,
+                        physicalToughness: this.physicalToughness,
+                        mentalToughness: this.mentalToughness,
+                        hitPoints: this.hitPoints,
+                        combatSave: this.combatSave,
+                        movementValue: this.movementValue,
                         totalPointCost: this.totalCost,
                     }
                 } else {
                     tempUnit = {
                         unitName: this.unitName,
-                        rangedCombatValue: this.rcvalue,
-                        closeCombatValue: this.ccvalue,
-                        toughnessValue: this.tvalue,
-                        hitPointsValue: this.hpvalue,
-                        combatSaveValue: this.csvalue,
-                        movementValue: this.movement,
+                        rangedCombat: this.rangedCombat,
+                        closeCombat: this.closeCombat,
+                        physicalToughness: this.physicalToughness,
+                        mentalToughness: this.mentalToughness,
+                        hitPoints: this.hitPoints,
+                        combatSave: this.combatSave,
+                        movementValue: this.movementValue,
                         totalPointCost: this.totalCost,
                     }
                 }
@@ -162,12 +173,13 @@
                         // console.log(resp);
                         this.unitId = resp.id,
                         this.unitName = resp.unitName;
-                        this.rcvalue = resp.rangedCombatValue;
-                        this.ccvalue = resp.closeCombatValue;
-                        this.tvalue = resp.toughnessValue;
-                        this.hpvalue = resp.hitPointsValue;
-                        this.csvalue = resp.combatSaveValue;
-                        this.movement = resp.movementValue;
+                        this.rangedCombat = resp.rangedCombat;
+                        this.closeCombat = resp.closeCombat;
+                        this.physicalToughness = resp.physicalToughness;
+                        this.mentalToughness = resp.mentalToughness;
+                        this.hitPoints = resp.hitPoints;
+                        this.combatSave = resp.combatSave;
+                        this.movement = resp.movement;
                     });
             },
             deleteBattleUnit(unitId) {
@@ -180,12 +192,13 @@
             resetForm() {
                 this.unitId = null,
                 this.unitName = '';
-                this.rcvalue = 0;
-                this.ccvalue = 0;
-                this.tvalue = 2;
-                this.hpvalue = 1;
-                this.csvalue = 0;
-                this.movement = 0;
+                this.rangedCombat = 0;
+                this.closeCombat = 0;
+                this.physicalToughness = 2;
+                this.mentalToughness = 2;
+                this.hitPoints = 1;
+                this.combatSave = 0;
+                this.movementValue = 0;
             },
         }
     }
