@@ -47,8 +47,9 @@
                                 </select>
                                 <label for="gearQuantity">Quantity:</label><br>
                                 <input type="number" min="0" name="gearQuantity" id="gearQuantity" x-model.number="g.quantity">
+                                <!-- <span x-text="g.gearId"></span> -->
                                 <label for="gearCost">Cost:</label><br>
-                                <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" x-bind:value="(g.quantity * getBattleGearCost(g.gearId))" disabled>
+                                <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" x-bind:value="g.quantity * g.cost" disabled>
                                 <button x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
                             </div>
                         </template>
@@ -149,15 +150,6 @@
                     });
                 // console.log(this.squadId);
             },
-            async getBattleGearCost(gearId) {
-                if (gearId !== null) {
-                    let tempGear;
-                    tempGear = await idb.readTableEntry('Gear', gearId);
-                    return tempGear.totalPointCost
-                } else {
-                    return 1
-                }
-            },
             addUnitToSquad(){
                 this.squadUnits.push({
                     'id': this.squadUnits.length + 1,
@@ -206,11 +198,13 @@
                         if (element.gear) {
                             element.gear.forEach((e) => {
                                 // console.log(e);
-                                idb.readTableEntry('Gear', e.gearId).then((response) => {
-                                    if (response) {
-                                        this.promiseGearCost = this.promiseGearCost + (response.totalPointCost * e.quantity);
-                                    }
-                                });
+                                if (e.gearId !== null) {
+                                    idb.readTableEntry('Gear', e.gearId).then((response) => {
+                                        if (response) {
+                                            this.promiseGearCost = this.promiseGearCost + (response.totalPointCost * e.quantity);
+                                        }
+                                    });
+                                }
                             });
                         }
                     }
