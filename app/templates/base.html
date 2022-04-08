@@ -33,85 +33,50 @@ tables = [
                 }
             },
             {
-                indexName: 'rangedCombatValue',
-                keyPath: 'rangedCombatValue',
+                indexName: 'rangedCombat',
+                keyPath: 'rangedCombat',
                 objectParameters: {
                     unique: false
                 }
             },
             {
-                indexName: 'rangedCombatCost',
-                keyPath: 'rangedCombatCost',
+                indexName: 'closeCombat',
+                keyPath: 'closeCombat',
                 objectParameters: {
                     unique: false
                 }
             },
             {
-                indexName: 'closeCombatValue',
-                keyPath: 'closeCombatValue',
+                indexName: 'physicalToughness',
+                keyPath: 'physicalToughness',
                 objectParameters: {
                     unique: false
                 }
             },
             {
-                indexName: 'closeCombatCost',
-                keyPath: 'closeCombatCost',
+                indexName: 'mentalToughness',
+                keyPath: 'mentalToughness',
                 objectParameters: {
                     unique: false
                 }
             },
             {
-                indexName: 'toughnessValue',
-                keyPath: 'toughnessValue',
+                indexName: 'hitPoints',
+                keyPath: 'hitPoints',
                 objectParameters: {
                     unique: false
                 }
             },
             {
-                indexName: 'toughnessCost',
-                keyPath: 'toughnessCost',
+                indexName: 'combatSave',
+                keyPath: 'combatSave',
                 objectParameters: {
                     unique: false
                 }
             },
             {
-                indexName: 'hitPointsValue',
-                keyPath: 'hitPointsValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'hitPointsCost',
-                keyPath: 'hitPointsCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'combatSaveValue',
-                keyPath: 'combatSaveValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'combatSaveCost',
-                keyPath: 'combatSaveCost',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'movementValue',
-                keyPath: 'movementValue',
-                objectParameters: {
-                    unique: false
-                }
-            },
-            {
-                indexName: 'movementCost',
-                keyPath: 'movementCost',
+                indexName: 'movement',
+                keyPath: 'movement',
                 objectParameters: {
                     unique: false
                 }
@@ -207,7 +172,7 @@ tables = [
         ]
     },
 ]
-const idb = new EasyIDB('mainDB', tables, 6);
+const idb = new EasyIDB('mainDB', tables, 7);
 idb.getDB();
 </script>
 {% block javascript %}{% endblock %}
