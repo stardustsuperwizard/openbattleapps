@@ -112,14 +112,14 @@
 
             units: [],
             
-            get pointcostRC() { return Math.pow(1.50, this.rangedCombat) - 1 },
-            get pointcostCC() {return Math.pow(1.75, this.closeCombat) - 1 },
-            get pointcostPT() {return Math.pow(1.15, this.physicalToughness) },
-            get pointcostMT() {return Math.pow(1.15, this.mentalToughness) },
-            get pointcostHP() {return Math.pow(1.15, this.hitPoints) },
-            get pointcostCS() {return 1.75 * this.combatSave },
-            get pointcostMV() {return Math.pow(1.20, this.movement) - 1 },
-            get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostPT + this.pointcostMT + this.pointcostHP + this.pointcostCS + this.pointcostMV ) * this.hitPoints },
+            get pointcostRC() { return ( Math.pow(1.50, this.rangedCombat) - 1 ) * this.pointcostHP },
+            get pointcostCC() { return ( Math.pow(1.50, this.closeCombat) - 1 ) * this.pointcostHP },
+            get pointcostCS() { return ( Math.pow(1.50, this.combatSave) - 1 ) * this.pointcostHP },
+            get pointcostPT() { return ( Math.pow(1.15, this.physicalToughness ) ) * this.pointcostHP },
+            get pointcostMT() { return ( Math.pow(1.15, this.mentalToughness ) ) * this.pointcostHP },
+            get pointcostHP() { return ( Math.pow(1.25, this.hitPoints) ) },
+            get pointcostMV() { return ( 0.25 * this.movement ) * this.pointcostHP },
+            get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostPT + this.pointcostMT + this.pointcostCS + this.pointcostMV + this.pointcostHP ) },
 
 
             async getBattleUnits() {
