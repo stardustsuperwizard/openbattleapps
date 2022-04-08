@@ -88,7 +88,7 @@
             get strengthCost() { return Math.pow(1.11, this.strength) * this.strength },
             get attacksCost() { return ( Math.pow(1.5, this.attacks) - 1 ) },
             get distanceCost() { return ((this.distance * 6) * 0.25) / 6 },
-            get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost ) * (this.attacks / 2 )},
+            get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost )},
 
 
             async getBattleGear() {
