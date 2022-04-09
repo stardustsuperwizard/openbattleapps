@@ -1,91 +1,106 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div>
-        <a href="{{ url_for('index') }}">Back</a>
-    </div>
-    <div 
+<div class="container"
     x-data="main()"
     x-init="populateData()">
-        <form action="">
-            <div>
-                <div>
-                    <label for="squadName">Squad name:</label><br>
-                    <input type="text" name="squadName" id="squadName" x-model="squadName">
-                </div>
 
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('index') }}">Back</a>
+            <span>Squad Creator</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <form action="">
                 <div>
-                    <button x-on:click.prevent="addUnitToSquad">Add Unit</button>
-                </div>
-                <template x-for="(squadUnit, index) in squadUnits" :key="index">
                     <div>
+                        <label class="form-label" for="squadName">Squad name:</label><br>
+                        <input type="text" name="squadName" id="squadName" class="form-control" x-model="squadName">
+                    </div>
+    
+                    <div>
+                        <button class="btn btn-success" x-on:click.prevent="addUnitToSquad">Add Unit</button>
+                    </div>
+                    <template x-for="(squadUnit, index) in squadUnits" :key="index">
                         <div>
-                            <select name="unit" id="unit">
-                                <option value="unit">Choose a unit:</option>
-                                <template x-for="unit in units">
-                                    <option value="unit" x-text="unit.unitName" x-on:click="selectedUnit(unit, squadUnit)" x-bind:selected="unit.id === squadUnit.unitId"></option>
-                                </template>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="squadUnitName">Name:</label><br>
-                            <input type="text" name="squadUnitName" id="squadUnitName" x-model="squadUnit.name">
-                        </div>
-                        <div>
-                            <label for="squadUnitQuantity">Quantity:</label><br>
-                            <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" x-model.number="squadUnit.quantity">
-                        </div>
-                        <div>
-                            <button x-on:click.prevent="addGearToSquad(squadUnit)">Add Gear</button>
-                        </div>
-                        <template x-for="(g, gindex) in squadUnit.gear" :key="gindex">
                             <div>
-                                <select name="gear" id="gear">
-                                    <option value="gear">Choose gear:</option>
-                                    <template x-for="each in gear">
-                                        <option value="gear" x-value="each.gearName" x-text="each.gearName" x-on:click="selectedGear(each, g)" x-bind:selected="each.id === g.gearId"></option>
+                                <select name="unit" id="unit" class="form-select">
+                                    <option value="unit">Choose a unit:</option>
+                                    <template x-for="unit in units">
+                                        <option value="unit" x-text="unit.unitName" x-on:click="selectedUnit(unit, squadUnit)" x-bind:selected="unit.id === squadUnit.unitId"></option>
                                     </template>
                                 </select>
-                                <label for="gearQuantity">Quantity:</label><br>
-                                <input type="number" min="0" name="gearQuantity" id="gearQuantity" x-model.number="g.quantity">
-                                <!-- <span x-text="g.gearId"></span> -->
-                                <label for="gearCost">Cost:</label><br>
-                                <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" x-bind:value="g.quantity * g.cost" disabled>
-                                <button x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
                             </div>
-                        </template>
-                        <div>
-                            <button x-on:click.prevent="deleteItem(index, squadUnits)">Delete</button>
+                            <div>
+                                <label class="form-label" for="squadUnitName">Name:</label><br>
+                                <input type="text" name="squadUnitName" id="squadUnitName" class="form-control" x-model="squadUnit.name">
+                            </div>
+                            <div>
+                                <label class="form-label" for="squadUnitQuantity">Quantity:</label><br>
+                                <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" class="form-control" x-model.number="squadUnit.quantity">
+                            </div>
+                            <div>
+                                <button class="btn btn-success" x-on:click.prevent="addGearToSquad(squadUnit)">Add Gear</button>
+                            </div>
+                            <template x-for="(g, gindex) in squadUnit.gear" :key="gindex">
+                                <div>
+                                    <select name="gear" id="gear" class="form-select">
+                                        <option value="gear">Choose gear:</option>
+                                        <template x-for="each in gear">
+                                            <option value="gear" x-value="each.gearName" x-text="each.gearName" x-on:click="selectedGear(each, g)" x-bind:selected="each.id === g.gearId"></option>
+                                        </template>
+                                    </select>
+                                    <label class="form-label" for="gearQuantity">Quantity:</label><br>
+                                    <input type="number" min="0" name="gearQuantity" id="gearQuantity" class="form-control" x-model.number="g.quantity">
+                                    <!-- <span x-text="g.gearId"></span> -->
+                                    <label class="form-label" for="gearCost">Cost:</label><br>
+                                    <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" class="form-control" x-bind:value="g.quantity * g.cost" disabled>
+                                    <button class="btn btn-warning" x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
+                                </div>
+                            </template>
+                            <div>
+                                <button class="btn btn-warning" x-on:click.prevent="deleteItem(index, squadUnits)">Delete</button>
+                            </div>
                         </div>
+                    </template>
+                    <div>
+                        <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" class="form-control" x-bind:value="(promiseUnitCost + promiseGearCost)" x-init="$watch('squadUnits', () => totalCostCalculator())" disabled>
                     </div>
-                </template>
-                <div>
-                    <input type="number" min="0" name="unitCostTotal" id="unitCostTotal" x-bind:value="(promiseUnitCost + promiseGearCost)" x-init="$watch('squadUnits', () => totalCostCalculator())" disabled>
+                    <div>
+                        <input type="Button" value="Save" class="btn btn-primary" x-on:click.prevent="addToSqaudsTable">
+                        <input type="Button" value="Clear" class="btn btn-secondary" x-on:click.prevent="resetForm">
+                    </div>
                 </div>
-                <div>
-                    <input type="Button" value="Save" x-on:click.prevent="addToSqaudsTable">
-                    <input type="Button" value="Clear" x-on:click.prevent="resetForm">
-                </div>
-            </div>
-        </form>
-        <table x-init="getSquads()">
-            <tr>
-                <td>Id</td>
-                <td>Squad</td>
-                <td>details</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <template x-for="(squad) in squads">
-                <tr>
-                    <td x-text="squad.id"></td>
-                    <td x-text="squad.squadName"></td>
-                    <td x-text="JSON.stringify(squad.squadUnits)"></td>
-                    <td><button x-on:click="editSquad(squad.id)">Edit</button></td>
-                    <td><button x-on:click="deleteSquad(squad.id)">Delete</button></td>
-                </tr>
-            </template>
-        </table>
+            </form>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table" x-init="getSquads()">
+                <tr>
+                    <td>Id</td>
+                    <td>Squad</td>
+                    <td>details</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <template x-for="(squad) in squads">
+                    <tr>
+                        <td x-text="squad.id"></td>
+                        <td x-text="squad.squadName"></td>
+                        <td x-text="JSON.stringify(squad.squadUnits)"></td>
+                        <td><button class="btn btn-primary" x-on:click="editSquad(squad.id)">Edit</button></td>
+                        <td><button class="btn btn-danger" x-on:click="deleteSquad(squad.id)">Delete</button></td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </div>
+
+</div>
 
     {% block javascript %}
     <script>

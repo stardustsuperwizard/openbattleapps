@@ -1,58 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div>
-        <a href="{{ url_for('index') }}">Back</a>
+<div class="container" x-data="main()">
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('index') }}">Back</a>
+            <span>Gear Creator</span>
+
+        </div>
     </div>
-    <div x-data="main()">
-        <form action="">
-            <div>
-                <div>
-                    <label for="gearName">Gear name:</label><br>
-                    <input type="text" name="gearName" id="gearName" x-model="gearName">
-                </div>
 
+    <div class="row">
+        <div class="col">
+            <form action="">
                 <div>
-                    <label for="gearDistanceValue">Distance:</label><br>
-                    <input type="number" min="0" name="gearDistanceValue" id="gearDistanceValue" x-model.number="distance">
-                    <input type="number" name="gearDistanceCost" id="gearDistanceCost" x-bind:value="distanceCost" disabled><br>
+                    <div>
+                        <label class="form-label" for="gearName">Gear name:</label><br>
+                        <input type="text" name="gearName" id="gearName" class="form-control" x-model="gearName">
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="gearDistanceValue">Distance:</label><br>
+                        <input type="number" min="0" name="gearDistanceValue" id="gearDistanceValue" class="form-control" x-model.number="distance">
+                        <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" x-bind:value="distanceCost" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="gearAttackValue">Attacks:</label><br>
+                        <input type="number" min="1" name="gearAttackValue" id="gearAttackValue" class="form-control" x-model.number="attacks">
+                        <input type="number" name="gearAttackCost" id="gearAttackCost" class="form-control" x-bind:value="attacksCost" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="gearStrengthValue">Strength:</label><br>
+                        <input type="number" min="0" name="gearStrengthValue" id="gearStrengthValue" class="form-control" x-model.number="strength">
+                        <input type="number" name="gearStrengthCost" id="gearStrengthCost" class="form-control" x-bind:value="strengthCost" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="gearSaveModifierValue">Save Modifier:</label><br>
+                        <input type="number" min="0" max="5" name="gearSaveModifierValue" id="gearSaveModifierValue" class="form-control" x-model.number="saveModifier">
+                        <input type="number" name="gearSaveModifierCost" id="gearSaveModifierCost" class="form-control" x-bind:value="saveModifierCost" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="gearTotalCost">Total Cost:</label><br>
+                        <input type="number" name="gearTotalCost" id="gearTotalCost" class="form-control" x-bind:value="totalCost" disabled>
+                    </div>
                 </div>
+                <input type="Button" value="Save" class="btn btn-primary" x-on:click.prevent="addBattleGear">
+                <input type="Button" value="Clear" class="btn btn-secondary" x-on:click.prevent="resetForm">
+            </form>
+        </div>
+    </div>
 
-                <div>
-                    <label for="gearAttackValue">Attacks:</label><br>
-                    <input type="number" min="1" name="gearAttackValue" id="gearAttackValue" x-model.number="attacks">
-                    <input type="number" name="gearAttackCost" id="gearAttackCost" x-bind:value="attacksCost" disabled><br>
-                </div>
-
-                <div>
-                    <label for="gearStrengthValue">Strength:</label><br>
-                    <input type="number" min="0" name="gearStrengthValue" id="gearStrengthValue" x-model.number="strength">
-                    <input type="number" name="gearStrengthCost" id="gearStrengthCost" x-bind:value="strengthCost" disabled><br>
-                </div>
-
-                <div>
-                    <label for="gearSaveModifierValue">Save Modifier:</label><br>
-                    <input type="number" min="0" max="5" name="gearSaveModifierValue" id="gearSaveModifierValue" x-model.number="saveModifier">
-                    <input type="number" name="gearSaveModifierCost" id="gearSaveModifierCost" x-bind:value="saveModifierCost" disabled><br>
-                </div>
-
-                <div>
-                    <label for="gearTotalCost">Total Cost:</label><br>
-                    <input type="number" name="gearTotalCost" id="gearTotalCost" x-bind:value="totalCost" disabled>
-                </div>
-            </div>
-            <input type="Button" value="Save" x-on:click.prevent="addBattleGear">
-            <input type="Button" value="Clear" x-on:click.prevent="resetForm">
-        </form>
-        <div>
-            <table x-init="getBattleGear()">
+    <div class="row">
+        <div class="col">
+            <table class="table" x-init="getBattleGear()">
                 <tr>
-                    <td>Id</td>
-                    <td>Gear Name</td>
-                    <td>DST</td>
-                    <td>A</td>
-                    <td>S</td>
-                    <td>SM</td>
-                    <td>Point Cost</td>
+                    <th>Id</th>
+                    <th>Gear Name</th>
+                    <th>DST</th>
+                    <th>A</th>
+                    <th>S</th>
+                    <th>SM</th>
+                    <th>Point Cost</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <template x-for="(gear, index) in units">
                     <tr>
@@ -63,13 +76,15 @@
                         <td x-text="gear.strength"></td>
                         <td x-text="gear.saveModifier"></td>
                         <td x-text="gear.totalPointCost"></td>
-                        <td><button x-on:click="editBattleGear(gear.id)">Edit</button></td>
-                        <td><button x-on:click="deleteGear(gear.id)">Delete</button></td>
+                        <td><button class="btn btn-primary" x-on:click="editBattleGear(gear.id)">Edit</button></td>
+                        <td><button class="btn btn-danger" x-on:click="deleteGear(gear.id)">Delete</button></td>
                     </tr>
                 </template>
             </table>
         </div>
     </div>
+
+</div>
 
     {% block javascript %}
     <script>

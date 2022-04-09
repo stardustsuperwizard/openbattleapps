@@ -1,80 +1,94 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div>
-        <a href="{{ url_for('index') }}">Back</a>
-    </div>
-    <div 
+<div class="container"
     x-data="main()"
     x-init="units = await idb.readTable('Units')">
-        <form action="">
-            <div>
-                <div>
-                    <label for="unitName">Unit name:</label><br>
-                    <input type="text" name="unitName" id="unitName" x-model="unitName">
-                </div>
 
-                <div>
-                    <label for="rangedCombat">Ranged Combat:</label><br>
-                    <input type="number" min="0" max="5" name="rangedCombat" id="rangedCombat" x-model="rangedCombat">
-                    <input type="number" name="rangedCombat" id="rangedCombat" x-bind:value="pointcostRC" disabled><br>
-                </div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ url_for('index') }}">Back</a>
+            <span>Unit Creator</span>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col">
+            <form action="">
                 <div>
-                    <label for="closeCombat">Close Combat:</label><br>
-                    <input type="number" min="0" max="5" name="closeCombat" id="closeCombat" x-model="closeCombat">
-                    <input type="number" name="closeCombat" id="closeCombat" x-bind:value="pointcostCC" disabled><br>
+                    <div>
+                        <label class="form-label" for="unitName">Unit name:</label><br>
+                        <input class="form-control" type="text" name="unitName" id="unitName" x-model="unitName">
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="rangedCombat">Ranged Combat:</label><br>
+                        <input type="number" min="0" max="5" name="rangedCombat" id="rangedCombat" class="form-control"  x-model="rangedCombat">
+                        <input type="number" name="rangedCombat" id="rangedCombat" class="form-control"  x-bind:value="pointcostRC" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="closeCombat">Close Combat:</label><br>
+                        <input type="number" min="0" max="5" name="closeCombat" id="closeCombat" class="form-control"  x-model="closeCombat">
+                        <input type="number" name="closeCombat" id="closeCombat" class="form-control"  x-bind:value="pointcostCC" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="physicalToughness">Physical Toughness:</label><br>
+                        <input type="number" min="2" name="physicalToughness" id="physicalToughness" class="form-control"  x-model="physicalToughness">
+                        <input type="number" name="physicalToughness" id="physicalToughness" class="form-control" x-bind:value="pointcostPT" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="mentalToughness">Mental Toughness:</label><br>
+                        <input type="number" min="2" name="mentalToughness" id="mentalToughness" class="form-control" x-model="mentalToughness">
+                        <input type="number" name="mentalToughness" id="mentalToughness" class="form-control" x-bind:value="pointcostMT" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="hitPoints">Hit Points:</label><br>
+                        <input type="number" min="1" value="1" name="hitPoints" id="hitPoints" class="form-control" x-model="hitPoints">
+                        <input type="number" name="hitPoints" id="hitPoints" class="form-control" x-bind:value="pointcostHP" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="combatSave">Combat Save:</label><br>
+                        <input type="number" min="0" max="5" name="combatSave" id="combatSave" class="form-control" x-model="combatSave">
+                        <input type="number" name="combatSave" id="combatSave" class="form-control" x-bind:value="pointcostCS" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="movement">Movement:</label><br>
+                        <input type="number" min="0" name="movement" id="movement" class="form-control" x-model="movement">
+                        <input type="number" name="movement" id="movement" class="form-control" x-bind:value="pointcostMV" disabled><br>
+                    </div>
+    
+                    <div>
+                        <label class="form-label" for="TotalCost">Total Cost:</label><br>
+                        <input type="number" name="TotalCost" id="TotalCost" class="form-control" x-bind:value="totalCost" disabled>
+                    </div>
                 </div>
+                <input type="Button" value="Save" class="btn btn-primary" x-on:click.prevent="addBattleUnit">
+                <input type="Button" value="Clear" class="btn btn-secondary" x-on:click.prevent="resetForm">
+            </form>
+        </div>
+    </div>
 
-                <div>
-                    <label for="physicalToughness">Physical Toughness:</label><br>
-                    <input type="number" min="2" name="physicalToughness" id="physicalToughness" x-model="physicalToughness">
-                    <input type="number" name="physicalToughness" id="physicalToughness" x-bind:value="pointcostPT" disabled><br>
-                </div>
-
-                <div>
-                    <label for="mentalToughness">Mental Toughness:</label><br>
-                    <input type="number" min="2" name="mentalToughness" id="mentalToughness" x-model="mentalToughness">
-                    <input type="number" name="mentalToughness" id="mentalToughness" x-bind:value="pointcostMT" disabled><br>
-                </div>
-
-                <div>
-                    <label for="hitPoints">Hit Points:</label><br>
-                    <input type="number" min="1" value="1" name="hitPoints" id="hitPoints" x-model="hitPoints">
-                    <input type="number" name="hitPoints" id="hitPoints" x-bind:value="pointcostHP" disabled><br>
-                </div>
-
-                <div>
-                    <label for="combatSave">Combat Save:</label><br>
-                    <input type="number" min="0" max="5" name="combatSave" id="combatSave" x-model="combatSave">
-                    <input type="number" name="combatSave" id="combatSave" x-bind:value="pointcostCS" disabled><br>
-                </div>
-
-                <div>
-                    <label for="movement">Movement:</label><br>
-                    <input type="number" min="0" name="movement" id="movement" x-model="movement">
-                    <input type="number" name="movement" id="movement" x-bind:value="pointcostMV" disabled><br>
-                </div>
-
-                <div>
-                    <label for="TotalCost">Total Cost:</label><br>
-                    <input type="number" name="TotalCost" id="TotalCost" x-bind:value="totalCost" disabled>
-                </div>
-            </div>
-            <input type="Button" value="Save" x-on:click.prevent="addBattleUnit">
-            <input type="Button" value="Clear" x-on:click.prevent="resetForm">
-        </form>
-        <div>
-            <table x-init="getBattleUnits()">
+    <div class="row">
+        <div class="col">
+            <table class="table" x-init="getBattleUnits()">
                 <tr>
-                    <td>Id</td>
-                    <td>Unit Name</td>
-                    <td>RC</td>
-                    <td>CC</td>
-                    <td>T</td>
-                    <td>HP</td>
-                    <td>CS</td>
-                    <td>M</td>
-                    <td>Point Cost</td>
+                    <th>Id</th>
+                    <th>Unit Name</th>
+                    <th>RC</th>
+                    <th>CC</th>
+                    <th>PT</th>
+                    <th>MT</th>
+                    <th>HP</th>
+                    <th>CS</th>
+                    <th>M</th>
+                    <th>Point Cost</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <template x-for="(unit, index) in units">
                     <tr>
@@ -88,13 +102,16 @@
                         <td x-text="unit.combatSave"></td>
                         <td x-text="unit.movement"></td>
                         <td x-text="unit.totalPointCost"></td>
-                        <td><button x-on:click="editBattleUnit(unit.id)">Edit</button></td>
-                        <td><button x-on:click="deleteBattleUnit(unit.id)">Delete</button></td>
+                        <td><button class="btn btn-primary" x-on:click="editBattleUnit(unit.id)">Edit</button></td>
+                        <td><button class="btn btn-danger" x-on:click="deleteBattleUnit(unit.id)">Delete</button></td>
                     </tr>
                 </template>
             </table>
         </div>
     </div>
+
+</div>
+
 
     {% block javascript %}
     <script>
@@ -112,13 +129,13 @@
 
             units: [],
             
-            get pointcostRC() { return ( Math.pow(1.50, this.rangedCombat) - 1 ) * this.pointcostHP },
-            get pointcostCC() { return ( Math.pow(1.50, this.closeCombat) - 1 ) * this.pointcostHP },
-            get pointcostCS() { return ( Math.pow(1.50, this.combatSave) - 1 ) * this.pointcostHP },
-            get pointcostPT() { return ( Math.pow(1.15, this.physicalToughness ) ) * this.pointcostHP },
-            get pointcostMT() { return ( Math.pow(1.15, this.mentalToughness ) ) * this.pointcostHP },
+            get pointcostRC() { return ( Math.pow(1.50, this.rangedCombat) - 1 ) * this.hitPoints },
+            get pointcostCC() { return ( Math.pow(1.50, this.closeCombat) - 1 ) * this.hitPoints },
+            get pointcostCS() { return ( Math.pow(1.50, this.combatSave) - 1 ) * this.hitPoints },
+            get pointcostPT() { return ( Math.pow(1.15, this.physicalToughness ) ) * this.hitPoints },
+            get pointcostMT() { return ( Math.pow(1.15, this.mentalToughness ) ) * this.hitPoints },
             get pointcostHP() { return ( Math.pow(1.25, this.hitPoints) ) },
-            get pointcostMV() { return ( 0.25 * this.movement ) * this.pointcostHP },
+            get pointcostMV() { return ( 0.25 * this.movement ) * this.hitPoints },
             get totalCost() { return ( this.pointcostRC + this.pointcostCC + this.pointcostPT + this.pointcostMT + this.pointcostCS + this.pointcostMV + this.pointcostHP ) },
 
 
@@ -139,7 +156,7 @@
                         mentalToughness: this.mentalToughness,
                         hitPoints: this.hitPoints,
                         combatSave: this.combatSave,
-                        movementValue: this.movementValue,
+                        movement: this.movement,
                         totalPointCost: this.totalCost,
                     }
                 } else {
@@ -151,7 +168,7 @@
                         mentalToughness: this.mentalToughness,
                         hitPoints: this.hitPoints,
                         combatSave: this.combatSave,
-                        movementValue: this.movementValue,
+                        movement: this.movement,
                         totalPointCost: this.totalCost,
                     }
                 }
