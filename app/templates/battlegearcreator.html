@@ -99,10 +99,10 @@
 
             units: [],
 
-            get saveModifierCost() { return Math.pow(1.75, this.saveModifier) - 1 },
-            get strengthCost() { return Math.pow(1.11, this.strength) * this.strength },
+            get saveModifierCost() { return (Math.pow(1.75, this.saveModifier) - 1 ) * this.attacks },
+            get strengthCost() { return Math.pow(1.15, this.strength) * this.attacks },
             get attacksCost() { return ( Math.pow(1.5, this.attacks) - 1 ) },
-            get distanceCost() { return ((this.distance * 6) * 0.25) / 6 },
+            get distanceCost() { return ( ( (this.distance * 6) * 0.25) / 6 ) * this.attacks },
             get totalCost() { return ( this.distanceCost + this.attacksCost + this.strengthCost + this.saveModifierCost )},
 
 
