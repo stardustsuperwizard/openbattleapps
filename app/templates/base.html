@@ -21,7 +21,7 @@
 -->
     <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <style>
+    <!-- <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -35,7 +35,7 @@
           font-size: 3.5rem;
         }
       }
-    </style>
+    </style> -->
 
     
     <!-- Custom styles for this template -->
@@ -43,6 +43,15 @@
     <!-- end of bootstrap stuff -->
 </head>
 <body>
+<div class="container-fluid">
+    <nav class="navbar fixed-top bg-white">
+        <ul class="navbar-nav">
+            <li class="nav-item ps-3">
+                {% block backlink %}{% endblock %}
+            </li>
+        </ul>
+    </nav>
+</div>  
 
     {% block content %}{% endblock %}
     

@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+{% block backlink %}
+<a href="{{ url_for('index') }}" class="d-flex align-items-center text-dark text-decoration-none">
+    <span class="fs-4">< Back</span>
+</a>
+{% endblock %}
 {% block content %}
-<div class="container"
+<div class="container mt-5"
     x-data="main()"
     x-init="populateData()">
 
     <div class="row">
         <div class="col">
-            <a href="{{ url_for('index') }}">Back</a>
             <span>Squad Creator</span>
         </div>
     </div>
