@@ -22,3 +22,8 @@ def battlesquadscreator():
 @app.route('/battleunitcreator', methods=['GET'])
 def battleunitcreator():
     return render_template('battleunitcreator.html')
+
+
+@app.route('/rules/core/full', methods=['GET'])
+def rules_core_full():
+    return render_template('rules/core/full.html')
