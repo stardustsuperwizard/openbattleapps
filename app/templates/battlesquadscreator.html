@@ -83,24 +83,26 @@
 
     <div class="row">
         <div class="col">
-            <table class="table" x-init="getSquads()">
-                <tr>
-                    <td>Id</td>
-                    <td>Squad</td>
-                    <td>details</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <template x-for="(squad) in squads">
+            <div class="table-responsive">
+                <table class="table table-sm" x-init="getSquads()">
                     <tr>
-                        <td x-text="squad.id"></td>
-                        <td x-text="squad.squadName"></td>
-                        <td x-text="JSON.stringify(squad.squadUnits)"></td>
-                        <td><button class="btn btn-primary" x-on:click="editSquad(squad.id)">Edit</button></td>
-                        <td><button class="btn btn-danger" x-on:click="deleteSquad(squad.id)">Delete</button></td>
+                        <td>Id</td>
+                        <td>Squad</td>
+                        <td>details</td>
+                        <td></td>
+                        <td></td>
                     </tr>
-                </template>
-            </table>
+                    <template x-for="(squad) in squads">
+                        <tr>
+                            <td x-text="squad.id"></td>
+                            <td x-text="squad.squadName"></td>
+                            <td x-text="JSON.stringify(squad.squadUnits)"></td>
+                            <td><button class="btn btn-sm btn-primary" x-on:click="editSquad(squad.id)">Edit</button></td>
+                            <td><button class="btn btn-sm btn-danger" x-on:click="deleteSquad(squad.id)">Delete</button></td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
         </div>
     </div>
 

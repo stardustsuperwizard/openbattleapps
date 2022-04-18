@@ -79,38 +79,40 @@
 
     <div class="row">
         <div class="col">
-            <table class="table" x-init="getBattleUnits()">
-                <tr>
-                    <th>Id</th>
-                    <th>Unit Name</th>
-                    <th>RC</th>
-                    <th>CC</th>
-                    <th>PT</th>
-                    <th>MT</th>
-                    <th>HP</th>
-                    <th>CS</th>
-                    <th>M</th>
-                    <th>Point Cost</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <template x-for="(unit, index) in units">
+            <div class="table-responsive">
+                <table class="table table-sm" x-init="getBattleUnits()">
                     <tr>
-                        <td x-text="unit.id"></td>
-                        <td x-text="unit.unitName"></td>
-                        <td x-text="unit.rangedCombat"></td>
-                        <td x-text="unit.closeCombat"></td>
-                        <td x-text="unit.physicalToughness"></td>
-                        <td x-text="unit.mentalToughness"></td>
-                        <td x-text="unit.hitPoints"></td>
-                        <td x-text="unit.combatSave"></td>
-                        <td x-text="unit.movement"></td>
-                        <td x-text="unit.totalPointCost"></td>
-                        <td><button class="btn btn-primary" x-on:click="editBattleUnit(unit.id)">Edit</button></td>
-                        <td><button class="btn btn-danger" x-on:click="deleteBattleUnit(unit.id)">Delete</button></td>
+                        <th>Id</th>
+                        <th>Unit Name</th>
+                        <th>RC</th>
+                        <th>CC</th>
+                        <th>PT</th>
+                        <th>MT</th>
+                        <th>HP</th>
+                        <th>CS</th>
+                        <th>M</th>
+                        <th>Point Cost</th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                </template>
-            </table>
+                    <template x-for="(unit, index) in units">
+                        <tr>
+                            <td x-text="unit.id"></td>
+                            <td x-text="unit.unitName"></td>
+                            <td x-text="unit.rangedCombat"></td>
+                            <td x-text="unit.closeCombat"></td>
+                            <td x-text="unit.physicalToughness"></td>
+                            <td x-text="unit.mentalToughness"></td>
+                            <td x-text="unit.hitPoints"></td>
+                            <td x-text="unit.combatSave"></td>
+                            <td x-text="unit.movement"></td>
+                            <td x-text="unit.totalPointCost"></td>
+                            <td><button class="btn btn-sm btn-primary" x-on:click="editBattleUnit(unit.id)">Edit</button></td>
+                            <td><button class="btn btn-sm btn-danger" x-on:click="deleteBattleUnit(unit.id)">Delete</button></td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
         </div>
     </div>
 

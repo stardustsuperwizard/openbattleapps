@@ -58,32 +58,34 @@
 
     <div class="row">
         <div class="col">
-            <table class="table" x-init="getBattleGear()">
-                <tr>
-                    <th>Id</th>
-                    <th>Gear Name</th>
-                    <th>DST</th>
-                    <th>A</th>
-                    <th>S</th>
-                    <th>SM</th>
-                    <th>Point Cost</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <template x-for="(gear, index) in units">
+            <div class="table-responsive">
+                <table class="table table-sm" x-init="getBattleGear()">
                     <tr>
-                        <td x-text="gear.id"></td>
-                        <td x-text="gear.gearName"></td>
-                        <td x-text="gear.distance"></td>
-                        <td x-text="gear.attacks"></td>
-                        <td x-text="gear.strength"></td>
-                        <td x-text="gear.saveModifier"></td>
-                        <td x-text="gear.totalPointCost"></td>
-                        <td><button class="btn btn-primary" x-on:click="editBattleGear(gear.id)">Edit</button></td>
-                        <td><button class="btn btn-danger" x-on:click="deleteGear(gear.id)">Delete</button></td>
+                        <th>Id</th>
+                        <th>Gear Name</th>
+                        <th>DST</th>
+                        <th>A</th>
+                        <th>S</th>
+                        <th>SM</th>
+                        <th>Point Cost</th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                </template>
-            </table>
+                    <template x-for="(gear, index) in units">
+                        <tr>
+                            <td x-text="gear.id"></td>
+                            <td x-text="gear.gearName"></td>
+                            <td x-text="gear.distance"></td>
+                            <td x-text="gear.attacks"></td>
+                            <td x-text="gear.strength"></td>
+                            <td x-text="gear.saveModifier"></td>
+                            <td x-text="gear.totalPointCost"></td>
+                            <td><button class="btn btn-sm btn-primary" x-on:click="editBattleGear(gear.id)">Edit</button></td>
+                            <td><button class="btn btn-sm btn-danger" x-on:click="deleteGear(gear.id)">Delete</button></td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
         </div>
     </div>
 
