@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-md">
+    <header>
+        <div class="row">
+            <div class="col mx-auto p-3 py-md-5">
+                <div class="d-flex align-items-center pb-3 mb-5 border-bottom">
+                    {% block backlink %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </header>
+    {% block rules %}{% endblock %}
+</div>
+{% endblock %}

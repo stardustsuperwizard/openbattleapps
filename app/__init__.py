@@ -27,3 +27,33 @@ def battleunitcreator():
 @app.route('/rules/core/full', methods=['GET'])
 def rules_core_full():
     return render_template('rules/core/full.html')
+
+
+@app.route('/rules/core/contents', methods=['GET'])
+def rules_core_contents():
+    return render_template('rules/core/contents.html')
+
+
+@app.route('/rules/core/playingsurface', methods=['GET'])
+def rules_core_playingsurface():
+    return render_template('rules/core/playingsurface.html')
+
+
+@app.route('/rules/core/unitsandgear', methods=['GET'])
+def rules_core_unitsandgear():
+    return render_template('rules/core/unitsandgear.html')
+
+
+@app.route('/rules/core/squads', methods=['GET'])
+def rules_core_squads():
+    return render_template('rules/core/squads.html')
+
+
+@app.route('/rules/core/gameround', methods=['GET'])
+def rules_core_gameround():
+    return render_template('rules/core/gameround.html')
+
+
+@app.route('/rules/core/formulas', methods=['GET'])
+def rules_core_formulas():
+    return render_template('rules/core/formulas.html')
