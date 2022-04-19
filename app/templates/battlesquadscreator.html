@@ -23,43 +23,40 @@
                         <label class="form-label" for="squadName">Squad name:</label><br>
                         <input type="text" name="squadName" id="squadName" class="form-control" x-model="squadName">
                     </div>
-    
                     <div>
                         <button class="btn btn-success" x-on:click.prevent="addUnitToSquad">Add Unit</button>
                     </div>
-                    <template x-for="(squadUnit, index) in squadUnits" :key="index">
+                    <template x-for="(unit, index) in squadUnits" :key="index">
                         <div>
                             <div>
-                                <select name="unit" id="unit" class="form-select">
+                                <select name="unit" id="unit" class="form-select" x-on:change="selectedUnit(unit)" x-model.number="tempUnit">
                                     <option value="unit">Choose a unit:</option>
-                                    <template x-for="unit in units">
-                                        <option value="unit" x-text="unit.unitName" x-on:click="selectedUnit(unit, squadUnit)" x-bind:selected="squadUnit.unitId = unit.id"></option>
+                                    <template x-for="each in units">
+                                        <option x-text="each.unitName" x-bind:value="each.id" x-bind:selected="each.id === unit.unitId"></option>
                                     </template>
                                 </select>
                             </div>
                             <div>
                                 <label class="form-label" for="squadUnitName">Name:</label><br>
-                                <input type="text" name="squadUnitName" id="squadUnitName" class="form-control" x-model="squadUnit.name">
+                                <input type="text" name="squadUnitName" id="squadUnitName" class="form-control" x-model="unit.name">
                             </div>
                             <div>
                                 <label class="form-label" for="squadUnitQuantity">Quantity:</label><br>
-                                <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" class="form-control" x-model.number="squadUnit.quantity">
+                                <input type="number" min="0" name="squadUnitQuantity" id="squadUnitQuantity" class="form-control" x-model.number="unit.quantity">
                             </div>
                             <div>
-                                <button class="btn btn-success" x-on:click.prevent="addGearToSquad(squadUnit)">Add Gear</button>
+                                <button class="btn btn-success" x-on:click.prevent="addGearToSquad(unit)">Add Gear</button>
                             </div>
-                            <template x-for="(squadGear, squadGearIndex) in squadUnit.gear" :key="squadGearIndex">
+                            <template x-for="(squadGear, squadGearIndex) in unit.gear" :key="squadGearIndex">
                                 <div>
-                                    <select name="gear" id="gear" class="form-select">
+                                    <select name="gear" id="gear" class="form-select" x-on:change="selectedGear(squadGear)" x-model.number="tempGear">
                                         <option value="gear">Choose gear:</option>
                                         <template x-for="each in gear">
-                                            <option value="each" x-text="each.gearName" x-on:click="selectedGear(each, squadGear)" x-bind:selected="squadGear.gearId = each.id"></option>
+                                            <option x-bind:value="each.id" x-text="each.gearName" x-bind:selected="each.id === squadGear.gearId"></option>
                                         </template>
                                     </select>
                                     <label class="form-label" for="gearQuantity">Quantity:</label><br>
                                     <input type="number" min="0" name="gearQuantity" id="gearQuantity" class="form-control" x-model.number="squadGear.quantity">
-                                    <label class="form-label" for="gearCost">Cost:</label><br>
-                                    <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" class="form-control" x-bind:value="(squadGear.cost)" disabled>
                                     <button class="btn btn-warning" x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
                                 </div>
                             </template>
@@ -141,6 +138,9 @@
             promiseUnitCost: 0,
             promiseGearCost: 0,
 
+            tempUnit: null,
+            tempGear: null,
+
             async populateData() {
                 this.units = await idb.readTable('Units');
                 this.gear = await idb.readTable('Gear');
@@ -182,7 +182,7 @@
             addGearToSquad(squadUnit) {
                 squadUnit.gear.push({
                     'id': squadUnit.gear.length + 1,
-                    'gearId': null,
+                    'gearId': 0,
                     'quantity': 0
                 });
             },
@@ -194,13 +194,13 @@
             deleteItem(index, theArray){
                 theArray.splice(index, 1);
             },
-            selectedGear(gear, squadUnitGear) {
-                squadUnitGear.gearId = gear.id;
-                squadUnitGear.cost = gear.totalPointCost;
+            selectedGear(squadUnitGear) {
+                squadUnitGear.gearId = this.tempGear;
+                // squadUnitGear.cost = gear.totalPointCost;
             },
-            selectedUnit(unit, squadUnit) {
-                squadUnit.unitId = unit.id;
-                squadUnit.cost = unit.totalPointCost;
+            selectedUnit(squadUnit) {
+                squadUnit.unitId = this.tempUnit;
+                // squadUnit.cost = this.tempUnit.totalPointCost;
             },
             totalCostCalculator() {
                 // console.log("hello");

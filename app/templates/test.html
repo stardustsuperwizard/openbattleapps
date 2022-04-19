@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script defer src="../static/js/alpine.js"></script>
+</head>
+<body>
+    <div x-data="main()">
+        <form action="">
+            <select name="unit" id="unit" class="form-select" x-on:change="test()">
+                <option value="unit">Choose a unit:</option>
+                <template x-for="unit in units">
+                    <option value="unit" x-text="unit.unitName"></option>
+                </template>
+            </select>
+        </form>
+        <button x-on:click="console.log('hello world')">hello</button>
+    </div>
+
+    <script>
+        function main() {
+            return { 
+                units: [
+                    {'name': 'mike'},
+                    {'name': 'jessica'}
+                ],
+                test() {
+                    console.log("hello world!")
+                }
+            }
+        }
+    </script>
+</body>
+</html>
