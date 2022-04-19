@@ -1,14 +1,13 @@
-{% extends 'rules/rules.html' %}
-{% block backlink %}
-<a href="{{ url_for('index') }}" class="d-flex align-items-center text-dark text-decoration-none">
-    <span class="fs-4">< Back</span>
-</a>
-{% endblock %}
-{% block rules %}
-<h1>Contents</h1>
-<a href="{{ url_for('rules_core_playingsurface') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom border-top d-flex flex-row p-3"><div class="d-flex flex-fill">Playing Surface</div><div class="d-inline-flex"> > </div></div></a>
-<a href="{{ url_for('rules_core_unitsandgear') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="d-flex flex-fill">Units and Gear</div><div class="d-inline-flex"> > </div></div></a>
-<a href="{{ url_for('rules_core_squads') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="d-flex flex-fill">Squads</div><div class="d-inline-flex"> > </div></div></a>
-<a href="{{ url_for('rules_core_gameround') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="]d-flex flex-fill">Game Round</div><div class="d-inline-flex"> > </div></div></a>
-<a href="{{ url_for('rules_core_formulas') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="d-flex flex-fill">Formulas</div><div class="d-inline-flex"> > </div></div></a>
+{% extends 'base.html' %}
+{% block backlink %}<a href="{{ url_for('index') }}" class="nav-link text-decoration-none text-black">< Back</a>{% endblock %}
+
+{% block pagetitle %}<span class="navbar-text text-decoration-none text-black">Rules</span>{% endblock %}
+{% block content %}
+<div class="container-md mt-5">
+    <a href="{{ url_for('rules_core_playingsurface') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom border-top d-flex flex-row p-3"><div class="d-flex flex-fill">Playing Surface</div><div class="d-inline-flex"> > </div></div></a>
+    <a href="{{ url_for('rules_core_unitsandgear') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="d-flex flex-fill">Units and Gear</div><div class="d-inline-flex"> > </div></div></a>
+    <a href="{{ url_for('rules_core_squads') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="d-flex flex-fill">Squads</div><div class="d-inline-flex"> > </div></div></a>
+    <a href="{{ url_for('rules_core_gameround') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="]d-flex flex-fill">Game Round</div><div class="d-inline-flex"> > </div></div></a>
+    <a href="{{ url_for('rules_core_formulas') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom d-flex flex-row p-3"><div class="d-flex flex-fill">Formulas</div><div class="d-inline-flex"> > </div></div></a>
+</div>
 {% endblock %}
