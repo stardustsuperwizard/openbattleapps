@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-{% block backlink %}<a href="{{ url_for('rules_core_contents') }}" class="nav-link text-decoration-none text-black">< Contents</a>{% endblock %}
-
-{% block pagetitle %}<span class="navbar-text text-decoration-none text-black">Rules</span>{% endblock %}
+{% block backlink %}<a href="{{ url_for('rules_core_contents') }}" class="fs-4 text-decoration-none text-black">< Contents</a>{% endblock %}
 {% block content %}
 <div class="container-md mt-5">
     {% block rules %}{% endblock %}

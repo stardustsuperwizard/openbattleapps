@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-{% block backlink %}<a href="{{ url_for('index') }}" class="nav-link text-decoration-none text-black">< Back</a>{% endblock %}
-
-{% block pagetitle %}<span class="navbar-text text-decoration-none text-black">Rules</span>{% endblock %}
+{% block backlink %}<a href="{{ url_for('index') }}" class="fs-4 text-decoration-none text-black">< Back</a>{% endblock %}
 {% block content %}
 <div class="container-md mt-5">
     <a href="{{ url_for('rules_core_playingsurface') }}" class="text-decoration-none text-dark fs-3"><div class="border-bottom border-top d-flex flex-row p-3"><div class="d-flex flex-fill">Playing Surface</div><div class="d-inline-flex"> > </div></div></a>
