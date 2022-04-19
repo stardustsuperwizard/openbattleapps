@@ -33,7 +33,7 @@
                                 <select name="unit" id="unit" class="form-select">
                                     <option value="unit">Choose a unit:</option>
                                     <template x-for="unit in units">
-                                        <option value="unit" x-text="unit.unitName" x-on:click="selectedUnit(unit, squadUnit)" x-bind:selected="unit.id === squadUnit.unitId"></option>
+                                        <option value="unit" x-text="unit.unitName" x-on:click="selectedUnit(unit, squadUnit)" x-bind:selected="squadUnit.unitId = unit.id"></option>
                                     </template>
                                 </select>
                             </div>
@@ -48,19 +48,18 @@
                             <div>
                                 <button class="btn btn-success" x-on:click.prevent="addGearToSquad(squadUnit)">Add Gear</button>
                             </div>
-                            <template x-for="(g, gindex) in squadUnit.gear" :key="gindex">
+                            <template x-for="(squadGear, squadGearIndex) in squadUnit.gear" :key="squadGearIndex">
                                 <div>
                                     <select name="gear" id="gear" class="form-select">
                                         <option value="gear">Choose gear:</option>
                                         <template x-for="each in gear">
-                                            <option value="gear" x-value="each.gearName" x-text="each.gearName" x-on:click="selectedGear(each, g)" x-bind:selected="each.id === g.gearId"></option>
+                                            <option value="each" x-text="each.gearName" x-on:click="selectedGear(each, squadGear)" x-bind:selected="squadGear.gearId = each.id"></option>
                                         </template>
                                     </select>
                                     <label class="form-label" for="gearQuantity">Quantity:</label><br>
-                                    <input type="number" min="0" name="gearQuantity" id="gearQuantity" class="form-control" x-model.number="g.quantity">
-                                    <!-- <span x-text="g.gearId"></span> -->
+                                    <input type="number" min="0" name="gearQuantity" id="gearQuantity" class="form-control" x-model.number="squadGear.quantity">
                                     <label class="form-label" for="gearCost">Cost:</label><br>
-                                    <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" class="form-control" x-bind:value="g.quantity * g.cost" disabled>
+                                    <input type="number" min="0" name="gearCostTotal" id="gearCostTotal" class="form-control" x-bind:value="(squadGear.cost)" disabled>
                                     <button class="btn btn-warning" x-on:click.prevent="deleteItem(gindex, squadUnit.gear)">Delete</button>
                                 </div>
                             </template>
@@ -204,6 +203,7 @@
                 squadUnit.cost = unit.totalPointCost;
             },
             totalCostCalculator() {
+                // console.log("hello");
                 this.promiseUnitCost = 0;
                 this.promiseGearCost = 0;
                 this.squadUnits.forEach((element) => {
@@ -211,12 +211,13 @@
                     if (element) {
                         // console.log(element);
                         idb.readTableEntry('Units', element.unitId).then((response) => {
-                            // console.log(e);
+                            // console.log(response);
                             if (response) {
                                 this.promiseUnitCost = this.promiseUnitCost + (response.totalPointCost * element.quantity);
                             }
                         });
-                        if (element.gear) {
+                        if (element.gear != []) {
+                            // console.log(element.gear);
                             element.gear.forEach((e) => {
                                 // console.log(e);
                                 if (e.gearId !== null) {
@@ -230,6 +231,7 @@
                         }
                     }
                 });
+                // console.log(this.promiseUnitCost);
             },
         }
     }
