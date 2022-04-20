@@ -14,33 +14,33 @@ import NavBar from '@/components/NavBar.vue'
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
 
         <div class="col">
-            <a href="/rules/core/contents" class="text-decoration-none">
+            <router-link to="/rules/core/contents" class="text-decoration-none">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Rules</h3>
                     </div>
                 </div>
-            </a>
+            </router-link>
         </div>
 
         <div class="col">
-            <a href="/battleunitcreator" class="text-decoration-none">
+            <router-link to="/battleunitcreator" class="text-decoration-none">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/app/pic1.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Unit Creator</h3>
                     </div>
                 </div>
-            </a>
+            </router-link>
         </div>
 
         <div class="col">
-            <a href="/battlegearcreator" class="text-decoration-none">
+            <router-link to="/battlegearcreator" class="text-decoration-none">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/app/pic2.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Gear Creator</h3>
                     </div>
                 </div>
-            </a>
+            </router-link>
         </div>
 
         <!-- <div class="col">
