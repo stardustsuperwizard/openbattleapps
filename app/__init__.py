@@ -19,6 +19,11 @@ def battlesquadscreator():
     return render_template('battlesquadscreator.html')
 
 
+@app.route('/addsquad', methods=['GET'])
+def addsquad():
+    return render_template('addsquad.html')
+
+
 @app.route('/battleunitcreator', methods=['GET'])
 def battleunitcreator():
     return render_template('battleunitcreator.html')
