@@ -8,9 +8,9 @@ import NavBar from '@/components/NavBar.vue';
 <div>
     <NavBar>
         <template #left>
-            <a href="/rules/core/contents" class="d-flex align-items-center text-dark text-decoration-none">
+            <router-link to="/rules/core/contents" class="d-flex align-items-center text-dark text-decoration-none">
                 <span class="fs-4">&lt; Back</span>
-            </a>
+            </router-link>
         </template>
     </NavBar>
     <div class="container-md mt-5">

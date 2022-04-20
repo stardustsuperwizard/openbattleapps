@@ -55,7 +55,7 @@ const router = createRouter({
     {
       path: '/rules/core/formulas',
       name: 'rulescoreformulas',
-      component: () => import('../views/rules/core/Formulas.vue')
+      component: () => import('../views/rules/core/GameRound.vue')
     }
   ]
 })
