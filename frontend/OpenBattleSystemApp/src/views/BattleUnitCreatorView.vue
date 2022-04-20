@@ -75,11 +75,11 @@ function addBattleUnit() {
     // console.log(this.squadId);
 }
 
-function deleteBattleUnit(unitId) {
+function deleteBattleUnit(id) {
     // console.log(gearId);
-    idb.deleteEntry('Units', unitId)
+    idb.deleteEntry('Units', id)
         .then((resp) => {
-            this.getBattleUnits();
+            getBattleUnits();
         });
 }
 
