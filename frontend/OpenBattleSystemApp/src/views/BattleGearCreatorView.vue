@@ -69,7 +69,7 @@ function editBattleGear(id) {
     // console.log(gearId);    
     idb.readTableEntry('Gear', id)
         .then((resp) => {
-            console.log(resp);
+            // console.log(resp);
             gearId.value = resp.id;
             gearName.value = resp.gearName;
             distance.value = resp.distance;
@@ -83,7 +83,7 @@ function deleteGear(id) {
     // console.log(gearId);
     idb.deleteEntry('Gear', id)
         .then((resp) => {
-            this.getBattleGear();
+            getBattleGear();
         });
 }
 
