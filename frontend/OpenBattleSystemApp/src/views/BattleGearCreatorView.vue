@@ -178,13 +178,13 @@ function resetForm() {
                         </thead>
                         <tbody>
                             <tr v-for="(gear, index) in gearList">
-                                <td x-text="gear.id"></td>
-                                <td x-text="gear.gearName"></td>
-                                <td x-text="gear.distance"></td>
-                                <td x-text="gear.attacks"></td>
-                                <td x-text="gear.strength"></td>
-                                <td x-text="gear.saveModifier"></td>
-                                <td x-text="gear.totalPointCost"></td>
+                                <td>{{gear.id}}</td>
+                                <td>{{gear.gearName}}</td>
+                                <td>{{gear.distance}}</td>
+                                <td>{{gear.attacks}}</td>
+                                <td>{{gear.strength}}</td>
+                                <td>{{gear.saveModifier}}</td>
+                                <td>{{gear.totalPointCost}}</td>
                                 <td><button class="btn btn-sm btn-primary" v-on:click="editBattleGear(gear.id)">Edit</button></td>
                                 <td><button class="btn btn-sm btn-danger" v-on:click="deleteGear(gear.id)">Delete</button></td>
                             </tr>
