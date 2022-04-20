@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="https://openbattlesystem.nyc3.digitaloceanspaces.com/favicon/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Battle System&#8482;</title>
+
+    <link href="/src/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/src/assets/css/features.css" rel="stylesheet">
+
+
+    <script src="/src/assets/js/EasyIDB.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script src="/src/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      tables = [
+          {
+              'name': 'Units',
+              'options': {
+                  autoIncrement: true,
+                  keyPath: 'id'
+              },
+              'index': []
+          },
+          {
+              'name': 'Gear',
+              'options': {
+                  autoIncrement: true,
+                  keyPath: 'id'
+              },
+              'index': []
+          },
+          {
+              'name': 'battleSquads',
+              'options': {
+                  autoIncrement: true,
+                  keyPath: 'id'
+              },
+              'index': []
+          },
+      ]
+      const idb = new EasyIDB('mainDB', tables, 9);
+      idb.getDB();
+      </script>
+
+
+  </body>
+</html>
