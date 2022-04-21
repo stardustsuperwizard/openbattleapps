@@ -164,7 +164,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="rangedCombatValue" id="rangedCombatValue" class="form-control" v-bind:value="rangedCombatValue" disabled>
+                                <input type="text" name="rangedCombatValue" id="rangedCombatValue" class="form-control" v-bind:value="rangedCombatValue" disabled>
                                 <label for="rangedCombatValue">Value</label>
                             </div>
                         </div>
