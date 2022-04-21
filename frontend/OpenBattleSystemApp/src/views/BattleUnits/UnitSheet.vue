@@ -187,7 +187,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="closeCombatValue" id="closeCombatValue" class="form-control" v-bind:value="LevelToValue(closeCombat)" disabled>
+                                <input type="text" name="closeCombatValue" id="closeCombatValue" class="form-control" v-bind:value="LevelToValue(closeCombat)" disabled>
                                 <label for="closeCombat">Value</label>
                             </div>
                         </div>
