@@ -152,7 +152,7 @@ function resetForm() {
                             <span>Distance</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="distance">
+                            <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="distance">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="distance--">-</button>
                             <button class="btn btn-outline-secondary" v-on:click.prevent="distance++">+</button>
                         </div>
@@ -175,7 +175,7 @@ function resetForm() {
                             <span>Attacks</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input type="number" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="attacks">
+                            <input inputmode="numeric" type="number" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="attacks">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="attacks--">-</button>
                             <button class="btn btn-outline-secondary" v-on:click.prevent="attacks++">+</button>
                         </div>
@@ -198,7 +198,7 @@ function resetForm() {
                             <span>Strength</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input type="number" min="0" name="gearStrengthLevel" id="gearStrengthLevel" class="form-control" v-model.number="strength">
+                            <input inputmode="numeric" type="number" min="0" name="gearStrengthLevel" id="gearStrengthLevel" class="form-control" v-model.number="strength">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="strength--">-</button>
                             <button class="btn btn-outline-secondary" v-on:click.prevent="strength++">+</button>
                         </div>
@@ -221,7 +221,7 @@ function resetForm() {
                             <span>Save Modifier</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input type="number" min="0" max="5" name="gearSaveModifierLevel" id="gearSaveModifierLevel" class="form-control" v-model.number="saveModifier">
+                            <input inputmode="numeric" type="number" min="0" max="5" name="gearSaveModifierLevel" id="gearSaveModifierLevel" class="form-control" v-model.number="saveModifier">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="saveModifier--">-</button>
                             <button class="btn btn-outline-secondary" v-on:click.prevent="saveModifier++">+</button>
                         </div>
