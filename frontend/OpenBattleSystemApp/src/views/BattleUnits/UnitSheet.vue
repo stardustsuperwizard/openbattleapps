@@ -42,16 +42,16 @@ const totalCost = computed(() => { return Math.round(( pointcostRC.value + point
 
 const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
 
-function levelToValue(attribute) {
-    if (attribute.value == 1) {
+function levelToValue(att) {
+    if (att.value == 1) {
         return '6+'
-    } else if (attribute.value == 2) {
+    } else if (att.value == 2) {
         return '5+'
-    } else if (attribute.value == 3) {
+    } else if (att.value == 3) {
         return '4+'
-    } else if (attribute.value == 4) {
+    } else if (att.value == 4) {
         return '3+'
-    } else if (attribute.value == 5) {
+    } else if (att.value == 5) {
         return '2+'
     }
 }
