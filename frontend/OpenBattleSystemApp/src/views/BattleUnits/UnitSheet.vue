@@ -128,7 +128,7 @@ function resetForm() {
 <div v-my-directive>
     <NavBar>
         <template #left>
-            <router-link to="/battlegear/list" class="d-flex align-items-center text-dark text-decoration-none">
+            <router-link to="/battleunits/list" class="d-flex align-items-center text-dark text-decoration-none">
                 <span class="fs-4">&lt; Back</span>
             </router-link>
         </template>
