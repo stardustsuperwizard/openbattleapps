@@ -40,7 +40,9 @@ const totalCost = computed(() => { return Math.round(( pointcostRC.value + point
 //     units.value = await idb.readTable('Units');
 // }
 
-const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
+//const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
+
+const rangedCombatValue = 0
 
 function levelToValue(att) {
     if (att.value == 1) {
