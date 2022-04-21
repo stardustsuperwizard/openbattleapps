@@ -121,40 +121,121 @@ function resetForm() {
         <div class="row">
             <div class="col">
                 <form action="">
-                    <div>
-                        <div>
-                            <label class="form-label" for="gearName">Gear name:</label><br>
+
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label class="form-label" for="gearName">Gear name:</label>
+                        </div>
+                        <div class="col">
                             <input type="text" name="gearName" id="gearName" class="form-control" v-model="gearName">
                         </div>
-        
-                        <div>
-                            <label class="form-label" for="gearDistanceValue">Distance:</label><br>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-3">Attribute</div>
+                        <div class="col"></div>
+                        <div class="col">Level</div>
+                        <div class="col"></div>
+                        <div class="col">Cost</div>
+                        <div class="col">Value</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label class="form-label" for="gearDistanceValue">Distance:</label>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-danger" v-on:click.prevent="distance--">-</button>
+                        </div>
+                        <div class="col ">
                             <input type="number" min="0" name="gearDistanceValue" id="gearDistanceValue" class="form-control" v-model.number="distance">
-                            <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" v-bind:value="distanceCost" disabled><br>
                         </div>
-        
-                        <div>
-                            <label class="form-label" for="gearAttackValue">Attacks:</label><br>
+                        <div class="col-auto">
+                            <button class="btn btn-success" v-on:click.prevent="distance++">+</button>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" v-bind:value="distanceCost" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label class="form-label" for="gearAttackValue">Attacks:</label>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-danger" v-on:click.prevent="attacks--">-</button>
+                        </div>
+                        <div class="col ">
                             <input type="number" min="1" name="gearAttackValue" id="gearAttackValue" class="form-control" v-model.number="attacks">
-                            <input type="number" name="gearAttackCost" id="gearAttackCost" class="form-control" v-bind:value="attacksCost" disabled><br>
                         </div>
-        
-                        <div>
-                            <label class="form-label" for="gearStrengthValue">Strength:</label><br>
+                        <div class="col-auto">
+                            <button class="btn btn-success" v-on:click.prevent="attacks++">+</button>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearAttackCost" id="gearAttackCost" class="form-control" v-bind:value="attacksCost" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label class="form-label" for="gearStrengthValue">Strength:</label>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-danger" v-on:click.prevent="strength--">-</button>
+                        </div>
+                        <div class="col ">
                             <input type="number" min="0" name="gearStrengthValue" id="gearStrengthValue" class="form-control" v-model.number="strength">
-                            <input type="number" name="gearStrengthCost" id="gearStrengthCost" class="form-control" v-bind:value="strengthCost" disabled><br>
                         </div>
+                        <div class="col-auto">
+                            <button class="btn btn-success" v-on:click.prevent="strength++">+</button>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearStrengthCost" id="gearStrengthCost" class="form-control" v-bind:value="strengthCost" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" disabled>
+                        </div>
+                    </div>
         
-                        <div>
-                            <label class="form-label" for="gearSaveModifierValue">Save Modifier:</label><br>
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label class="form-label" for="gearSaveModifierValue">Save Modifier:</label>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-danger" v-on:click.prevent="saveModifier--">-</button>
+                        </div>
+                        <div class="col">
                             <input type="number" min="0" max="5" name="gearSaveModifierValue" id="gearSaveModifierValue" class="form-control" v-model.number="saveModifier">
-                            <input type="number" name="gearSaveModifierCost" id="gearSaveModifierCost" class="form-control" v-bind:value="saveModifierCost" disabled><br>
                         </div>
-        
-                        <div>
+                        <div class="col-auto">
+                            <button class="btn btn-success" v-on:click.prevent="saveModifier++">+</button>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearSaveModifierCost" id="gearSaveModifierCost" class="form-control" v-bind:value="saveModifierCost" disabled>
+                        </div>
+                        <div class="col">
+                            <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" disabled>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col">
                             <label class="form-label" for="gearTotalCost">Total Cost:</label><br>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col"></div>
+                        <div class="col"></div>
+                        <div class="col">
                             <input type="number" name="gearTotalCost" id="gearTotalCost" class="form-control" v-bind:value="totalCost" disabled>
                         </div>
+                        <div class="col"></div>
                     </div>
                     <input type="Button" value="Save" class="btn btn-primary mt-3" v-on:click.prevent="addBattleGear">
                     <!-- <input type="Button" value="Clear" class="btn btn-secondary mt-3 mx-3" v-on:click.prevent="resetForm"> -->
