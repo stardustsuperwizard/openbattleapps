@@ -2,19 +2,20 @@
 import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
 
-const gearList = ref([]);
+const units = ref([]);
 
 const vMyDirective = {
   beforeMount: (el) => {
-    getBattleGear()
+    getBattleUnits()
   }
 }
 
-async function getBattleGear() {
-    gearList.value = await idb.readTable('Gear');
+async function getBattleUnits() {
+    units.value = await idb.readTable('Units');
     // console.log(this.units);
 }
 </script>
+
 
 
 <template>
@@ -26,7 +27,7 @@ async function getBattleGear() {
             </router-link>
         </template>
         <template #right>
-            <router-link to="/battlegear/sheet/new" class="align-items-center text-dark text-decoration-none">
+            <router-link to="/battleunits/sheet/new" class="align-items-center text-dark text-decoration-none">
                 <span class="fs-4">Add +</span>
             </router-link>
         </template>
@@ -35,17 +36,17 @@ async function getBattleGear() {
     <div class="container-md mt-5">
         <div class="row">
             <div class="col">
-                <h1 class="fs-4">Gear List</h1>
+                <h1 class="fs-4">Unit Roster</h1>
             </div>
         </div>
 
-        <div v-for="(gear, index) in gearList">
-            <router-link :to="`/battlegear/sheet/${gear.id}`" class="text-decoration-none text-dark">
+        <div v-for="(unit, index) in units">
+            <router-link :to="`/battleunits/sheet/${unit.id}`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
                         <div class="row">
                             <div class="col">
-                                <div class="d-flex flex-fill fs-3">{{gear.gearName }}</div>
+                                <div class="d-flex flex-fill fs-3">{{unit.unitName }}</div>
                             </div>
                         </div>
                         <div class="row">
@@ -54,20 +55,26 @@ async function getBattleGear() {
                                     <table class="table table-sm">
                                         <thead>
                                             <tr>
-                                                <th>DST</th>
-                                                <th>A</th>
-                                                <th>S</th>
-                                                <th>SM</th>
+                                                <th>RC</th>
+                                                <th>CC</th>
+                                                <th>PT</th>
+                                                <th>MT</th>
+                                                <th>HP</th>
+                                                <th>CS</th>
+                                                <th>M</th>
                                                 <th>Cost</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{gear.distance}}</td>
-                                                <td>{{gear.attacks}}</td>
-                                                <td>{{gear.strength}}</td>
-                                                <td>{{gear.saveModifierValue}}</td>
-                                                <td>{{gear.totalPointCost}}</td>
+                                                <td>{{ unit.rangedCombat }}</td>
+                                                <td>{{ unit.closeCombat }}</td>
+                                                <td>{{ unit.physicalToughness }}</td>
+                                                <td>{{ unit.mentalToughness }}</td>
+                                                <td>{{ unit.hitPoints }}</td>
+                                                <td>{{ unit.combatSave }}</td>
+                                                <td>{{ unit.movement }}</td>
+                                                <td>{{ unit.totalPointCost }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
