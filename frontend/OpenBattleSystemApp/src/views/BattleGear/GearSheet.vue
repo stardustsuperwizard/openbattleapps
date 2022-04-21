@@ -30,6 +30,23 @@ const attacksCost = computed(() => { return ( Math.pow(1.25, attacks.value) - 1 
 const distanceCost = computed(() => { return ( distance.value * 0.05) * attacks.value });
 const totalCost = computed(() => { return Math.round(( distanceCost.value + attacksCost.value + strengthCost.value + saveModifierCost.value ))});
 
+// const saveModifierValue = computed(() => {
+//     if (saveModifier.value == 1) {
+//         return '-1'
+//     } else if (saveModifier.value == 2) {
+//         return '-2'
+//     } else if (saveModifier.value == 3) {
+//         return '-3'
+//     } else if (saveModifier.value == 4) {
+//         return '-4'
+//     } else if (saveModifier.value == 5) {
+//         return '-5'
+//     }
+// });
+
+const saveModifierValue = computed(() => {
+    return saveModifier.value * -1
+});
 
 function addBattleGear() {
     // console.log('hello')
@@ -42,6 +59,7 @@ function addBattleGear() {
             'attacks': attacks.value,
             'strength': strength.value,
             'saveModifier': saveModifier.value,
+            'saveModifierValue': saveModifierValue.value,
             'totalPointCost': totalCost.value
         }
     } else {
@@ -51,6 +69,7 @@ function addBattleGear() {
             'attacks': attacks.value,
             'strength': strength.value,
             'saveModifier': saveModifier.value,
+            'saveModifierValue': saveModifierValue.value,
             'totalPointCost': totalCost.value
         }
     }
@@ -65,12 +84,6 @@ function addBattleGear() {
         //     getBattleGear();
         // });
     // console.log(this.squadId);
-}
-
-function getGearLevel(attribute) {
-    if (attribute.value == 1) {
-
-    }
 }
 
 function editBattleGear(id) {
@@ -214,7 +227,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="string" name="gearSaveModifierValue" id="gearSaveModifierValue" class="form-control" v-bind:value="getGearLevel(saveModifier)" disabled>
+                                <input type="number" name="gearSaveModifierValue" id="gearSaveModifierValue" class="form-control" v-bind:value="saveModifierValue" disabled>
                                 <label for="gearSaveModifierValue">Value</label>
                             </div>
                         </div>

@@ -80,7 +80,7 @@ function editBattleGear(id) {
                                                 <td>{{gear.distance}}</td>
                                                 <td>{{gear.attacks}}</td>
                                                 <td>{{gear.strength}}</td>
-                                                <td>{{gear.saveModifier}}</td>
+                                                <td>{{gear.saveModifierValue}}</td>
                                                 <td>{{gear.totalPointCost}}</td>
                                             </tr>
                                         </tbody>
