@@ -15,7 +15,7 @@ import NavBar from '@/components/NavBar.vue'
 
         <div class="col">
             <router-link to="/rules/core/contents" class="text-decoration-none">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/mikolaj-DCzpr09cTXY-unsplash.jpg')">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/mikolaj-DCzpr09cTXY-unsplash.jpg')">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Rules</h3>
                     </div>
@@ -25,7 +25,7 @@ import NavBar from '@/components/NavBar.vue'
 
         <div class="col">
             <router-link to="/battleunitcreator" class="text-decoration-none">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/app/pic1.jpg');">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/app/pic1.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Unit Creator</h3>
                     </div>
@@ -35,7 +35,7 @@ import NavBar from '@/components/NavBar.vue'
 
         <div class="col">
             <router-link to="/battlegear/list" class="text-decoration-none">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/app/pic2.jpg');">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/app/pic2.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Gear</h3>
                     </div>
@@ -45,7 +45,7 @@ import NavBar from '@/components/NavBar.vue'
 
         <!-- <div class="col">
             <a href="#" class="text-decoration-none">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/app/pic3.jpg');">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/app/pic3.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Squads</h3>
                     </div>
