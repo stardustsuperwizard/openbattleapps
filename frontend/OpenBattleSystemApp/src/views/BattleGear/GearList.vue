@@ -46,7 +46,7 @@ function editBattleGear(id) {
         </template>
     </NavBar>
 
-    <div class="container mt-5" x-data="main()">
+    <div class="container-md mt-5">
         <div class="row">
             <div class="col">
                 <h1 class="fs-4">Gear List</h1>
