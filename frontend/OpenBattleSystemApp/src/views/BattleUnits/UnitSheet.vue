@@ -40,7 +40,9 @@ const totalCost = computed(() => { return Math.round(( pointcostRC.value + point
 //     units.value = await idb.readTable('Units');
 // }
 
-function LevelToValue(attribute) {
+const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
+
+function levelToValue(attribute) {
     if (attribute.value == 1) {
         return '6+'
     } else if (attribute.value == 2) {
@@ -162,7 +164,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="rangedCombatValue" id="rangedCombatValue" class="form-control" v-bind:value="LevelToValue(rangedCombat)" disabled>
+                                <input type="number" name="rangedCombatValue" id="rangedCombatValue" class="form-control" v-bind:value="rangedCombatValue" disabled>
                                 <label for="rangedCombatValue">Value</label>
                             </div>
                         </div>
