@@ -29,9 +29,19 @@ const router = createRouter({
       component: () => import('../views/BattleUnitCreatorView.vue')
     },
     {
-      path: '/battlegearcreator',
-      name: 'battlegearcreator',
-      component: () => import('../views/BattleGearCreatorView.vue')
+      path: '/battlegear/list',
+      name: 'battlegearlist',
+      component: () => import('../views/BattleGear/GearList.vue')
+    },
+    {
+      path: '/battlegear/sheet/new',
+      name: 'battlegearsheet',
+      component: () => import('../views/BattleGear/GearSheet.vue')
+    },
+    {
+      path: '/battlegear/sheet/:id',
+      name: 'battlegearsheet',
+      component: () => import('../views/BattleGear/GearSheet.vue')
     },
     {
       path: '/rules/core/contents',

@@ -34,10 +34,10 @@ import NavBar from '@/components/NavBar.vue'
         </div>
 
         <div class="col">
-            <router-link to="/battlegearcreator" class="text-decoration-none">
+            <router-link to="/battlegear/list" class="text-decoration-none">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://openbattlesystem.nyc3.digitaloceanspaces.com/app/pic2.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Gear Creator</h3>
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Gear</h3>
                     </div>
                 </div>
             </router-link>
