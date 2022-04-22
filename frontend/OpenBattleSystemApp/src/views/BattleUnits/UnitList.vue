@@ -6,7 +6,7 @@ const units = ref([]);
 
 const vMyDirective = {
   beforeMount: (el) => {
-    getBattleUnits()
+    getBattleUnits();
   }
 }
 

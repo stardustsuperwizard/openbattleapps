@@ -58,8 +58,8 @@ function addBattleGear() {
             'totalPointCost': totalCost.value
         }
     }
-    idb.createEntry('Gear', tempGear)
-    router.back()
+    idb.createEntry('Gear', tempGear);
+    router.back();
 }
 
 function editBattleGear(id) {
@@ -78,7 +78,7 @@ function editBattleGear(id) {
 
 function deleteGear() {
     // console.log(gearId);
-    idb.deleteEntry('Gear', gearId.value)
+    idb.deleteEntry('Gear', gearId.value);
     router.push('/battlegear/list');
         // .then((resp) => {
         //     getBattleGear();

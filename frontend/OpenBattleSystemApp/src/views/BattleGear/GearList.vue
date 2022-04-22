@@ -6,7 +6,7 @@ const gearList = ref([]);
 
 const vMyDirective = {
   beforeMount: (el) => {
-    getBattleGear()
+    getBattleGear();
   }
 }
 
