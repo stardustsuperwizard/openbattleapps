@@ -14,6 +14,17 @@ async function getBattleUnits() {
     units.value = await idb.readTable('Units');
     // console.log(this.units);
 }
+// function getTotalCost(unit) {
+//     console.log(unit);
+//     let pointcostRC = rangedCombatPointCost(unit.rangedCombatValue, unit.hitPoints);
+//     let pointcostCC = closeCombatPointCost(unit.closeCombatValue, unit.hitPoints);
+//     let pointcostCS = combatSavePointCost(unit.combatSaveValue, unit.hitPoints);
+//     let pointcostPT = physicalToughnessPointCost(unit.physicalToughnessValue, unit.hitPoints);
+//     let pointcostMT = mentalToughnessPointCost(unit.mentalToughnessValue, unit.hitPoints);
+//     let pointcostHP = hitPointsPointCost(unit.hitPoints);
+//     let pointcostMV = movementPointCost(unit.movement, unit.hitPoints);
+//     return totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostCS, pointcostMV, pointcostHP );
+// }
 </script>
 
 
@@ -74,6 +85,7 @@ async function getBattleUnits() {
                                                 <td>{{ unit.combatSaveValue }}</td>
                                                 <td>{{ unit.movement }}</td>
                                                 <td>{{ unit.totalPointCost }}</td>
+                                                <!-- <td>{{ totalUnitPointCost(unit) }}</td> -->
                                             </tr>
                                         </tbody>
                                     </table>
