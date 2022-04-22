@@ -26,14 +26,14 @@ const vMyDirective = {
     }
 }
 
-const pointcostRC = computed(() =>  (Math.pow(1.50, rangedCombat.value) - 1 ) * hitPoints.value );
-const pointcostCC = computed(() => { return ( Math.pow(1.50, closeCombat.value) - 1 ) * hitPoints.value });
-const pointcostCS = computed(() => { return ( Math.pow(1.50, combatSave.value) - 1 ) * hitPoints.value });
-const pointcostPT = computed(() => { return ( Math.pow(1.15, physicalToughness.value ) ) * hitPoints.value });
-const pointcostMT = computed(() => { return ( Math.pow(1.15, mentalToughness.value ) ) * hitPoints.value });
-const pointcostHP = computed(() => { return ( Math.pow(1.25, hitPoints.value) ) });
-const pointcostMV = computed(() => { return ( 0.25 * movement.value ) * hitPoints.value });
-const totalCost = computed(() => { return Math.round(( pointcostRC.value + pointcostCC.value + pointcostPT.value + pointcostMT.value + pointcostCS.value + pointcostMV.value + pointcostHP.value )) });
+const pointcostRC = computed(() => { return rangedCombatPointCost(rangedCombat.value, hitPoints.value) });
+const pointcostCC = computed(() => { return closeCombatPointCost(closeCombat.value, hitPoints.value) });
+const pointcostCS = computed(() => { return combatSavePointCost(combatSave.value, hitPoints.value) });
+const pointcostPT = computed(() => { return physicalToughnessPointCost(physicalToughness.value, hitPoints.value )});
+const pointcostMT = computed(() => { return mentalToughnessPointCost(mentalToughness.value, hitPoints.value) });
+const pointcostHP = computed(() => { return hitPointsPointCost(hitPoints.value ) });
+const pointcostMV = computed(() => { return movementPointCost(movement.value, hitPoints.value) });
+const totalCost = computed(() => { return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value ) });
 
 const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
 const closeCombatValue = computed(() => { return levelToValue(closeCombat) });

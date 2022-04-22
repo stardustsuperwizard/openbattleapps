@@ -48,6 +48,23 @@
       idb.getDB();
       </script>
 
+      <script>
+    function rangedCombatPointCost(rangedCombat, hitPoints) { return (Math.pow(1.50, rangedCombat) - 1 ) * hitPoints }
+    function closeCombatPointCost(closeCombat, hitPoints) { return ( Math.pow(1.50, closeCombat) - 1 ) * hitPoints }
+    function combatSavePointCost(combatSave, hitPoints) { return ( Math.pow(1.50, combatSave) - 1 ) * hitPoints }
+    function physicalToughnessPointCost(physicalToughness, hitPoints) { return ( Math.pow(1.15, physicalToughness ) ) * hitPoints }
+    function mentalToughnessPointCost(mentalToughness, hitPoints) { return ( Math.pow(1.15, mentalToughness ) ) * hitPoints }
+    function hitPointsPointCost(hitPoints) { return ( Math.pow(1.25, hitPoints) ) }
+    function movementPointCost(movement, hitPoints) { return ( 0.25 * movement ) * hitPoints }
+    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT,pointcostHP, pointcostCS, pointcostMV) {
+        let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
+        console.log(rawPointCost);
+        let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
+        console.log(roundedPointCost);
+        return roundedPointCost
+    }
+      
+      </script>
 
   </body>
 </html>
