@@ -58,9 +58,9 @@
     function movementPointCost(movement, hitPoints) { return ( 0.25 * movement ) * hitPoints }
     function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT,pointcostHP, pointcostCS, pointcostMV) {
         let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
-        console.log(rawPointCost);
+        // console.log(rawPointCost);
         let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
-        console.log(roundedPointCost);
+        // console.log(roundedPointCost);
         return roundedPointCost
     }
       
