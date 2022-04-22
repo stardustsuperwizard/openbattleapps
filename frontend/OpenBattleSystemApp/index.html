@@ -48,7 +48,7 @@
       idb.getDB();
       </script>
 
-      <script>
+    <script>
     function rangedCombatPointCost(rangedCombat, hitPoints) { return (Math.pow(1.50, rangedCombat) - 1 ) * hitPoints }
     function closeCombatPointCost(closeCombat, hitPoints) { return ( Math.pow(1.50, closeCombat) - 1 ) * hitPoints }
     function combatSavePointCost(combatSave, hitPoints) { return ( Math.pow(1.50, combatSave) - 1 ) * hitPoints }
@@ -63,8 +63,20 @@
         // console.log(roundedPointCost);
         return roundedPointCost
     }
-      
-      </script>
+    
+    
+    function saveModifierPointCost(saveModifier, attacks) { return (Math.pow(1.50, saveModifier) - 1 ) * attacks }
+    function strengthPointCost(strength, attacks) { return Math.pow(1.15, strength) * attacks }
+    function attacksPointCost(attacks) { return ( Math.pow(1.25, attacks) - 1 ) }
+    function distancePointCost(distance, attacks) { return ( distance * 0.05) * attacks }
+    function totalGearPointCost(distancePointCost, attacksPointCost, strengthPointCost, saveModifierPointCost) { 
+        let rawPointCost = (distancePointCost + attacksPointCost + strengthPointCost + saveModifierPointCost)
+        let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
+        return roundedPointCost
+    }
+
+
+    </script>
 
   </body>
 </html>

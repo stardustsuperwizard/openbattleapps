@@ -23,11 +23,11 @@ const vMyDirective = {
     }
 }
 
-const saveModifierCost = computed(() => { return (Math.pow(1.50, saveModifier.value) - 1 ) * attacks.value });
-const strengthCost = computed(() => { return Math.pow(1.15, strength.value) * attacks.value });
-const attacksCost = computed(() => { return ( Math.pow(1.25, attacks.value) - 1 ) });
-const distanceCost = computed(() => { return ( distance.value * 0.05) * attacks.value });
-const totalCost = computed(() => { return Math.round(( distanceCost.value + attacksCost.value + strengthCost.value + saveModifierCost.value ))});
+const saveModifierCost = computed(() => { return saveModifierPointCost(saveModifier.value, attacks.value) });
+const strengthCost = computed(() => { return strengthPointCost(strength.value, attacks.value) });
+const attacksCost = computed(() => { return attacksPointCost(attacks.value) });
+const distanceCost = computed(() => { return distancePointCost(distance.value, attacks.value) });
+const totalCost = computed(() => { return totalGearPointCost(distanceCost.value, attacksCost.value, strengthCost.value, saveModifierCost.value) });
 
 const saveModifierValue = computed(() => {
     return saveModifier.value * -1
