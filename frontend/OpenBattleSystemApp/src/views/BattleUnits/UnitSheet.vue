@@ -19,11 +19,11 @@ const movement = ref(0);
 const units = ref([]);
 
 const vMyDirective = {
-  beforeMount: (el) => {
-    if (route.params.id != 'new') {
-        editBattleUnit(parseInt(route.params.id));
+    beforeMount: (el) => {
+        if (route.params.id != 'new') {
+            editBattleUnit(parseInt(route.params.id));
+        }
     }
-  }
 }
 
 const pointcostRC = computed(() =>  (Math.pow(1.50, rangedCombat.value) - 1 ) * hitPoints.value );

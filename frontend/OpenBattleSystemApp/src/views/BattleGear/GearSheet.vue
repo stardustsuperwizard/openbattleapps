@@ -16,11 +16,11 @@ const distance = ref(0);
 const gearList = ref([]);
 
 const vMyDirective = {
-  beforeMount: (el) => {
-    if (route.params.id != 'new') {
-        editBattleGear(parseInt(route.params.id));
+    beforeMount: (el) => {
+        if (route.params.id != 'new') {
+            editBattleGear(parseInt(route.params.id));
+        }
     }
-  }
 }
 
 const saveModifierCost = computed(() => { return (Math.pow(1.50, saveModifier.value) - 1 ) * attacks.value });
