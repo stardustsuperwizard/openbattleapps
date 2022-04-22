@@ -23,7 +23,6 @@ const vMyDirective = {
   }
 }
 
-
 const saveModifierCost = computed(() => { return (Math.pow(1.50, saveModifier.value) - 1 ) * attacks.value });
 const strengthCost = computed(() => { return Math.pow(1.15, strength.value) * attacks.value });
 const attacksCost = computed(() => { return ( Math.pow(1.25, attacks.value) - 1 ) });

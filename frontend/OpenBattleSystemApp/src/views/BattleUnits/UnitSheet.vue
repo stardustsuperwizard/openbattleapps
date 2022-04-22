@@ -15,7 +15,6 @@ const mentalToughness = ref(2);
 const hitPoints = ref(1);
 const combatSave = ref(0);
 const movement = ref(0);
-// const totalCost = 0;
 
 const units = ref([]);
 
@@ -36,13 +35,9 @@ const pointcostHP = computed(() => { return ( Math.pow(1.25, hitPoints.value) ) 
 const pointcostMV = computed(() => { return ( 0.25 * movement.value ) * hitPoints.value })
 const totalCost = computed(() => { return Math.round(( pointcostRC.value + pointcostCC.value + pointcostPT.value + pointcostMT.value + pointcostCS.value + pointcostMV.value + pointcostHP.value )) })
 
-// async function getBattleUnits() {
-//     units.value = await idb.readTable('Units');
-// }
-
-//const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
-
-const rangedCombatValue = 0
+const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
+const closeCombatValue = computed(() => { return levelToValue(closeCombat) });
+const combatSaveValue = computed(() => { return levelToValue(combatSave) });
 
 function levelToValue(att) {
     if (att.value == 1) {
@@ -59,18 +54,20 @@ function levelToValue(att) {
 }
 
 function addBattleUnit() {
-    // console.log('hello')
     let tempUnit;
     if (unitId.value != null) {
         tempUnit = {
             id: unitId.value,
             unitName: unitName.value,
             rangedCombat: rangedCombat.value,
+            rangedCombatValue: rangedCombatValue.value,
             closeCombat: closeCombat.value,
+            closeCombatValue: closeCombatValue.value,
             physicalToughness: physicalToughness.value,
             mentalToughness: mentalToughness.value,
             hitPoints: hitPoints.value,
             combatSave: combatSave.value,
+            combatSaveValue: combatSaveValue.value,
             movement: movement.value,
             totalPointCost: totalCost.value,
         }
@@ -78,11 +75,14 @@ function addBattleUnit() {
         tempUnit = {
             unitName: unitName.value,
             rangedCombat: rangedCombat.value,
+            rangedCombatValue: rangedCombatValue.value,
             closeCombat: closeCombat.value,
+            closeCombatValue: closeCombatValue.value,
             physicalToughness: physicalToughness.value,
             mentalToughness: mentalToughness.value,
             hitPoints: hitPoints.value,
             combatSave: combatSave.value,
+            combatSaveValue: combatSaveValue.value,
             movement: movement.value,
             totalPointCost: totalCost.value,
         }
@@ -91,17 +91,14 @@ function addBattleUnit() {
     router.back()
 }
 
-function deleteBattleUnit(id) {
-    // console.log(gearId);
-    idb.deleteEntry('Units', id)
+function deleteBattleUnit() {
+    idb.deleteEntry('Units', unitId.value);
     router.push('/battleunits/list');
 }
 
 function editBattleUnit(id) {
-    // console.log(gearId);    
     idb.readTableEntry('Units', id)
         .then((resp) => {
-            // console.log(resp);
             unitId.value = resp.id;
             unitName.value = resp.unitName;
             rangedCombat.value = resp.rangedCombat;
@@ -112,18 +109,6 @@ function editBattleUnit(id) {
             combatSave.value = resp.combatSave;
             movement.value = resp.movement;
         });
-}
-
-function resetForm() {
-    unitId.value = null,
-    unitName.value = '';
-    rangedCombat.value = 0;
-    closeCombat.value = 0;
-    physicalToughness.value = 2;
-    mentalToughness.value = 2;
-    hitPoints.value = 1;
-    combatSave.value = 0;
-    movement.value = 0;
 }
 </script>
 
@@ -189,7 +174,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="text" name="closeCombatValue" id="closeCombatValue" class="form-control" v-bind:value="LevelToValue(closeCombat)" disabled>
+                                <input type="text" name="closeCombatValue" id="closeCombatValue" class="form-control" v-bind:value="closeCombatValue" disabled>
                                 <label for="closeCombat">Value</label>
                             </div>
                         </div>
@@ -212,7 +197,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="physicalToughnessValue" id="physicalToughnessValue" class="form-control" v-bind:value="LevelToValue(physicalToughness)" disabled>
+                                <input type="number" name="physicalToughnessValue" id="physicalToughnessValue" class="form-control" v-bind:value="physicalToughness" disabled>
                                 <label for="physicalToughnessValue">Value</label>
                             </div>
                         </div>
@@ -235,7 +220,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="mentalToughnessValue" id="mentalToughnessValue" class="form-control" v-bind:value="LevelToValue(mentalToughness)" disabled>
+                                <input type="number" name="mentalToughnessValue" id="mentalToughnessValue" class="form-control" v-bind:value="mentalToughness" disabled>
                                 <label for="mentalToughnessValue">Value</label>
                             </div>
                         </div>
@@ -258,7 +243,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="hitPointsValue" id="hitPointsValue" class="form-control" v-bind:value="LevelToValue(hitPoints)" disabled>
+                                <input type="number" name="hitPointsValue" id="hitPointsValue" class="form-control" v-bind:value="hitPoints" disabled>
                                 <label for="hitPointsValue">Value</label>
                             </div>
                         </div>
@@ -266,6 +251,29 @@ function resetForm() {
                             <div class="form-floating">
                                 <input type="number" name="hitPointsCost" id="hitPointsCost" class="form-control" v-bind:value="pointcostHP" disabled>
                                 <label for="hitPointsCost">Cost</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <span>Combat Save</span>
+                        </div>
+                        <div class="col-sm input-group">
+                            <input inputmode="numeric" type="number" min="1" max="5" name="combatSave" id="combatSave" class="form-control"  v-model="combatSave">
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave++">+</button>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-floating">
+                                <input type="text" name="combatSaveValue" id="combatSaveValue" class="form-control" v-bind:value="combatSaveValue" disabled>
+                                <label for="combatSaveValue">Value</label>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-floating">
+                                <input type="number" name="combatSaveCost" id="combatSaveCost" class="form-control" v-bind:value="pointcostCS" disabled>
+                                <label for="combatSaveCost">Cost</label>
                             </div>
                         </div>
                     </div>
@@ -281,7 +289,7 @@ function resetForm() {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="movementValue" id="movementValue" class="form-control" v-bind:value="LevelToValue(movement)" disabled>
+                                <input type="number" name="movementValue" id="movementValue" class="form-control" v-bind:value="movement" disabled>
                                 <label for="movementValue">Value</label>
                             </div>
                         </div>
@@ -293,7 +301,6 @@ function resetForm() {
                         </div>
                     </div>
 
-
                     <div class="row mb-3">
                         <div class="col-sm">
                             <div class="form-floating">
@@ -303,7 +310,7 @@ function resetForm() {
                         </div>
                     </div>
                     <!-- <input type="Button" value="Clear" class="btn btn-secondary mt-3 mx-3" v-on:click.prevent="resetForm"> -->
-                    <button class="btn btn-danger mt-3" v-on:click="deleteGear()">Delete</button>
+                    <button class="btn btn-danger mt-3" v-on:click="deleteBattleUnit()">Delete</button>
 
                 </form>
             </div>

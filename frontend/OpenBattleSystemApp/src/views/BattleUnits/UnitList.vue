@@ -17,7 +17,6 @@ async function getBattleUnits() {
 </script>
 
 
-
 <template>
 <div v-my-directive>
     <NavBar>
@@ -67,12 +66,12 @@ async function getBattleUnits() {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ unit.rangedCombat }}</td>
-                                                <td>{{ unit.closeCombat }}</td>
+                                                <td>{{ unit.rangedCombatValue }}</td>
+                                                <td>{{ unit.closeCombatValue }}</td>
                                                 <td>{{ unit.physicalToughness }}</td>
                                                 <td>{{ unit.mentalToughness }}</td>
                                                 <td>{{ unit.hitPoints }}</td>
-                                                <td>{{ unit.combatSave }}</td>
+                                                <td>{{ unit.combatSaveValue }}</td>
                                                 <td>{{ unit.movement }}</td>
                                                 <td>{{ unit.totalPointCost }}</td>
                                             </tr>
