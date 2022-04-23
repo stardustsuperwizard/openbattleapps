@@ -43,15 +43,15 @@ import NavBar from '@/components/NavBar.vue'
             </router-link>
         </div>
 
-        <!-- <div class="col">
-            <a href="#" class="text-decoration-none">
+        <div class="col">
+            <a href="/battlerosters/list" class="text-decoration-none">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/app/pic3.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Squads</h3>
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Roster</h3>
                     </div>
                 </div>
             </a>
-        </div> -->
+        </div>
 
     </div>
 </div>

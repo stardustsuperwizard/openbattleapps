@@ -43,8 +43,16 @@
               },
               'index': []
           },
+          {
+              'name': 'battleRosters',
+              'options': {
+                  autoIncrement: true,
+                  keyPath: 'id'
+              },
+              'index': []
+          },
       ]
-      const idb = new EasyIDB('mainDB', tables, 9);
+      const idb = new EasyIDB('mainDB', tables, 10);
       idb.getDB();
       </script>
 

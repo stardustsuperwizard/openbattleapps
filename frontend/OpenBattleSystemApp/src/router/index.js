@@ -34,6 +34,21 @@ const router = createRouter({
       component: () => import('../views/BattleGear/GearSheet.vue')
     },
     {
+      path: '/battlerosters/list',
+      name: 'battlerosterslist',
+      component: () => import('../views/BattleRosters/RosterList.vue')
+    },
+    {
+      path: '/battlerosters/army/list/:id',
+      name: 'battlerostersarmylist',
+      component: () => import('../views/BattleRosters/army/ArmyList.vue')
+    },
+    {
+      path: '/battlerosters/army/:army/squads/:id',
+      name: 'battlerostersarmylistsquads',
+      component: () => import('../views/BattleRosters/army/ArmySquads.vue')
+    },
+    {
       path: '/battleunits/list',
       name: 'battleunitslist',
       component: () => import('../views/BattleUnits/UnitList.vue')
