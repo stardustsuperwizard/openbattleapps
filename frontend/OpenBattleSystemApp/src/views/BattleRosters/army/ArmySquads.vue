@@ -13,7 +13,7 @@ const rosterName = ref(null);
 const rosterSquads = ref([]);
 
 const squadId = ref(null);
-// const squadName = ref(null);
+const squadName = ref(null);
 const squadUnits = ref([]);
 
 
@@ -41,7 +41,9 @@ function getRoster(armyId) {
             if (squadId.value != null) {
                 // console.log(squadUnits.value);
                 // console.log(rosterSquads.value[squadId.value]);
-                squadUnits.value = JSON.parse(JSON.stringify(rosterSquads.value[squadId.value]));
+                // squadUnits.value = JSON.parse(JSON.stringify(rosterSquads.value[squadId.value]));
+                squadUnits.value = rosterSquads.value[squadId.value].units;
+                squadName.value = rosterSquads.value[squadId.value].name;
                 // console.log(squadUnits.value);
             }
         });
@@ -87,11 +89,19 @@ function selectedUnit(unit) {
 function save() {
     // console.log("hello!");
     // let tempsquads = JSON.parse(JSON.stringify(rosterSquads.value));
-    // let tempvar;
+    let tempvar;
     if (squadId.value === null) {
-        rosterSquads.value.push(squadUnits.value);
+        rosterSquads.value.push({
+            'name': squadName.value,
+            'units': squadUnits.value,
+            'cost': 0
+        });
     } else {
-        rosterSquads.value[squadId.value] = squadUnits.value;
+        rosterSquads.value[squadId.value] = {
+            'name': squadName.value,
+            'units': squadUnits.value,
+            'cost': 0
+        }
     }
 
     tempvar = {
@@ -131,8 +141,21 @@ function save() {
         <div class="row pt-1">
             <div class="col">
                 <form action="">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" name="squadName" id="squadName" class="form-control" v-model="squadName">
+                                <label for="unitName">Squad Name (optional)</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mb-1" v-for="(unit, unitIndex) in squadUnits">
                         <div class="col">
+                            <div class="row mb-1">
+                                <div class="col">
+                                    {{unit}}
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm">
                                     <div class="form-floating">
@@ -141,7 +164,7 @@ function save() {
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    <UnitSelector squadId="unit.id" v-model:selectedUnitId="selectedUnitId" v-on:change="selectedUnit(unit)"></UnitSelector>
+                                    <UnitSelector :squadId="unit.id" :startingUnitId="unit.unitId" v-model:selectedUnitId="selectedUnitId" v-on:change="selectedUnit(unit)"></UnitSelector>
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="unit.quantity">
@@ -155,7 +178,7 @@ function save() {
                             <div class="row mb-1" v-for="(gearItem, gearItemIndex) in unit.gear">
                                 <div class="col-sm"></div>
                                 <div class="col-sm">
-                                    <GearSelector squadId="unit.id" v-model:selectedGearId="selectedGearId" v-on:change="selectedGear(gearItem)"></GearSelector>
+                                    <GearSelector :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-on:change="selectedGear(gearItem)"></GearSelector>
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="gearItem.quantity">
@@ -163,7 +186,7 @@ function save() {
                                     <button class="btn btn-outline-secondary" v-on:click.prevent="gearItem.quantity++">+</button>
                                 </div>
                                 <div class="col-sm">
-                                    <button class="btn btn-danger" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear)">Delete Gear</button>
+                                    <button class="btn btn-warning" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear)">Delete Gear</button>
                                 </div>
                             </div>
                             <button class="btn btn-secondary" v-on:click.prevent="addGear(unit)">Add Gear</button>

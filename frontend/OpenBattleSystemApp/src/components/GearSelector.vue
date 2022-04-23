@@ -2,13 +2,14 @@
     import { defineProps, ref } from "vue";
     const props = defineProps({
         selectedGearId: Number,
+        startingGearId: Number,
     });
     const emit = defineEmits([
         'update:selectedGearId',
         // 'selectedUnitId'
     ]);
     const gear = ref([]);
-    const gearId = ref(0);
+    const gearId = ref(props.startingGearId);
     const vMyDirective = {
         beforeMount: (el) => {
             getGear();

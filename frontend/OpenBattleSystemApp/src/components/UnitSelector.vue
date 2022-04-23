@@ -2,13 +2,15 @@
     import { defineProps, ref } from "vue";
     const props = defineProps({
         selectedUnitId: Number,
+        startingUnitId: Number,
+        squadId: Number
     });
     const emit = defineEmits([
         'update:selectedUnitId',
         // 'selectedUnitId'
     ]);
     const units = ref([]);
-    const unitId = ref(0);
+    const unitId = ref(props.startingUnitId);
     const vMyDirective = {
         beforeMount: (el) => {
             getUnits();
