@@ -44,7 +44,7 @@ const router = createRouter({
       component: () => import('../views/BattleRosters/army/ArmyList.vue')
     },
     {
-      path: '/battlerosters/army/:army/squads/:id',
+      path: '/battlerosters/army/list/:armyid/squads/:squadid',
       name: 'battlerostersarmylistsquads',
       component: () => import('../views/BattleRosters/army/ArmySquads.vue')
     },

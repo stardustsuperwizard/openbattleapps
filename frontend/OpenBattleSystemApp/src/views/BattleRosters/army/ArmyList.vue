@@ -6,7 +6,7 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router= useRouter();
 
-const squads = ref([]);
+const squads = ref(null);
 
 const rosterNew = ref(false);
 const rosterId = ref(null);
@@ -25,6 +25,8 @@ const vMyDirective = {
 function getSquads(id) {
     idb.readTableEntry('battleRosters', id)
         .then((resp) => {
+            // console.log(resp);
+            // console.log(resp.squads);
             rosterId.value = resp.id;
             rosterName.value = resp.name;
             squads.value = resp.squads;
@@ -32,7 +34,7 @@ function getSquads(id) {
 }
 
 function save() {
-    console.log(squads.value);
+    // console.log(squads.value);
     let tempvar;
     if (rosterId.value != null) {
         tempvar = {
@@ -70,7 +72,7 @@ function deleteRoster() {
             </router-link>
         </template>
         <template #right>
-            <router-link :to="`/battlerosters/army/${rosterId}/squads/new`" class="align-items-center text-dark text-decoration-none">
+            <router-link :to="`/battlerosters/army/list/${rosterId}/squads/new`" class="align-items-center text-dark text-decoration-none">
                 <span class="fs-4" v-if="rosterNew != true">Add +</span>
             </router-link>
         </template>
@@ -104,11 +106,12 @@ function deleteRoster() {
         </div>
 
         <div v-for="(squad, index) in squads">
-            <router-link :to="`/battlerosters/army/${rosterId}/squads/${index}`" class="text-decoration-none text-dark">
+            <router-link :to="`/battlerosters/army/list/${rosterId}/squads/${index}`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
                         <div class="row">
                             <div class="col">
+                                <!-- <p>{{squads}}</p> -->
                                 <div class="d-flex flex-fill fs-3">{{ squad.name }}</div>
                             </div>
                         </div>

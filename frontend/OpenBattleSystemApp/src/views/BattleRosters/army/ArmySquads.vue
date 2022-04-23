@@ -12,18 +12,21 @@ const rosterId = ref(null);
 const rosterName = ref(null);
 const rosterSquads = ref([]);
 
-const squadId = ref(0);
+const squadId = ref(null);
 // const squadName = ref(null);
 const squadUnits = ref([]);
 
 
 const vMyDirective = {
     beforeMount: (el) => {
-        
-        if (route.params.id != 'new') {
-            getRoster(parseInt(route.params.army));
+        // console.log(route.params);
+        if (route.params.squadid != 'new') {
+            // console.log("not new");
+            squadId.value = parseInt(route.params.squadid);
+            getRoster(parseInt(route.params.armyid));
         } else {
-            squadId.value = route.params.id;
+            // console.log("new");
+            getRoster(parseInt(route.params.armyid));
         }
     }
 }
@@ -31,12 +34,16 @@ const vMyDirective = {
 function getRoster(armyId) {
     idb.readTableEntry('battleRosters', armyId)
         .then((resp) => {
-            squadId.value = route.params.id;
             // console.log(resp);
             rosterId.value = resp.id;
             rosterName.value = resp.name;
             rosterSquads.value = resp.squads;
-            squadUnits.value = rosterSquads.value[squadId.value];
+            if (squadId.value != null) {
+                // console.log(squadUnits.value);
+                // console.log(rosterSquads.value[squadId.value]);
+                squadUnits.value = JSON.parse(JSON.stringify(rosterSquads.value[squadId.value]));
+                // console.log(squadUnits.value);
+            }
         });
 }
 
@@ -78,9 +85,10 @@ function selectedUnit(unit) {
 }
 
 function save() {
+    // console.log("hello!");
     // let tempsquads = JSON.parse(JSON.stringify(rosterSquads.value));
-    let tempvar;
-    if (squadId.value === 0) {
+    // let tempvar;
+    if (squadId.value === null) {
         rosterSquads.value.push(squadUnits.value);
     } else {
         rosterSquads.value[squadId.value] = squadUnits.value;
@@ -115,6 +123,11 @@ function save() {
     </NavBar>
 
     <div class="container-md mt-5">
+        <!-- <div class="row pr-1">
+            <div class="col">
+                <p>{{ squadUnits }}</p>
+            </div>
+        </div> -->
         <div class="row pt-1">
             <div class="col">
                 <form action="">
@@ -129,7 +142,6 @@ function save() {
                                 </div>
                                 <div class="col-sm">
                                     <UnitSelector squadId="unit.id" v-model:selectedUnitId="selectedUnitId" v-on:change="selectedUnit(unit)"></UnitSelector>
-                                    <!-- <span>{{ selectedUnitId }}</span> -->
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="unit.quantity">
@@ -144,7 +156,6 @@ function save() {
                                 <div class="col-sm"></div>
                                 <div class="col-sm">
                                     <GearSelector squadId="unit.id" v-model:selectedGearId="selectedGearId" v-on:change="selectedGear(gearItem)"></GearSelector>
-                                    <!-- <span>{{ selectedUnitId }}</span> -->
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="gearItem.quantity">
@@ -155,7 +166,6 @@ function save() {
                                     <button class="btn btn-danger" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear)">Delete Gear</button>
                                 </div>
                             </div>
-                            <p>{{unit}}</p>
                             <button class="btn btn-secondary" v-on:click.prevent="addGear(unit)">Add Gear</button>
                         </div>
                     </div>
