@@ -20,13 +20,10 @@ const squadTotal = ref(0);
 
 const vMyDirective = {
     beforeMount: (el) => {
-        // console.log(route.params);
         if (route.params.squadid != 'new') {
-            // console.log("not new");
             squadId.value = parseInt(route.params.squadid);
             getRoster(parseInt(route.params.armyid));
         } else {
-            // console.log("new");
             getRoster(parseInt(route.params.armyid));
         }
     }
@@ -35,18 +32,13 @@ const vMyDirective = {
 function getRoster(armyId) {
     idb.readTableEntry('battleRosters', armyId)
         .then((resp) => {
-            console.log(resp);
             rosterId.value = resp.id;
             rosterName.value = resp.name;
             rosterSquads.value = resp.squads;
             if (squadId.value != null) {
-                // console.log(squadUnits.value);
-                // console.log(rosterSquads.value[squadId.value]);
-                // squadUnits.value = JSON.parse(JSON.stringify(rosterSquads.value[squadId.value]));
                 squadUnits.value = rosterSquads.value[squadId.value].units.unitList;
                 squadName.value = rosterSquads.value[squadId.value].name;
                 squadTotal.value = rosterSquads.value[squadId.value].totalCost;
-                // console.log(squadUnits.value);
             }
         });
 }
@@ -78,14 +70,6 @@ function addGear(unit){
     });
 }
 
-function deleteGear(gearItemIndex, unitGear) {
-    unitGear.splice(gearItemIndex, 1);
-}
-
-function deleteUnit(unitIndex) {
-    squadUnits.value.splice(unitIndex, 1);
-}
-
 const selectedGearId = ref(0);
 const selectedGearCost = ref(0);
 function selectedGear(gearItem) {
@@ -93,12 +77,19 @@ function selectedGear(gearItem) {
     gearItem.pointCost = selectedGearCost.value;
 }
 
+function deleteGear(gearItemIndex, unitGear) {
+    unitGear.splice(gearItemIndex, 1);
+}
+
 const selectedUnitId = ref(0);
 const selectedUnitCost = ref(0);
 function selectedUnit(unit) {
     unit.unitId = selectedUnitId.value;
     unit.pointCost = selectedUnitCost.value;
+}
 
+function deleteUnit(unitIndex) {
+    squadUnits.value.splice(unitIndex, 1);
 }
 
 function updateQuantityAndCost(element, direction) {
@@ -113,22 +104,38 @@ function updateQuantityAndCost(element, direction) {
 }
 
 function getTotalCost() {
-    let totalGearCost = 0;
-    let totalUnitCost = 0;
-    let totalSquadCost = 0;
-    // console.log(squadUnits.value);
+    squadTotal.value = 0;
     squadUnits.value.forEach((element) =>{
+
+        let gearCost = 0;
         element.gear.gearList.forEach((e) => {
-            totalGearCost = totalGearCost + e.totalCost;
+            gearCost = gearCost + e.totalCost;
         });
-        element.gear.totalCost = totalGearCost;
-        totalUnitCost = totalUnitCost + element.totalCost
-        // console.log(totalUnitCost, totalGearCost);
-        element.totalUnitCost = totalUnitCost + totalGearCost;
-        totalSquadCost = totalSquadCost + element.totalUnitCost;
-        squadTotal.value = totalSquadCost;
+
+        element.gear.totalCost = gearCost;
+        element.totalUnitCost = element.totalCost + element.gear.totalCost;
+
+        squadTotal.value = squadTotal.value + element.totalUnitCost;
+    });
+}
+
+function deleteSquad() {
+    rosterSquads.value.forEach((element, index) => {
+        if (index == squadId.value) {
+            rosterSquads.value.splice(index, 1);
+        }
     });
 
+    let tempvar = {
+        'id': rosterId.value,
+        'name': rosterName.value,
+        'squads': JSON.parse(JSON.stringify(rosterSquads.value))
+    }
+
+    idb.createEntry('battleRosters', tempvar)
+        .then((resp) => {
+            router.back()
+        });
 }
 
 function save() {
@@ -197,13 +204,17 @@ function save() {
         <section class="row pt-1">
             <div class="col">
                 <form action="">
-                    <div class="row mb-1">
-                        <div class="col">
+                    <div class="row mb-5">
+                        <div class="col-sm mb-1">
                             <div class="form-floating">
                                 <input type="text" name="squadName" id="squadName" class="form-control" v-model="squadName">
                                 <label for="unitName">Squad Name (optional)</label>
                             </div>
                         </div>
+                        <div class="col-sm mb-1 d-flex">
+                            <button class="btn btn-danger flex-fill" v-on:click.prevent="deleteSquad()">Delete Squad</button>
+                        </div>
+                        <div class="col-sm"></div>
                     </div>
                     <div class="row mb-1" v-for="(unit, unitIndex) in squadUnits">
                         <!-- <p>{{unit}}</p> -->
@@ -238,7 +249,7 @@ function save() {
                                     <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'positive')">+</button>
                                 </div>
                                 <div class="col-sm">
-                                    <button class="btn btn-warning" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear)">Delete Gear</button>
+                                    <button class="btn btn-warning" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear.gearList)">Delete Gear</button>
                                 </div>
                             </div>
                             <button class="btn btn-secondary" v-on:click.prevent="addGear(unit)">Add Gear</button>
@@ -251,7 +262,7 @@ function save() {
         <section class="row">
             <div class="col">
                 <div class="d-flex my-3">
-                    <button class="btn btn-primary mb-3 flex-fill" type="addUnitToSquad" name="addUnitToSquad" v-on:click.prevent="addUnit">Add to Squad</button>
+                    <button class="btn btn-primary mb-3 flex-fill" type="addUnitToSquad" name="addUnitToSquad" v-on:click.prevent="addUnit">Create Unit</button>
                 </div>
             </div>
         </section>
