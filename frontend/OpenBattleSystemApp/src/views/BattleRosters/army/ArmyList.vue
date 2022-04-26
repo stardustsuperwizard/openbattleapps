@@ -34,13 +34,13 @@ function getSquads(id) {
 }
 
 function save() {
-    // console.log(squads.value);
+    // console.log(rosterName.value);
     let tempvar;
     if (rosterId.value != null) {
         tempvar = {
             'id': rosterId.value,
             'name': rosterName.value,
-            'squads': squads.value
+            'squads': JSON.parse(JSON.stringify(squads.value))
         }
     } else {
         tempvar = {
@@ -48,11 +48,13 @@ function save() {
             'squads': []
         }
     }
+    // console.log(tempvar);
     idb.createEntry('battleRosters', tempvar)
         .then((resp) => {
-            if (route.params.id == 'new') {
-                router.back()
-            }
+            router.back()
+            // if (route.params.id == 'new') {
+            //     router.back()
+            // }
         });
 }
 
