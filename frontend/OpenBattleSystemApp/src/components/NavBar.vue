@@ -6,6 +6,9 @@
                     <slot name="left"></slot>
                 </div>
                 <div class="navbar-nav">
+                    <slot name="center"></slot>
+                </div>
+                <div class="navbar-nav">
                     <slot name="right"></slot>
                 </div>
             </div>

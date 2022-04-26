@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
 import UnitSelector from '@/components/UnitSelector.vue';
 import GearSelector from '@/components/GearSelector.vue';
@@ -16,6 +16,7 @@ const squadId = ref(null);
 const squadName = ref(null);
 const squadUnits = ref([]);
 
+const squadTotal = ref(0);
 
 const vMyDirective = {
     beforeMount: (el) => {
@@ -42,7 +43,7 @@ function getRoster(armyId) {
                 // console.log(squadUnits.value);
                 // console.log(rosterSquads.value[squadId.value]);
                 // squadUnits.value = JSON.parse(JSON.stringify(rosterSquads.value[squadId.value]));
-                squadUnits.value = rosterSquads.value[squadId.value].units;
+                squadUnits.value = rosterSquads.value[squadId.value].units.unitList;
                 squadName.value = rosterSquads.value[squadId.value].name;
                 // console.log(squadUnits.value);
             }
@@ -56,17 +57,23 @@ function addUnit(){
         'name': '',
         'unitId': 0,
         'quantity': 0,
-        'cost': 0.00,
-        'gear': []
+        'pointCost': 0.00,
+        'totalCost': 0.00,
+        'gear': {
+            'gearList': [],
+            'totalCost': 0.00
+        },
+        'totalUnitCost': 0.00
     });
 }
 
 function addGear(unit){
-    unit.gear.push({
-        'id': unit.gear.length + 1,
+    unit.gear.gearList.push({
+        'id': unit.gear.gearList.length + 1,
         'gearId': 0,
         'quantity': 0,
-        'cost': 0.00
+        'pointCost': 0.00,
+        'totalCost': 0.00
     });
 }
 
@@ -82,14 +89,44 @@ const selectedGearId = ref(0);
 const selectedGearCost = ref(0);
 function selectedGear(gearItem) {
     gearItem.gearId = selectedGearId.value;
-    gearItem.cost = selectedGearCost.value;
+    gearItem.pointCost = selectedGearCost.value;
 }
 
 const selectedUnitId = ref(0);
 const selectedUnitCost = ref(0);
 function selectedUnit(unit) {
     unit.unitId = selectedUnitId.value;
-    unit.cost = selectedUnitCost.value;
+    unit.pointCost = selectedUnitCost.value;
+
+}
+
+function updateQuantityAndCost(element, direction) {
+    if (direction == 'positive') {
+        element.quantity++
+    } else {
+        element.quantity--
+    }
+
+    element.totalCost = element.quantity * element.pointCost;
+    getTotalCost();
+}
+
+function getTotalCost() {
+    let totalGearCost = 0;
+    let totalUnitCost = 0;
+    let totalSquadCost = 0;
+    // console.log(squadUnits.value);
+    squadUnits.value.forEach((element) =>{
+        element.gear.gearList.forEach((e) => {
+            totalGearCost = totalGearCost + e.totalCost;
+        });
+        element.gear.totalCost = totalGearCost;
+        totalUnitCost = totalUnitCost + element.totalCost
+        // console.log(totalUnitCost, totalGearCost);
+        element.totalUnitCost = totalUnitCost + totalGearCost;
+        totalSquadCost = totalSquadCost + element.totalUnitCost;
+        squadTotal.value = totalSquadCost;
+    });
 
 }
 
@@ -100,14 +137,22 @@ function save() {
     if (squadId.value === null) {
         rosterSquads.value.push({
             'name': squadName.value,
-            'units': squadUnits.value,
-            'cost': 0.00
+            'units': {
+                'unitList': squadUnits.value,
+                'pointCost': 0.00,
+                'totalCost': 0.00
+            },
+            'totalCost': squadTotal.value
         });
     } else {
         rosterSquads.value[squadId.value] = {
             'name': squadName.value,
-            'units': squadUnits.value,
-            'cost': 0.00
+            'units': {
+                'unitList': squadUnits.value,
+                'pointCost': 0.00,
+                'totalCost': 0.00
+            },
+            'totalCost': squadTotal.value
         }
     }
 
@@ -134,17 +179,20 @@ function save() {
                 <span class="fs-4">&lt; Back</span>
             </router-link>
         </template>
+        <template #center>
+            <span>Cost: {{ squadTotal }}</span>
+        </template>
         <template #right>
             <a href="#" v-on:click.prevent="save" class="d-flex align-items-center text-dark text-decoration-none"><span class="fs-4">Save</span></a>
         </template>
     </NavBar>
 
     <main class="container-md mt-5">
-        <section class="row pr-1">
+        <!-- <section class="row pr-1">
             <div class="col">
                 <p>{{ rosterSquads }}</p>
             </div>
-        </section>
+        </section> -->
         <section class="row pt-1">
             <div class="col">
                 <form action="">
@@ -157,12 +205,8 @@ function save() {
                         </div>
                     </div>
                     <div class="row mb-1" v-for="(unit, unitIndex) in squadUnits">
+                        <!-- <p>{{unit}}</p> -->
                         <div class="col">
-                            <div class="row mb-1">
-                                <div class="col">
-                                    {{unit}}
-                                </div>
-                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm">
                                     <div class="form-floating">
@@ -175,22 +219,22 @@ function save() {
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="unit.quantity">
-                                    <button class="btn btn-outline-secondary" v-on:click.prevent="unit.quantity--">-</button>
-                                    <button class="btn btn-outline-secondary" v-on:click.prevent="unit.quantity++">+</button>
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(unit, 'negative')">-</button>
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(unit, 'positive')">+</button>
                                 </div>
                                 <div class="col-sm">
                                     <button class="btn btn-danger" v-on:click.prevent="deleteUnit(unitIndex)">Delete Unit</button>
                                 </div>
                             </div>
-                            <div class="row mb-1" v-for="(gearItem, gearItemIndex) in unit.gear">
+                            <div class="row mb-1" v-for="(gearItem, gearItemIndex) in unit.gear.gearList">
                                 <div class="col-sm"></div>
                                 <div class="col-sm">
                                     <GearSelector :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-model:selectedGearCost="selectedGearCost" v-on:change="selectedGear(gearItem)"></GearSelector>
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="gearItem.quantity">
-                                    <button class="btn btn-outline-secondary" v-on:click.prevent="gearItem.quantity--">-</button>
-                                    <button class="btn btn-outline-secondary" v-on:click.prevent="gearItem.quantity++">+</button>
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'negative')">-</button>
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'positive')">+</button>
                                 </div>
                                 <div class="col-sm">
                                     <button class="btn btn-warning" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear)">Delete Gear</button>
