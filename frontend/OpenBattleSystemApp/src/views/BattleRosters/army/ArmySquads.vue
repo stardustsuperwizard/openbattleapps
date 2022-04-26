@@ -56,6 +56,7 @@ function addUnit(){
         'name': '',
         'unitId': 0,
         'quantity': 0,
+        'cost': 0.00,
         'gear': []
     });
 }
@@ -64,7 +65,8 @@ function addGear(unit){
     unit.gear.push({
         'id': unit.gear.length + 1,
         'gearId': 0,
-        'quantity': 0
+        'quantity': 0,
+        'cost': 0.00
     });
 }
 
@@ -77,13 +79,18 @@ function deleteUnit(unitIndex) {
 }
 
 const selectedGearId = ref(0);
+const selectedGearCost = ref(0);
 function selectedGear(gearItem) {
     gearItem.gearId = selectedGearId.value;
+    gearItem.cost = selectedGearCost.value;
 }
 
 const selectedUnitId = ref(0);
+const selectedUnitCost = ref(0);
 function selectedUnit(unit) {
     unit.unitId = selectedUnitId.value;
+    unit.cost = selectedUnitCost.value;
+
 }
 
 function save() {
@@ -94,13 +101,13 @@ function save() {
         rosterSquads.value.push({
             'name': squadName.value,
             'units': squadUnits.value,
-            'cost': 0
+            'cost': 0.00
         });
     } else {
         rosterSquads.value[squadId.value] = {
             'name': squadName.value,
             'units': squadUnits.value,
-            'cost': 0
+            'cost': 0.00
         }
     }
 
@@ -132,13 +139,13 @@ function save() {
         </template>
     </NavBar>
 
-    <div class="container-md mt-5">
-        <!-- <div class="row pr-1">
+    <main class="container-md mt-5">
+        <section class="row pr-1">
             <div class="col">
-                <p>{{ squadUnits }}</p>
+                <p>{{ rosterSquads }}</p>
             </div>
-        </div> -->
-        <div class="row pt-1">
+        </section>
+        <section class="row pt-1">
             <div class="col">
                 <form action="">
                     <div class="row mb-1">
@@ -164,7 +171,7 @@ function save() {
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    <UnitSelector :squadId="unit.id" :startingUnitId="unit.unitId" v-model:selectedUnitId="selectedUnitId" v-on:change="selectedUnit(unit)"></UnitSelector>
+                                    <UnitSelector :squadId="unit.id" :startingUnitId="unit.unitId" v-model:selectedUnitId="selectedUnitId" v-model:selectedUnitCost="selectedUnitCost" v-on:change="selectedUnit(unit)"></UnitSelector>
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="unit.quantity">
@@ -178,7 +185,7 @@ function save() {
                             <div class="row mb-1" v-for="(gearItem, gearItemIndex) in unit.gear">
                                 <div class="col-sm"></div>
                                 <div class="col-sm">
-                                    <GearSelector :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-on:change="selectedGear(gearItem)"></GearSelector>
+                                    <GearSelector :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-model:selectedGearCost="selectedGearCost" v-on:change="selectedGear(gearItem)"></GearSelector>
                                 </div>
                                 <div class="col-sm input-group">
                                     <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="gearItem.quantity">
@@ -194,15 +201,15 @@ function save() {
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
 
-        <div class="row">
+        <section class="row">
             <div class="col">
                 <div class="d-flex my-3">
                     <button class="btn btn-primary mb-3 flex-fill" type="addUnitToSquad" name="addUnitToSquad" v-on:click.prevent="addUnit">Add to Squad</button>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 </div>
 </template>

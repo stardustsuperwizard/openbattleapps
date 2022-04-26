@@ -2,11 +2,13 @@
     import { defineProps, ref } from "vue";
     const props = defineProps({
         selectedUnitId: Number,
+        selectedUnitCost: Number,
         startingUnitId: Number,
         squadId: Number
     });
     const emit = defineEmits([
         'update:selectedUnitId',
+        'update:selectedUnitCost'
         // 'selectedUnitId'
     ]);
     const units = ref([]);
@@ -20,7 +22,14 @@
         units.value = await idb.readTable('Units');
     }
     function selectedUnit() {
+        let unitCost;
+        units.value.forEach((element) => {
+            if (element.id === unitId.value){
+                unitCost = element.totalPointCost;
+            }
+        });
         emit('update:selectedUnitId', parseInt(unitId.value));
+        emit('update:selectedUnitCost', unitCost);
     }
 </script>
 
