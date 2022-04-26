@@ -12,8 +12,10 @@ const router = useRouter();
 // Roster Information
 const rosterId = ref(null);
 const rosterName = ref(null);
+const rosterPoints = ref(0);
 const rosterSquads = ref([]);
 // Squad Information
+const squadCount = ref(0);
 const squadId = ref(null);
 const squadName = ref(null);
 const squadUnits = ref([]);
@@ -36,6 +38,7 @@ function getRoster(armyId) {
         .then((resp) => {
             rosterId.value = resp.id;
             rosterName.value = resp.name;
+            rosterPoints.value = resp.points;
             rosterSquads.value = resp.squads;
             if (squadId.value != null) {
                 squadUnits.value = rosterSquads.value[squadId.value].units;
@@ -112,6 +115,7 @@ function updateQuantityAndCost(element, direction) {
     getTotalCost();
 }
 function getTotalCost() {
+    squadCount.value = 0;
     squadTotal.value = 0;
     squadUnits.value.forEach((element) =>{
 
@@ -123,6 +127,7 @@ function getTotalCost() {
         element.gear.totalCost = gearCost;
         element.totalUnitCost = element.totalCost + element.gear.totalCost;
 
+        squadCount.value = squadCount.value + element.quantity;
         squadTotal.value = squadTotal.value + element.totalUnitCost;
     });
 }
@@ -155,12 +160,14 @@ function save() {
     if (squadId.value === null) {
         rosterSquads.value.push({
             'name': squadName.value,
+            'unitCount': squadCount.value,
             'units': squadUnits.value,
             'totalCost': squadTotal.value
         });
     } else {
         rosterSquads.value[squadId.value] = {
             'name': squadName.value,
+            'unitCount': squadCount.value,
             'units': squadUnits.value,
             'totalCost': squadTotal.value
         }
@@ -169,6 +176,7 @@ function save() {
     tempvar = {
         'id': rosterId.value,
         'name': rosterName.value,
+        'points': rosterPoints.value,
         'squads': JSON.parse(JSON.stringify(rosterSquads.value))
     }
 
@@ -210,7 +218,7 @@ function save() {
                         <div class="col-sm mb-1">
                             <div class="form-floating">
                                 <input type="text" name="squadName" id="squadName" class="form-control" v-model="squadName">
-                                <label for="unitName">Squad Name (optional)</label>
+                                <label for="unitName">Squad Name</label>
                             </div>
                         </div>
                         <div class="col-sm mb-1 d-flex">
@@ -225,7 +233,7 @@ function save() {
                                 <div class="col-sm">
                                     <div class="form-floating">
                                         <input type="text" name="unitName" id="unitName" class="form-control" v-model="unit.name">
-                                        <label for="unitName">Unit Name (optional)</label>
+                                        <label for="unitName">Name (optional)</label>
                                     </div>
                                 </div>
                                 <div class="col-sm">

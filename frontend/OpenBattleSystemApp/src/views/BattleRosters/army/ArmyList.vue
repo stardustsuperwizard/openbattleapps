@@ -1,16 +1,27 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router= useRouter();
 
-const squads = ref(null);
+const squads = ref([]);
 
 const rosterNew = ref(false);
 const rosterId = ref(null);
 const rosterName = ref(null);
+const rosterPoints = ref(0);
+const rosterPointsAvailable = computed(() => { return rosterPoints.value - rosterPointsUsed.value });
+
+
+const rosterPointsUsed = computed(() => {
+    let pointCost = 0;
+    squads.value.forEach(element => {
+        pointCost = pointCost + element.totalCost;
+    });
+    return pointCost
+});
 
 const vMyDirective = {
     beforeMount: (el) => {
@@ -29,6 +40,7 @@ function getSquads(id) {
             // console.log(resp.squads);
             rosterId.value = resp.id;
             rosterName.value = resp.name;
+            rosterPoints.value = resp.points;
             squads.value = resp.squads;
         });
 }
@@ -40,11 +52,13 @@ function save() {
         tempvar = {
             'id': rosterId.value,
             'name': rosterName.value,
+            'points': rosterPoints.value,
             'squads': JSON.parse(JSON.stringify(squads.value))
         }
     } else {
         tempvar = {
             'name': rosterName.value,
+            'points': rosterPoints.value,
             'squads': []
         }
     }
@@ -89,20 +103,42 @@ function deleteRoster() {
         <section class="row">
             <div class="col">
                 <form action="">
-                    <div class="row mb-3">
+                    <fieldset class="row mb-3">
                         <div class="col-sm">
                             <div class="form-floating">
                                 <input type="text" name="rosterName" id="rosterName" class="form-control" v-model="rosterName">
                                 <label for="rosterName">Battle Roster Name</label>
                             </div>
-                            <div class="d-flex my-3">
-                                <button class="btn btn-primary flex-fill" name="Save" v-on:click.prevent="save">Save</button>
-                            </div>
-                            <div class="d-flex my-3">
-                                <button class="btn btn-danger flex-fill" name="deleteRoster" v-on:click.prevent="deleteRoster">Delete</button>
+                        </div>
+                    </fieldset>
+                    <fieldset class="row mb-3">
+                        <div class="col-sm mb-3">
+                            <div class="form-floating">
+                                <input type="text" name="rosterPoints" id="rosterPoints" class="form-control" v-model="rosterPoints">
+                                <label for="rosterPoints">Total Roster Points</label>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-sm mb-3">
+                            <div class="form-floating">
+                                <input type="text" name="rosterPointsUsed" id="rosterPointsUsed" class="form-control" v-model="rosterPointsUsed" disabled>
+                                <label for="rosterPointsUsed">Total Points Used</label>
+                            </div>
+                        </div>
+                        <div class="col-sm mb-3">
+                            <div class="form-floating">
+                                <input type="text" name="rosterPointsAvailable" id="rosterPointsAvailable" class="form-control" v-model="rosterPointsAvailable" disabled>
+                                <label for="rosterPointsAvailable">Roster Points Remaining</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="row mb-3">
+                        <div class="col-sm mb-1 d-flex">
+                            <button class="btn btn-primary flex-fill" name="Save" v-on:click.prevent="save">Save</button>
+                        </div>
+                        <div class="col-sm mb-1 d-flex">
+                            <button class="btn btn-danger flex-fill" name="deleteRoster" v-on:click.prevent="deleteRoster">Delete</button>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         </section>
@@ -123,12 +159,14 @@ function deleteRoster() {
                                     <table class="table table-sm">
                                         <thead>
                                             <tr>
-                                                <th>Squad</th>
+                                                <th>Units</th>
+                                                <th>Cost</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ squad.name }}</td>
+                                                <td>{{ squad.unitCount }}</td>
+                                                <td>{{ squad.totalCost }}</td>
                                             </tr>
                                         </tbody>
                                     </table>

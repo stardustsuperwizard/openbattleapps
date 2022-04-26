@@ -53,12 +53,12 @@ async function getBattleRosters() {
                                     <table class="table table-sm">
                                         <thead>
                                             <tr>
-                                                <th>Roster</th>
+                                                <th>Point Size</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ roster.name }}</td>
+                                                <td>{{ roster.points }}</td>
                                             </tr>
                                         </tbody>
                                     </table>

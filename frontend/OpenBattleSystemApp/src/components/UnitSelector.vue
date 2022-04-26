@@ -41,7 +41,7 @@
                 <option value="0">Choose a unit:</option>
                 <option v-for="each in units" v-bind:value="each.id">{{ each.unitName }}</option>
             </select>
-            <label for="unitName">Unit Name</label>
+            <label for="unitName">Unit Profile</label>
         </div>
     </div>
 </template>

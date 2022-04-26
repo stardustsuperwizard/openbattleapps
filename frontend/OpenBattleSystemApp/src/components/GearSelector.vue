@@ -52,7 +52,7 @@
                 <option value="0">Choose gear:</option>
                 <option v-for="(each, index) in gear" v-bind:value="each.id">{{ each.gearName }}</option>
             </select>
-            <label for="unitName">Gear Name</label>
+            <label for="unitName">Gear Profile</label>
         </div>
     </div>
 </template>
