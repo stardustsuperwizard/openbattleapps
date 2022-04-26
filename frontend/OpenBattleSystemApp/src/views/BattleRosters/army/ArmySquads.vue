@@ -206,7 +206,7 @@ function save() {
         <section class="row pt-1">
             <div class="col">
                 <form action="">
-                    <div class="row mb-5">
+                    <fieldset class="row mb-5">
                         <div class="col-sm mb-1">
                             <div class="form-floating">
                                 <input type="text" name="squadName" id="squadName" class="form-control" v-model="squadName">
@@ -217,8 +217,8 @@ function save() {
                             <button class="btn btn-danger flex-fill" v-on:click.prevent="deleteSquad()">Delete Squad</button>
                         </div>
                         <div class="col-sm"></div>
-                    </div>
-                    <div class="row mb-1" v-for="(unit, unitIndex) in squadUnits">
+                    </fieldset>
+                    <fieldset class="row mb-1" v-for="(unit, unitIndex) in squadUnits">
                         <!-- <p>{{unit}}</p> -->
                         <div class="col">
                             <div class="row mb-1">
@@ -256,7 +256,7 @@ function save() {
                             </div>
                             <button class="btn btn-secondary" v-on:click.prevent="addGear(unit)">Add Gear</button>
                         </div>
-                    </div>
+                    </fieldset>
                 </form>
             </div>
         </section>
