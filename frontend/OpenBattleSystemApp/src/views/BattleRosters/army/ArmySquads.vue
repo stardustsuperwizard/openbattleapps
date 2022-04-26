@@ -35,7 +35,7 @@ const vMyDirective = {
 function getRoster(armyId) {
     idb.readTableEntry('battleRosters', armyId)
         .then((resp) => {
-            // console.log(resp);
+            console.log(resp);
             rosterId.value = resp.id;
             rosterName.value = resp.name;
             rosterSquads.value = resp.squads;
@@ -45,6 +45,7 @@ function getRoster(armyId) {
                 // squadUnits.value = JSON.parse(JSON.stringify(rosterSquads.value[squadId.value]));
                 squadUnits.value = rosterSquads.value[squadId.value].units.unitList;
                 squadName.value = rosterSquads.value[squadId.value].name;
+                squadTotal.value = rosterSquads.value[squadId.value].totalCost;
                 // console.log(squadUnits.value);
             }
         });
