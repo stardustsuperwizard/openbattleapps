@@ -4,31 +4,33 @@ import NavBar from '@/components/NavBar.vue';
 
 
 <template>
-
-<div>
-    <NavBar>
-        <template #left>
-            <router-link to="/rules/core/contents" class="d-flex align-items-center text-dark text-decoration-none">
-                <span class="fs-4">&lt; Back</span>
-            </router-link>
-        </template>
-    </NavBar>
-    <div class="container-md mt-5">
-<section>
-    <div class="row">
+<NavBar>
+    <template #left>
+        <router-link to="/rules/core/contents" class="d-flex align-items-center text-dark text-decoration-none">
+            <span class="fs-4">&lt; Back</span>
+        </router-link>
+    </template>
+</NavBar>
+<main class="container-md mt-5">
+    <section class="row">
         <div class="col">
-            <h1>Squads</h1>
+            <h1>Rules</h1>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col">
+            <h2>Squads</h2>
             <p>A squad is made up of one or more models that perform actions during phases of a turn.</p>
-            <h2>Movement through squads</h2>
+            <h3>Movement through squads</h3>
                 <p>Friendly squads may move through other friendly squads.</p>
                 <p>Squads may not move through opposing squads.</p>
-            <h2>Squad Cohesion</h2>
+            <h3>Squad Cohesion</h3>
                 <p>When a squad numbers two or more models it must maintain cohesion. Unit cohesion is achieved by ensuring that every model in the squad is no further than 2” from at least one other model in the squad, unless the squad is engaged in close combat.</p>
                 <p>When a squad has at least one model that is more than 2” away from any other squad model and the squad is not in close combat with an enemy unit, the squad is no longer in cohesion and will be required to take a morale check in the morale check phase of the turn.</p>
                 <p>If the morale check is passed, the unit may continue with their turn as normal but must make take a standard movement to bring all models into cohesion.</p>
-            <h2>Squads as Defenders in Ranged Combat</h2>
+            <h3>Squads as Defenders in Ranged Combat</h3>
                 <p>Enemy units must target the entire squad and may not target individual squad members. When a Defending squad takes wounds, the defending player will allocate the wounds to individual model Hit Points.</p>
-            <h2>Squad Movement Types</h2>
+            <h3>Squad Movement Types</h3>
                 <h3>Standard</h3>
                     <p>Basic movement that is done during the Movement Phase of the player’s turn.</p>
                 <h3>Assault</h3>
@@ -37,7 +39,7 @@ import NavBar from '@/components/NavBar.vue';
                     <p>Retreating movement that is done by squad that has failed a morale check.</p>
                 <h3>Advance</h3>
                     <p>Extra movement that is done by a squad that has been declared the winner of a close combat combat and the enemy squad has a status of Fallback.</p>
-            <h2>Squad Status</h2>
+            <h3>Squad Status</h3>
                 <h3>Normal</h3>
                     <p>The squad has no changes to normal rules.</p>
                 <h3>Advance</h3>
@@ -58,7 +60,7 @@ import NavBar from '@/components/NavBar.vue';
                         <li>Squad may not Assault.</li>
                         <li>Squad may not use Counter Offensive in close combat.</li>
                     </ul>
-            <h2>Morale</h2>
+            <h3>Morale</h3>
                 <h3>Morale Check</h3>
                     <p>A morale check is conducted by rolling a D6 and comparing the result against the Mental Toughness attribute. A successful result is when the die roll is less than or equal to the Mental Toughness value, plus or minus any modifiers.</p>
                 <h3>Ranged Combat Morale Check</h3>
@@ -66,8 +68,6 @@ import NavBar from '@/components/NavBar.vue';
                 <h3>Rally Point</h3>
                     <p>When a squad with the status of fallback comes into contact with a rally point (such as a board edge), the squad will be permitted to take a morale check to remove the status of Fallback. The squad may make this morale check even if they have already taken and failed a morale check.</p>
         </div>
-    </div>
-</section>
-    </div>
-</div>
+    </section>
+</main>
 </template>

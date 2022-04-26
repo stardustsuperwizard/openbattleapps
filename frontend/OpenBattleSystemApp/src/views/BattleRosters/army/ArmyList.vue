@@ -80,13 +80,13 @@ function deleteRoster() {
         </template>
     </NavBar>
 
-    <div class="container-md mt-5">
-        <div class="row">
+    <main class="container-md mt-5">
+        <section class="row">
             <div class="col">
                 <h1 class="fs-4">Battle Rosters</h1>
             </div>
-        </div>
-        <div class="row">
+        </section>
+        <section class="row">
             <div class="col">
                 <form action="">
                     <div class="row mb-3">
@@ -105,9 +105,9 @@ function deleteRoster() {
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
 
-        <div v-for="(squad, index) in squads">
+        <section v-for="(squad, index) in squads">
             <router-link :to="`/battlerosters/army/list/${rosterId}/squads/${index}`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
@@ -142,8 +142,8 @@ function deleteRoster() {
                     </div>
                 </div>
             </router-link>
-        </div>
+        </section>
 
-    </div>
+    </main>
 </div>
 </template>

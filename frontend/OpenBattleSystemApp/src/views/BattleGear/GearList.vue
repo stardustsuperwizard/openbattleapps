@@ -32,14 +32,14 @@ async function getBattleGear() {
         </template>
     </NavBar>
 
-    <div class="container-md mt-5">
-        <div class="row">
+    <main class="container-md mt-5">
+        <section class="row">
             <div class="col">
                 <h1 class="fs-4">Gear List</h1>
             </div>
-        </div>
+        </section>
 
-        <div v-for="(gear, index) in gearList">
+        <section v-for="(gear, index) in gearList">
             <router-link :to="`/battlegear/sheet/${gear.id}`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
@@ -81,8 +81,8 @@ async function getBattleGear() {
                     </div>
                 </div>
             </router-link>
-        </div>
+        </section>
 
-    </div>
+    </main>
 </div>
 </template>

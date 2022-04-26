@@ -43,14 +43,14 @@ async function getBattleUnits() {
         </template>
     </NavBar>
 
-    <div class="container-md mt-5">
-        <div class="row">
+    <main class="container-md mt-5">
+        <section class="row">
             <div class="col">
                 <h1 class="fs-4">Unit Roster</h1>
             </div>
-        </div>
+        </section>
 
-        <div v-for="(unit, index) in units">
+        <section v-for="(unit, index) in units">
             <router-link :to="`/battleunits/sheet/${unit.id}`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
@@ -99,8 +99,8 @@ async function getBattleUnits() {
                     </div>
                 </div>
             </router-link>
-        </div>
+        </section>
 
-    </div>
+    </main>
 </div>
 </template>

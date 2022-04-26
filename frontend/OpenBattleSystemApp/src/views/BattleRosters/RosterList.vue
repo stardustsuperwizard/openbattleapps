@@ -31,14 +31,14 @@ async function getBattleRosters() {
         </template>
     </NavBar>
 
-    <div class="container-md mt-5">
-        <div class="row">
+    <main class="container-md mt-5">
+        <section class="row">
             <div class="col">
                 <h1 class="fs-4">Battle Rosters</h1>
             </div>
-        </div>
+        </section>
 
-        <div v-for="(roster, index) in rosters">
+        <section v-for="(roster, index) in rosters">
             <router-link :to="`/battlerosters/army/list/${roster.id}`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
@@ -72,8 +72,8 @@ async function getBattleRosters() {
                     </div>
                 </div>
             </router-link>
-        </div>
+        </section>
 
-    </div>
+    </main>
 </div>
 </template>
