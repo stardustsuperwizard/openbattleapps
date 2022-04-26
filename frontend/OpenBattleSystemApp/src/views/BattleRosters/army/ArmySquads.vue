@@ -5,19 +5,21 @@ import UnitSelector from '@/components/UnitSelector.vue';
 import GearSelector from '@/components/GearSelector.vue';
 import { useRoute, useRouter } from "vue-router";
 
+// Router Variables
 const route = useRoute();
 const router = useRouter();
 
+// Roster Information
 const rosterId = ref(null);
 const rosterName = ref(null);
 const rosterSquads = ref([]);
-
+// Squad Information
 const squadId = ref(null);
 const squadName = ref(null);
 const squadUnits = ref([]);
-
 const squadTotal = ref(0);
 
+// Loading of information when page starts.
 const vMyDirective = {
     beforeMount: (el) => {
         if (route.params.squadid != 'new') {
@@ -36,7 +38,7 @@ function getRoster(armyId) {
             rosterName.value = resp.name;
             rosterSquads.value = resp.squads;
             if (squadId.value != null) {
-                squadUnits.value = rosterSquads.value[squadId.value].units.unitList;
+                squadUnits.value = rosterSquads.value[squadId.value].units;
                 squadName.value = rosterSquads.value[squadId.value].name;
                 squadTotal.value = rosterSquads.value[squadId.value].totalCost;
             }
@@ -44,6 +46,7 @@ function getRoster(armyId) {
 }
 
 
+// Creating Units and Gear Entries
 function addUnit(){
     squadUnits.value.push({
         'id': squadUnits.value.length + 1,
@@ -70,15 +73,18 @@ function addGear(unit){
     });
 }
 
+
+// unit and gear management
 const selectedGearId = ref(0);
 const selectedGearCost = ref(0);
 function selectedGear(gearItem) {
     gearItem.gearId = selectedGearId.value;
     gearItem.pointCost = selectedGearCost.value;
+    getTotalCost();
 }
-
 function deleteGear(gearItemIndex, unitGear) {
     unitGear.splice(gearItemIndex, 1);
+    getTotalCost();
 }
 
 const selectedUnitId = ref(0);
@@ -86,12 +92,15 @@ const selectedUnitCost = ref(0);
 function selectedUnit(unit) {
     unit.unitId = selectedUnitId.value;
     unit.pointCost = selectedUnitCost.value;
+    getTotalCost();
 }
-
 function deleteUnit(unitIndex) {
     squadUnits.value.splice(unitIndex, 1);
+    getTotalCost();
 }
 
+
+// Totaling up the Cost of Squads.
 function updateQuantityAndCost(element, direction) {
     if (direction == 'positive') {
         element.quantity++
@@ -102,7 +111,6 @@ function updateQuantityAndCost(element, direction) {
     element.totalCost = element.quantity * element.pointCost;
     getTotalCost();
 }
-
 function getTotalCost() {
     squadTotal.value = 0;
     squadUnits.value.forEach((element) =>{
@@ -119,6 +127,8 @@ function getTotalCost() {
     });
 }
 
+
+// Saving and Deleting Squads
 function deleteSquad() {
     rosterSquads.value.forEach((element, index) => {
         if (index == squadId.value) {
@@ -145,21 +155,13 @@ function save() {
     if (squadId.value === null) {
         rosterSquads.value.push({
             'name': squadName.value,
-            'units': {
-                'unitList': squadUnits.value,
-                'pointCost': 0.00,
-                'totalCost': 0.00
-            },
+            'units': squadUnits.value,
             'totalCost': squadTotal.value
         });
     } else {
         rosterSquads.value[squadId.value] = {
             'name': squadName.value,
-            'units': {
-                'unitList': squadUnits.value,
-                'pointCost': 0.00,
-                'totalCost': 0.00
-            },
+            'units': squadUnits.value,
             'totalCost': squadTotal.value
         }
     }
