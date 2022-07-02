@@ -57,7 +57,7 @@ async function getBattleGear() {
                                                 <th>DST</th>
                                                 <th>A</th>
                                                 <th>S</th>
-                                                <th>SM</th>
+                                                <th>AP</th>
                                                 <th>Cost</th>
                                             </tr>
                                         </thead>
@@ -66,7 +66,7 @@ async function getBattleGear() {
                                                 <td>{{gear.distance}}</td>
                                                 <td>{{gear.attacks}}</td>
                                                 <td>{{gear.strength}}</td>
-                                                <td>{{gear.saveModifierValue}}</td>
+                                                <td>{{gear.armorPenetration}}</td>
                                                 <td>{{gear.totalPointCost}}</td>
                                             </tr>
                                         </tbody>

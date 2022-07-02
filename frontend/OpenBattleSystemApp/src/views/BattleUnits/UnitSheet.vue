@@ -10,8 +10,8 @@ const unitId = ref(null);
 const unitName = ref('');
 const rangedCombat = ref(0);
 const closeCombat = ref(0);
-const physicalToughness = ref(2);
-const mentalToughness = ref(2);
+const physicalToughness = ref(0);
+const mentalToughness = ref(0);
 const hitPoints = ref(1);
 const combatSave = ref(0);
 const movement = ref(0);
@@ -35,24 +35,6 @@ const pointcostHP = computed(() => { return hitPointsPointCost(hitPoints.value )
 const pointcostMV = computed(() => { return movementPointCost(movement.value, hitPoints.value) });
 const totalCost = computed(() => { return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value ) });
 
-const rangedCombatValue = computed(() => { return levelToValue(rangedCombat) });
-const closeCombatValue = computed(() => { return levelToValue(closeCombat) });
-const combatSaveValue = computed(() => { return levelToValue(combatSave) });
-
-function levelToValue(att) {
-    if (att.value == 1) {
-        return '6+'
-    } else if (att.value == 2) {
-        return '5+'
-    } else if (att.value == 3) {
-        return '4+'
-    } else if (att.value == 4) {
-        return '3+'
-    } else if (att.value == 5) {
-        return '2+'
-    }
-}
-
 function addBattleUnit() {
     let tempUnit;
     if (unitId.value != null) {
@@ -60,14 +42,11 @@ function addBattleUnit() {
             id: unitId.value,
             unitName: unitName.value,
             rangedCombat: rangedCombat.value,
-            rangedCombatValue: rangedCombatValue.value,
             closeCombat: closeCombat.value,
-            closeCombatValue: closeCombatValue.value,
             physicalToughness: physicalToughness.value,
             mentalToughness: mentalToughness.value,
             hitPoints: hitPoints.value,
             combatSave: combatSave.value,
-            combatSaveValue: combatSaveValue.value,
             movement: movement.value,
             totalPointCost: totalCost.value,
         }
@@ -75,14 +54,11 @@ function addBattleUnit() {
         tempUnit = {
             unitName: unitName.value,
             rangedCombat: rangedCombat.value,
-            rangedCombatValue: rangedCombatValue.value,
             closeCombat: closeCombat.value,
-            closeCombatValue: closeCombatValue.value,
             physicalToughness: physicalToughness.value,
             mentalToughness: mentalToughness.value,
             hitPoints: hitPoints.value,
             combatSave: combatSave.value,
-            combatSaveValue: combatSaveValue.value,
             movement: movement.value,
             totalPointCost: totalCost.value,
         }
@@ -151,7 +127,7 @@ function editBattleUnit(id) {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="text" name="rangedCombatValue" id="rangedCombatValue" class="form-control" v-bind:value="rangedCombatValue" disabled>
+                                <input type="text" name="rangedCombatValue" id="rangedCombatValue" class="form-control" v-bind:value="rangedCombat" disabled>
                                 <label for="rangedCombatValue">Value</label>
                             </div>
                         </div>
@@ -174,7 +150,7 @@ function editBattleUnit(id) {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="text" name="closeCombatValue" id="closeCombatValue" class="form-control" v-bind:value="closeCombatValue" disabled>
+                                <input type="text" name="closeCombatValue" id="closeCombatValue" class="form-control" v-bind:value="closeCombat" disabled>
                                 <label for="closeCombat">Value</label>
                             </div>
                         </div>
@@ -266,7 +242,7 @@ function editBattleUnit(id) {
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="text" name="combatSaveValue" id="combatSaveValue" class="form-control" v-bind:value="combatSaveValue" disabled>
+                                <input type="text" name="combatSaveValue" id="combatSaveValue" class="form-control" v-bind:value="combatSave" disabled>
                                 <label for="combatSaveValue">Value</label>
                             </div>
                         </div>
