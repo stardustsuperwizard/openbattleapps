@@ -57,13 +57,13 @@
       </script>
 
     <script>
-    function rangedCombatPointCost(rangedCombat, hitPoints) { return ( Math.pow(1.25, rangedCombat) * hitPoints ) - 1 }
-    function closeCombatPointCost(closeCombat, hitPoints) { return ( Math.pow(1.25, closeCombat) * hitPoints ) - 1 }
-    function combatSavePointCost(combatSave, hitPoints) { return ( Math.pow(1.25, combatSave) * hitPoints ) - 1 }
-    function physicalToughnessPointCost(physicalToughness, hitPoints) { return (( Math.pow(1.15, physicalToughness ) ) * hitPoints ) - 1 }
-    function mentalToughnessPointCost(mentalToughness, hitPoints) { return (( Math.pow(1.15, mentalToughness ) ) * hitPoints ) - 1 }
-    function hitPointsPointCost(hitPoints) { return ( Math.pow(1.25, hitPoints) ) - 0.25 }
-    function movementPointCost(movement, hitPoints) { return ( 0.25 * movement ) * hitPoints }
+    function rangedCombatPointCost(rangedCombat, hitPoints) { return ( rangedCombat * 0.50 ) }
+    function closeCombatPointCost(closeCombat, hitPoints) { return ( closeCombat * 0.50 ) }
+    function combatSavePointCost(combatSave, hitPoints) { return ( combatSave * 0.50 ) }
+    function physicalToughnessPointCost(physicalToughness, hitPoints) { return ( physicalToughness * 1 ) }
+    function mentalToughnessPointCost(mentalToughness, hitPoints) { return ( mentalToughness * 0.25 ) }
+    function hitPointsPointCost(hitPoints) { return ( hitPoints * 5 ) }
+    function movementPointCost(movement, hitPoints) { return ( movement * 0.25 ) }
     function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostHP, pointcostCS, pointcostMV) {
         let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
         // console.log(rawPointCost);
