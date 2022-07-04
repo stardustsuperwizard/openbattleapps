@@ -57,14 +57,14 @@
       </script>
 
     <script>
-    function rangedCombatPointCost(rangedCombat, hitPoints) { return (Math.pow(1.50, rangedCombat) - 1 ) * hitPoints }
-    function closeCombatPointCost(closeCombat, hitPoints) { return ( Math.pow(1.50, closeCombat) - 1 ) * hitPoints }
-    function combatSavePointCost(combatSave, hitPoints) { return ( Math.pow(1.50, combatSave) - 1 ) * hitPoints }
-    function physicalToughnessPointCost(physicalToughness, hitPoints) { return ( Math.pow(1.15, physicalToughness ) ) * hitPoints }
-    function mentalToughnessPointCost(mentalToughness, hitPoints) { return ( Math.pow(1.15, mentalToughness ) ) * hitPoints }
-    function hitPointsPointCost(hitPoints) { return ( Math.pow(1.25, hitPoints) ) }
-    function movementPointCost(movement, hitPoints) { return ( 0.25 * movement ) * hitPoints }
-    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT,pointcostHP, pointcostCS, pointcostMV) {
+    function rangedCombatPointCost(rangedCombat, hitPoints) { if (rangedCombat > 0 ){ return ( Math.pow(1.150, rangedCombat) ) * hitPoints } else { return 0 } }
+    function closeCombatPointCost(closeCombat, hitPoints) { if (closeCombat > 0 ){ return ( Math.pow(1.150, closeCombat) ) * hitPoints } else { return 0 } }
+    function combatSavePointCost(combatSave, hitPoints) { if (combatSave > 0 ){ return ( Math.pow(1.150, combatSave) ) * hitPoints } else { return 0 } }
+    function physicalToughnessPointCost(physicalToughness, hitPoints) { if (physicalToughness > 0 ){ return ( Math.pow(1.25, physicalToughness) * hitPoints ) } else { return 0 } }
+    function mentalToughnessPointCost(mentalToughness, hitPoints) { if (mentalToughness > 0 ){ return ( Math.pow(1.25, mentalToughness) * hitPoints ) } else { return 0 } }
+    function hitPointsPointCost(hitPoints) {  if (hitPoints > 1 ){ return ( Math.pow(1.25, hitPoints) ) } else { return 1.00 } }
+    function movementPointCost(movement, hitPoints) { return ( movement * 0.25 ) }
+    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostHP, pointcostCS, pointcostMV) {
         let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
         // console.log(rawPointCost);
         let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
@@ -73,12 +73,12 @@
     }
     
     
-    function saveModifierPointCost(saveModifier, attacks) { return (Math.pow(1.50, saveModifier) - 1 ) * attacks }
-    function strengthPointCost(strength, attacks) { return Math.pow(1.15, strength) * attacks }
+    function armorPenetrationPointCost(armorPenetration, attacks) { if (armorPenetration > 0) { return (Math.pow(1.50, armorPenetration) - 1 ) * attacks } else { return 0 } }
+    function strengthPointCost(strength, attacks) { if (strength > 0) { return Math.pow(1.15, strength) * attacks } else { return 0 } }
     function attacksPointCost(attacks) { return ( Math.pow(1.25, attacks) - 1 ) }
     function distancePointCost(distance, attacks) { return ( distance * 0.05) * attacks }
-    function totalGearPointCost(distancePointCost, attacksPointCost, strengthPointCost, saveModifierPointCost) { 
-        let rawPointCost = (distancePointCost + attacksPointCost + strengthPointCost + saveModifierPointCost)
+    function totalGearPointCost(distancePointCost, attacksPointCost, strengthPointCost, armorPenetrationPointCost) { 
+        let rawPointCost = (distancePointCost + attacksPointCost + strengthPointCost + armorPenetrationPointCost)
         let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
         return roundedPointCost
     }

@@ -77,8 +77,8 @@ async function getBattleUnits() {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ unit.rangedCombatValue }}</td>
-                                                <td>{{ unit.closeCombatValue }}</td>
+                                                <td>{{ unit.rangedCombat }}</td>
+                                                <td>{{ unit.closeCombat }}</td>
                                                 <td>{{ unit.physicalToughness }}</td>
                                                 <td>{{ unit.mentalToughness }}</td>
                                                 <td>{{ unit.hitPoints }}</td>
