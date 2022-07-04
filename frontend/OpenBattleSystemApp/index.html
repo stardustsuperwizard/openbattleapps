@@ -57,12 +57,12 @@
       </script>
 
     <script>
-    function rangedCombatPointCost(rangedCombat, hitPoints) { return ( rangedCombat * 0.50 ) }
-    function closeCombatPointCost(closeCombat, hitPoints) { return ( closeCombat * 0.50 ) }
-    function combatSavePointCost(combatSave, hitPoints) { return ( combatSave * 0.50 ) }
-    function physicalToughnessPointCost(physicalToughness, hitPoints) { return ( physicalToughness * 1 ) }
-    function mentalToughnessPointCost(mentalToughness, hitPoints) { return ( mentalToughness * 0.25 ) }
-    function hitPointsPointCost(hitPoints) { return ( hitPoints * 5 ) }
+    function rangedCombatPointCost(rangedCombat, hitPoints) { if (rangedCombat > 0 ){ return ( Math.pow(1.150, rangedCombat) ) * hitPoints } else { return 0 } }
+    function closeCombatPointCost(closeCombat, hitPoints) { if (closeCombat > 0 ){ return ( Math.pow(1.150, closeCombat) ) * hitPoints } else { return 0 } }
+    function combatSavePointCost(combatSave, hitPoints) { if (combatSave > 0 ){ return ( Math.pow(1.150, combatSave) ) * hitPoints } else { return 0 } }
+    function physicalToughnessPointCost(physicalToughness, hitPoints) { if (physicalToughness > 0 ){ return ( Math.pow(1.25, physicalToughness) * hitPoints ) } else { return 0 } }
+    function mentalToughnessPointCost(mentalToughness, hitPoints) { if (mentalToughness > 0 ){ return ( Math.pow(1.25, mentalToughness) * hitPoints ) } else { return 0 } }
+    function hitPointsPointCost(hitPoints) {  if (hitPoints > 1 ){ return ( Math.pow(1.25, hitPoints) ) } else { return 1.00 } }
     function movementPointCost(movement, hitPoints) { return ( movement * 0.25 ) }
     function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostHP, pointcostCS, pointcostMV) {
         let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
@@ -73,8 +73,8 @@
     }
     
     
-    function armorPenetrationPointCost(armorPenetration, attacks) { return (Math.pow(1.50, armorPenetration) - 1 ) * attacks }
-    function strengthPointCost(strength, attacks) { return Math.pow(1.15, strength) * attacks }
+    function armorPenetrationPointCost(armorPenetration, attacks) { if (armorPenetration > 0) { return (Math.pow(1.50, armorPenetration) - 1 ) * attacks } else { return 0 } }
+    function strengthPointCost(strength, attacks) { if (strength > 0) { return Math.pow(1.15, strength) * attacks } else { return 0 } }
     function attacksPointCost(attacks) { return ( Math.pow(1.25, attacks) - 1 ) }
     function distancePointCost(distance, attacks) { return ( distance * 0.05) * attacks }
     function totalGearPointCost(distancePointCost, attacksPointCost, strengthPointCost, armorPenetrationPointCost) { 

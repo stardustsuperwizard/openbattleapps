@@ -58,17 +58,19 @@ function addBattleGear() {
 }
 
 function editBattleGear(id) {
-    // console.log(id);    
-    idb.readTableEntry('Gear', id)
-        .then((resp) => {
-            // console.log(resp);
-            gearId.value = resp.id;
-            gearName.value = resp.gearName;
-            distance.value = resp.distance;
-            attacks.value = resp.attacks;
-            strength.value = resp.strength;
-            armorPenetration.value = resp.armorPenetration;
-        });
+    // console.log(id);
+    if (id != null) {
+        idb.readTableEntry('Gear', id)
+            .then((resp) => {
+                // console.log(resp);
+                gearId.value = resp.id;
+                gearName.value = resp.gearName;
+                distance.value = resp.distance;
+                attacks.value = resp.attacks;
+                strength.value = resp.strength;
+                armorPenetration.value = resp.armorPenetration;
+            });
+    }
 }
 
 function deleteGear() {
@@ -123,13 +125,13 @@ function resetForm() {
                             <span>Distance</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="distance">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="distance--">-</button>
+                            <input inputmode="numeric" type="text" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="distance">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="distance++">+</button>
                         </div>
                        <div class="col-sm">
                            <div class="form-floating">
-                                <input type="number" name="gearDistanceCost" id="gearDistanceCost" class="form-control" v-bind:value="distanceCost" disabled>
+                                <input type="text" name="gearDistanceCost" id="gearDistanceCost" class="form-control" v-bind:value="distanceCost" disabled>
                                 <label for="gearDistanceCost">Cost</label>
                            </div>
                         </div>
@@ -140,13 +142,13 @@ function resetForm() {
                             <span>Attacks</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="number" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="attacks">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="attacks--">-</button>
+                            <input inputmode="numeric" type="text" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="attacks">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="attacks++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="gearAttackCost" id="gearAttackCost" class="form-control" v-bind:value="attacksCost" disabled>
+                                <input type="text" name="gearAttackCost" id="gearAttackCost" class="form-control" v-bind:value="attacksCost" disabled>
                                 <label for="gearAttackCost">Cost</label>
                             </div>
                         </div>
@@ -157,13 +159,13 @@ function resetForm() {
                             <span>Strength</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="number" min="0" name="gearStrengthLevel" id="gearStrengthLevel" class="form-control" v-model.number="strength">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="strength--">-</button>
+                            <input inputmode="numeric" type="text" min="0" name="gearStrengthLevel" id="gearStrengthLevel" class="form-control" v-model.number="strength">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="strength++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="gearStrengthCost" id="gearStrengthCost" class="form-control" v-bind:value="strengthCost" disabled>
+                                <input type="text" name="gearStrengthCost" id="gearStrengthCost" class="form-control" v-bind:value="strengthCost" disabled>
                                 <label for="gearStrengthCost">Cost</label>
                             </div>
                         </div>
@@ -174,13 +176,13 @@ function resetForm() {
                             <span>Armor Penetration</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="number" min="0" max="5" name="geararmorPenetrationLevel" id="geararmorPenetrationLevel" class="form-control" v-model.number="armorPenetration">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="armorPenetration--">-</button>
+                            <input inputmode="numeric" type="text" min="0" max="5" name="geararmorPenetrationLevel" id="geararmorPenetrationLevel" class="form-control" v-model.number="armorPenetration">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="armorPenetration++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="gearArmorPenetrationCost" id="gearArmorPenetrationCost" class="form-control" v-bind:value="armorPenetrationCost" disabled>
+                                <input type="text" name="gearArmorPenetrationCost" id="gearArmorPenetrationCost" class="form-control" v-bind:value="armorPenetrationCost" disabled>
                                 <label for="gearArmorPenetrationCost">Cost</label>
                             </div>
                         </div>
@@ -190,7 +192,7 @@ function resetForm() {
                     <div class="row mb-3">
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="gearTotalCost" id="gearTotalCost" class="form-control" v-bind:value="totalCost" disabled>
+                                <input type="text" name="gearTotalCost" id="gearTotalCost" class="form-control" v-bind:value="totalCost" disabled>
                                 <label for="gearTotalCost">Total Cost</label>
                             </div>
                         </div>

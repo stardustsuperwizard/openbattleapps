@@ -6,14 +6,14 @@ import NavBar from '@/components/NavBar.vue';
 const route = useRoute();
 const router= useRouter();
 
-const pointCostStarting = ref(5);
-const rangedCombatStarting = ref(4);
-const closeCombatStarting = ref(4);
-const physicalToughnessStarting = ref(4);
-const mentalToughnessStarting = ref(4);
-const hitPointsStarting = ref(1);
+const pointCostStarting = ref(0);
+const rangedCombatStarting = ref(0);
+const closeCombatStarting = ref(0);
+const physicalToughnessStarting = ref(0);
+const mentalToughnessStarting = ref(0);
+const hitPointsStarting = ref(0);
 const combatSaveStarting = ref(0);
-const movementStarting = ref(4);
+const movementStarting = ref(0);
 
 const unitId = ref(null);
 const unitName = ref('');
@@ -21,7 +21,7 @@ const rangedCombat = ref(0);
 const closeCombat = ref(0);
 const physicalToughness = ref(0);
 const mentalToughness = ref(0);
-const hitPoints = ref(0);
+const hitPoints = ref(1);
 const combatSave = ref(0);
 const movement = ref(0);
 
@@ -37,7 +37,7 @@ const vMyDirective = {
 
 const valueRC = computed(() => { return rangedCombatStarting.value + rangedCombat.value });
 const valueCC = computed(() => { return closeCombatStarting.value + closeCombat.value });
-const valueCS = computed(() => { return combatSaveStarting.value + combatSaveStarting.value });
+const valueCS = computed(() => { return combatSaveStarting.value + combatSave.value });
 const valuePT = computed(() => { return physicalToughnessStarting.value + physicalToughness.value });
 const valueMT = computed(() => { return mentalToughnessStarting.value + mentalToughness.value });
 const valueHP = computed(() => { return hitPointsStarting.value + hitPoints.value });
@@ -54,14 +54,22 @@ const pointcostMV = computed(() => { return movementPointCost(movement.value, hi
 const totalCost = computed(() => { return totalCostCalculator() });
 
 function totalCostCalculator() {
-    let baseCost = pointCostStarting.value + totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value );
-    if (baseCost > 10 && baseCost < 16 ) {
-        return baseCost * 1.5
-    } else if (baseCost >= 16) {
-        return baseCost * (baseCost * 0.10)
-    } else {
-        return baseCost
-    }
+    return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value );
+
+//     let baseCost = pointCostStarting.value + totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value );
+//     if (baseCost >= 11) {
+//         return baseCost * (baseCost * 0.10)
+//     } else {
+//         return baseCost
+//     }
+
+// if (baseCost > 10 && baseCost < 16 ) {
+    //     return baseCost * 1.5
+    // } else if (baseCost >= 16) {
+    //     return baseCost * (baseCost * 0.10)
+    // } else {
+    //     return baseCost
+    // }
 }
 
 function addBattleUnit() {
@@ -150,13 +158,13 @@ function editBattleUnit(id) {
                             <span>Ranged Combat</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" name="rangedCombat" id="rangedCombat" class="form-control" v-bind:value="valueRC">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="rangedCombat--">-</button>
+                            <input inputmode="text" type="text" name="rangedCombat" id="rangedCombat" class="form-control" v-bind:value="valueRC">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="rangedCombat++">+</button>
                         </div>
                         <div class="col-sm">
                            <div class="form-floating">
-                                <input type="number" name="rangedCombatCost" id="rangedCombatCost" class="form-control" v-bind:value="pointcostRC" disabled>
+                                <input type="text" name="rangedCombatCost" id="rangedCombatCost" class="form-control" v-bind:value="pointcostRC" disabled>
                                 <label for="rangedCombatCost">Cost</label>
                            </div>
                         </div>
@@ -167,13 +175,13 @@ function editBattleUnit(id) {
                             <span>Close Combat</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" min="1" max="5" name="closeCombat" id="closeCombat" class="form-control"  v-bind:value="valueCC">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="closeCombat--">-</button>
+                            <input inputmode="text" type="text" min="1" max="5" name="closeCombat" id="closeCombat" class="form-control"  v-bind:value="valueCC">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="closeCombat++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="closeCombatCost" id="closeCombatCost" class="form-control" v-bind:value="pointcostCC" disabled>
+                                <input type="text" name="closeCombatCost" id="closeCombatCost" class="form-control" v-bind:value="pointcostCC" disabled>
                                 <label for="closeCombatCost">Cost</label>
                             </div>
                         </div>
@@ -184,13 +192,13 @@ function editBattleUnit(id) {
                             <span>Physical Toughness</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" min="0" name="physicalToughness" id="physicalToughness" class="form-control" v-bind:value="valuePT">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="physicalToughness--">-</button>
+                            <input inputmode="text" type="text" min="0" name="physicalToughness" id="physicalToughness" class="form-control" v-bind:value="valuePT">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="physicalToughness++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="physicalToughnessCost" id="physicalToughnessCost" class="form-control" v-bind:value="pointcostPT" disabled>
+                                <input type="text" name="physicalToughnessCost" id="physicalToughnessCost" class="form-control" v-bind:value="pointcostPT" disabled>
                                 <label for="physicalToughnessCost">Cost</label>
                             </div>
                         </div>
@@ -201,13 +209,13 @@ function editBattleUnit(id) {
                             <span>Mental Toughness</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" min="0" name="mentalToughness" id="mentalToughness" class="form-control" v-bind:value="valueMT">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="mentalToughness--">-</button>
+                            <input inputmode="text" type="text" min="0" name="mentalToughness" id="mentalToughness" class="form-control" v-bind:value="valueMT">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="mentalToughness++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="mentalToughnessCost" id="mentalToughnessCost" class="form-control" v-bind:value="pointcostMT" disabled>
+                                <input type="text" name="mentalToughnessCost" id="mentalToughnessCost" class="form-control" v-bind:value="pointcostMT" disabled>
                                 <label for="mentalToughnessCost">Cost</label>
                             </div>
                         </div>
@@ -218,13 +226,13 @@ function editBattleUnit(id) {
                             <span>Hit Points</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" min="0" name="hitPoints" id="hitPoints" class="form-control" v-bind:value="valueHP">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints--">-</button>
+                            <input inputmode="text" type="text" min="0" name="hitPoints" id="hitPoints" class="form-control" v-bind:value="valueHP">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="hitPointsCost" id="hitPointsCost" class="form-control" v-bind:value="pointcostHP" disabled>
+                                <input type="text" name="hitPointsCost" id="hitPointsCost" class="form-control" v-bind:value="pointcostHP" disabled>
                                 <label for="hitPointsCost">Cost</label>
                             </div>
                         </div>
@@ -235,13 +243,13 @@ function editBattleUnit(id) {
                             <span>Combat Save</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" min="1" max="5" name="combatSave" id="combatSave" class="form-control"  v-bind:value="valueCS">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave--">-</button>
+                            <input inputmode="text" type="text" min="1" max="5" name="combatSave" id="combatSave" class="form-control"  v-bind:value="valueCS">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="combatSaveCost" id="combatSaveCost" class="form-control" v-bind:value="pointcostCS" disabled>
+                                <input type="text" name="combatSaveCost" id="combatSaveCost" class="form-control" v-bind:value="pointcostCS" disabled>
                                 <label for="combatSaveCost">Cost</label>
                             </div>
                         </div>
@@ -252,13 +260,13 @@ function editBattleUnit(id) {
                             <span>Movement</span>
                         </div>
                         <div class="col-sm input-group">
-                            <input inputmode="numeric" type="text" min="0" max="5" name="movement" id="movement" class="form-control" v-bind:value="valueMV">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="movement--">-</button>
+                            <input inputmode="numeric" type="text" min="0" max="5" name="movement" id="movement" class="form-control" v-bind:value="valueMV">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="movement++">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="movementCost" id="movementCost" class="form-control" v-bind:value="pointcostMV" disabled>
+                                <input type="text" name="movementCost" id="movementCost" class="form-control" v-bind:value="pointcostMV" disabled>
                                 <label for="movementCost">Cost</label>
                             </div>
                         </div>
@@ -267,7 +275,7 @@ function editBattleUnit(id) {
                     <div class="row mb-3">
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="number" name="totalCost" id="totalCost" class="form-control" v-bind:value="totalCost" disabled>
+                                <input type="text" name="totalCost" id="totalCost" class="form-control" v-bind:value="totalCost" disabled>
                                 <label for="totalCost">Total Cost</label>
                             </div>
                         </div>
