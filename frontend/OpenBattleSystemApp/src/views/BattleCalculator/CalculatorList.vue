@@ -46,6 +46,27 @@ import NavBar from '@/components/NavBar.vue';
                     </div>
                 </div>
             </router-link>
+
+            <router-link :to="`/battlecalculators/rangedcombat`" class="text-decoration-none text-dark">
+                <div class="row border-top border-bottom">
+                    <div class="col-11">
+                        <div class="row">
+                            <div class="col">
+                                <div class="d-flex flex-fill fs-3">Range Combat</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col fw-light">
+                                Simplifies Ranged Combat by taking the distance and other modifiers and converts to Difficulty value.
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                    </div>
+                    <div class="col-1 fs-1 align-self-center">
+                        >
+                    </div>
+                </div>
+            </router-link>
         </section>
 
     </main>

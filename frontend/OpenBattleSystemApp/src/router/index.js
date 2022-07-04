@@ -24,14 +24,19 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/battlecalculators/general',
+      name: 'battlecalculatorsgeneral',
+      component: () => import('../views/BattleCalculator/CalculatorGeneral.vue')
+    },
+    {
       path: '/battlecalculators/list',
       name: 'battlecalculatorslist',
       component: () => import('../views/BattleCalculator/CalculatorList.vue')
     },
     {
-      path: '/battlecalculators/general',
-      name: 'battlecalculatorsgeneral',
-      component: () => import('../views/BattleCalculator/CalculatorGeneral.vue')
+      path: '/battlecalculators/rangedcombat',
+      name: 'battlecalculatorsrangedcombat',
+      component: () => import('../views/BattleCalculator/CalculatorRangedCombat.vue')
     },
     {
       path: '/battlegear/list',

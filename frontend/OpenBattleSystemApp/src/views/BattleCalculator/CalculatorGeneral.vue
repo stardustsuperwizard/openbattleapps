@@ -12,19 +12,19 @@ const difficulty = ref(0);
 const diceRollRequired = computed(() => {
     let score = skillAttribute.value - difficulty.value;
     if (score === -3) {
-        return '6x2'
+        return '6 (roll second die, 6 required)'
     } else if (score === -2) {
-        return 6
+        return '6'
     } else if (score === -1) {
-        return 5
+        return '5+'
     } else if (score === 0) {
-        return 4
+        return '4+'
     } else if (score === 1) {
-        return 3
+        return '3+'
     } else if (score >= 2 && score <= 9) {
-        return 2
+        return '2+'
     } else if (score >= 10) {
-        return 'R2'
+        return '2+ (Re-roll failed dice)'
     } else {
         return 'No chance'
     }
@@ -49,10 +49,10 @@ const diceRollRequired = computed(() => {
                 <section>
                     <div class="row mb-3">
                         <div class="col-sm-3">
-                            <span>Distance</span>
+                            <span>Attribute value</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute--" :disabled="skillAttribute == 0">-</button>
                             <input inputmode="numeric" type="text" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="skillAttribute">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute++">+</button>
                         </div>
@@ -60,10 +60,10 @@ const diceRollRequired = computed(() => {
 
                     <div class="row mb-3">
                         <div class="col-sm-3">
-                            <span>Attacks</span>
+                            <span>Difficulty value</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty--" :disabled="difficulty == 0">-</button>
                             <input inputmode="numeric" type="text" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="difficulty">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty++">+</button>
                         </div>

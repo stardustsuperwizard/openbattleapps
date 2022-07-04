@@ -158,7 +158,7 @@ function editBattleUnit(id) {
                             <span>Ranged Combat</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="rangedCombat--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="rangedCombat--" :disabled="rangedCombat == 0">-</button>
                             <input inputmode="text" type="text" name="rangedCombat" id="rangedCombat" class="form-control" v-bind:value="valueRC">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="rangedCombat++">+</button>
                         </div>
@@ -175,7 +175,7 @@ function editBattleUnit(id) {
                             <span>Close Combat</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="closeCombat--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="closeCombat--" :disabled="closeCombat == 0">-</button>
                             <input inputmode="text" type="text" min="1" max="5" name="closeCombat" id="closeCombat" class="form-control"  v-bind:value="valueCC">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="closeCombat++">+</button>
                         </div>
@@ -192,7 +192,7 @@ function editBattleUnit(id) {
                             <span>Physical Toughness</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="physicalToughness--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="physicalToughness--" :disabled="physicalToughness == 0">-</button>
                             <input inputmode="text" type="text" min="0" name="physicalToughness" id="physicalToughness" class="form-control" v-bind:value="valuePT">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="physicalToughness++">+</button>
                         </div>
@@ -209,7 +209,7 @@ function editBattleUnit(id) {
                             <span>Mental Toughness</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="mentalToughness--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="mentalToughness--" :disabled="mentalToughness == 0">-</button>
                             <input inputmode="text" type="text" min="0" name="mentalToughness" id="mentalToughness" class="form-control" v-bind:value="valueMT">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="mentalToughness++">+</button>
                         </div>
@@ -226,7 +226,7 @@ function editBattleUnit(id) {
                             <span>Hit Points</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints--" :disabled="hitPoints == 0">-</button>
                             <input inputmode="text" type="text" min="0" name="hitPoints" id="hitPoints" class="form-control" v-bind:value="valueHP">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints++">+</button>
                         </div>
@@ -243,7 +243,7 @@ function editBattleUnit(id) {
                             <span>Combat Save</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave--" :disabled="combatSave == 0">-</button>
                             <input inputmode="text" type="text" min="1" max="5" name="combatSave" id="combatSave" class="form-control"  v-bind:value="valueCS">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave++">+</button>
                         </div>
@@ -260,7 +260,7 @@ function editBattleUnit(id) {
                             <span>Movement</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="movement--">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="movement--" :disabled="movement == 0">-</button>
                             <input inputmode="numeric" type="text" min="0" max="5" name="movement" id="movement" class="form-control" v-bind:value="valueMV">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="movement++">+</button>
                         </div>
