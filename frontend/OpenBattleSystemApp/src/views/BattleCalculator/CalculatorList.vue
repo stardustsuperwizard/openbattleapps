@@ -38,7 +38,7 @@ import NavBar from '@/components/NavBar.vue';
                             <div class="col fw-light">
                                 All purpose calculator for comparing attribute value against difficulty value and returning the die roll required.
                             </div>
-                            <div class="col"></div>
+                            <!-- <div class="col"></div> -->
                         </div>
                     </div>
                     <div class="col-1 fs-1 align-self-center">
@@ -48,7 +48,7 @@ import NavBar from '@/components/NavBar.vue';
             </router-link>
 
             <router-link :to="`/battlecalculators/rangedcombat`" class="text-decoration-none text-dark">
-                <div class="row border-top border-bottom">
+                <div class="row border-bottom">
                     <div class="col-11">
                         <div class="row">
                             <div class="col">
@@ -59,7 +59,7 @@ import NavBar from '@/components/NavBar.vue';
                             <div class="col fw-light">
                                 Simplifies Ranged Combat by taking the distance and other modifiers and converts to Difficulty value.
                             </div>
-                            <div class="col"></div>
+                            <!-- <div class="col"></div> -->
                         </div>
                     </div>
                     <div class="col-1 fs-1 align-self-center">
