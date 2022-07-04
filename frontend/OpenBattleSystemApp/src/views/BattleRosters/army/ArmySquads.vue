@@ -224,9 +224,10 @@ function save() {
                         <div class="col-sm mb-1 d-flex">
                             <button class="btn btn-danger flex-fill" v-on:click.prevent="deleteSquad()">Delete Squad</button>
                         </div>
-                        <div class="col-sm"></div>
+                        <!-- <div class="col-sm"></div> -->
                     </fieldset>
                     <fieldset class="row mb-1" v-for="(unit, unitIndex) in squadUnits">
+                        <span class="my-2 border-top"></span>
                         <!-- <p>{{unit}}</p> -->
                         <div class="col">
                             <div class="row mb-1">
@@ -240,12 +241,12 @@ function save() {
                                     <UnitSelector :squadId="unit.id" :startingUnitId="unit.unitId" v-model:selectedUnitId="selectedUnitId" v-model:selectedUnitCost="selectedUnitCost" v-on:change="selectedUnit(unit)"></UnitSelector>
                                 </div>
                                 <div class="col-sm input-group">
-                                    <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="unit.quantity">
-                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(unit, 'negative')">-</button>
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(unit, 'negative')" :disabled="unit.quantity == 0">-</button>
+                                    <input inputmode="numeric" type="text" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="unit.quantity">
                                     <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(unit, 'positive')">+</button>
                                 </div>
-                                <div class="col-sm">
-                                    <button class="btn btn-danger" v-on:click.prevent="deleteUnit(unitIndex)">Delete Unit</button>
+                                <div class="col-sm my-1 d-flex">
+                                    <button class="btn btn-danger flex-fill" v-on:click.prevent="deleteUnit(unitIndex)">Delete Unit</button>
                                 </div>
                             </div>
                             <div class="row mb-1" v-for="(gearItem, gearItemIndex) in unit.gear.gearList">
@@ -254,11 +255,11 @@ function save() {
                                     <GearSelector :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-model:selectedGearCost="selectedGearCost" v-on:change="selectedGear(gearItem)"></GearSelector>
                                 </div>
                                 <div class="col-sm input-group">
-                                    <input inputmode="numeric" type="number" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="gearItem.quantity">
-                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'negative')">-</button>
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'negative')" :disabled="gearItem.quantity == 0">-</button>
+                                    <input inputmode="numeric" type="text" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="gearItem.quantity">
                                     <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'positive')">+</button>
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-sm my-1">
                                     <button class="btn btn-warning" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear.gearList)">Delete Gear</button>
                                 </div>
                             </div>
