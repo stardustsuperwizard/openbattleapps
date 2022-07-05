@@ -73,7 +73,7 @@ const diceRollRequired = computed(() => {
                         <div class="col-sm">
                             <div class="form-floating">
                                 <input type="text" name="gearTotalCost" id="gearTotalCost" class="form-control" v-bind:value="diceRollRequired" disabled>
-                                <label for="gearTotalCost">Total Cost</label>
+                                <label for="gearTotalCost">Difficulty value</label>
                             </div>
                         </div>
                     </div>
