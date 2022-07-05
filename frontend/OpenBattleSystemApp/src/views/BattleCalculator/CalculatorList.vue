@@ -26,12 +26,12 @@ import NavBar from '@/components/NavBar.vue';
         </section>
 
         <section>
-            <router-link :to="`/battlecalculators/general`" class="text-decoration-none text-dark">
+            <router-link :to="`/battlecalculators/basic`" class="text-decoration-none text-dark">
                 <div class="row border-top border-bottom">
                     <div class="col-11">
                         <div class="row">
                             <div class="col">
-                                <div class="d-flex flex-fill fs-3">General</div>
+                                <div class="d-flex flex-fill fs-3">Basic</div>
                             </div>
                         </div>
                         <div class="row">

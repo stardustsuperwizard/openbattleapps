@@ -24,9 +24,9 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/battlecalculators/general',
-      name: 'battlecalculatorsgeneral',
-      component: () => import('../views/BattleCalculator/CalculatorGeneral.vue')
+      path: '/battlecalculators/basic',
+      name: 'battlecalculatorsbasic',
+      component: () => import('../views/BattleCalculator/CalculatorBasic.vue')
     },
     {
       path: '/battlecalculators/list',
