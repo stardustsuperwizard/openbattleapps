@@ -25,7 +25,7 @@ async function getBattleRosters() {
             </router-link>
         </template>
         <template #right>
-            <router-link to="/battlerosters/army/list/new" class="align-items-center text-dark text-decoration-none">
+            <router-link to="/battlerosters/army/list/null/settings/" class="align-items-center text-dark text-decoration-none">
                 <span class="fs-4">New</span>
             </router-link>
         </template>
