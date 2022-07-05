@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import NavBar from '@/components/NavBar.vue';
-// import BattleGridValue from '@/components/BattleGridValue.vue';
+import BattleGridValue from '@/components/BattleGridValue.vue';
 
 
 const route = useRoute();
@@ -109,10 +109,7 @@ const difficulty = computed(() => {
 
                     <div class="row mb-3">
                         <div class="col-sm">
-                            <div class="form-floating">
-                                <input type="text" name="gearTotalCost" id="gearTotalCost" class="form-control" v-bind:value="diceRollRequired" disabled>
-                                <label for="gearTotalCost">Required Roll</label>
-                            </div>
+                            <BattleGridValue :skillAttributeImported="skillAttribute" :difficultyImported="difficulty"></BattleGridValue>
                         </div>
                     </div>
                 </section>
