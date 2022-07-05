@@ -73,10 +73,6 @@ const diceRollRequired = computed(() => {
                     <div class="row mb-3">
                         <div class="col-sm">
                             <BattleGridValue :skillAttributeImported="skillAttribute" :difficultyImported="difficulty"></BattleGridValue>
-                            <!-- <div class="form-floating">
-                                <input type="text" name="gearTotalCost" id="gearTotalCost" class="form-control" v-bind:value="diceRollRequired" disabled>
-                                <label for="gearTotalCost">Required roll</label>
-                            </div> -->
                         </div>
                     </div>
                 </section>
