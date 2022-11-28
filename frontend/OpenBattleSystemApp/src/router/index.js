@@ -39,6 +39,16 @@ const router = createRouter({
       component: () => import('../views/BattleCalculator/CalculatorRangedCombat.vue')
     },
     {
+      path: '/battlearmor/list',
+      name: 'battlearmorlist',
+      component: () => import('../views/BattleArmor/ArmorList.vue')
+    },
+    {
+      path: '/battlearmor/sheet/:id',
+      name: 'battlearmorsheet',
+      component: () => import('../views/BattleArmor/ArmorSheet.vue')
+    },
+    {
       path: '/battlegear/list',
       name: 'battlegearlist',
       component: () => import('../views/BattleGear/GearList.vue')

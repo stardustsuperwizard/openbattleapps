@@ -29,6 +29,14 @@
               'index': []
           },
           {
+              'name': 'Armor',
+              'options': {
+                  autoIncrement: true,
+                  keyPath: 'id'
+              },
+              'index': []
+          },
+          {
               'name': 'Gear',
               'options': {
                   autoIncrement: true,
@@ -53,7 +61,7 @@
               'index': []
           },
       ]
-      const idb = new EasyIDB('mainDB', tables, 10);
+      const idb = new EasyIDB('mainDB', tables, 11);
       idb.getDB();
       </script>
 
@@ -186,6 +194,13 @@
         return roundedPointCost
     }
 
+
+    function combatSavePointCost(combatSave, durability) { if (combatSave > 0 && combatSave < 21) { return getPointCost(combatSave.toString(), 'midCost') * durability } else { return 0 } }
+    function totalArmorPointCost(combatSavePointCost) { 
+        let rawPointCost = (combatSavePointCost)
+        let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
+        return roundedPointCost
+    }
 
     </script>
 
