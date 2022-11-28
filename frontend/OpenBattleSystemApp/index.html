@@ -64,7 +64,7 @@
         return data
     }
 
-    const obj = main(http, data);
+    const obj = getData(http, data);
 
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
