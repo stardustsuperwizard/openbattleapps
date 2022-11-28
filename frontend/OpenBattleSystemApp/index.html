@@ -63,7 +63,7 @@
         return await http.get('https://cdn.openbattlesystem.com/public/attributes.json')
     }
 
-    const obj = getData(http);
+    const obj = await getData(http);
 
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
