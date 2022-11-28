@@ -125,9 +125,9 @@ function resetForm() {
                             <span>Distance</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="distance--" :disabled="distance == 0">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="distance=distance-3" :disabled="distance == 0">-</button>
                             <input inputmode="numeric" type="text" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="distance">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="distance++">+</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="distance=distance+3">+</button>
                         </div>
                        <div class="col-sm">
                            <div class="form-floating">
@@ -144,7 +144,7 @@ function resetForm() {
                         <div class="col-sm input-group">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="attacks--" :disabled="attacks == 0">-</button>
                             <input inputmode="numeric" type="text" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="attacks">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="attacks++">+</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="attacks++" :disabled="attacks == 20">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
@@ -161,7 +161,7 @@ function resetForm() {
                         <div class="col-sm input-group">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="strength--" :disabled="strength == 0">-</button>
                             <input inputmode="numeric" type="text" min="0" name="gearStrengthLevel" id="gearStrengthLevel" class="form-control" v-model.number="strength">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="strength++">+</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="strength++" :disabled="strength == 20">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">
@@ -178,7 +178,7 @@ function resetForm() {
                         <div class="col-sm input-group">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="armorPenetration--" :disabled="armorPenetration == 0">-</button>
                             <input inputmode="numeric" type="text" min="0" max="5" name="geararmorPenetrationLevel" id="geararmorPenetrationLevel" class="form-control" v-model.number="armorPenetration">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="armorPenetration++">+</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="armorPenetration++" :disabled="armorPenetration == 20">+</button>
                         </div>
                         <div class="col-sm">
                             <div class="form-floating">

@@ -128,6 +128,29 @@
             "18": "55.50",
             "19": "70.00",
             "20": "85.00"
+        },
+        "superHighCost": {
+            "0": "0.00",
+            "1": "0.50",
+            "2": "1.25",
+            "3": "2.25",
+            "4": "4.00",
+            "5": "6.50",
+            "6": "10.25",
+            "7": "16.00",
+            "8": "24.50",
+            "9": "37.50",
+            "10": "56.50",
+            "11": "85.50",
+            "12": "128.75",
+            "13": "193.75",
+            "14": "291.00",
+            "15": "437.00",
+            "16": "656.00",
+            "17": "985.00",
+            "18": "1477.00",
+            "19": "2215.00",
+            "20": "3325.00"
         }
     }
 }
@@ -153,10 +176,10 @@
     }
 
     
-    function armorPenetrationPointCost(armorPenetration, attacks) { if (armorPenetration > 0) { return (Math.pow(1.50, armorPenetration) - 1 ) * attacks } else { return 0 } }
-    function strengthPointCost(strength, attacks) { if (strength > 0) { return Math.pow(1.15, strength) * attacks } else { return 0 } }
-    function attacksPointCost(attacks) { return ( Math.pow(1.25, attacks) - 1 ) }
-    function distancePointCost(distance, attacks) { return ( distance * 0.05) * attacks }
+    function armorPenetrationPointCost(armorPenetration, attacks) { if (armorPenetration > 0 && armorPenetration < 21) { return getPointCost(armorPenetration.toString(), 'superHighCost') * attacks } else { return 0 } }
+    function strengthPointCost(strength, attacks) { if (strength > 0 && strength < 21 ) { return getPointCost(strength.toString(), 'lowCost') * attacks } else { return 0 } }
+    function attacksPointCost(attacks) { return getPointCost(attacks, 'midCost') * attacks }
+    function distancePointCost(distance, attacks) { if (distance > 0) { return ((distance / 3) * 0.25 ) * attacks } else { return 0 } }
     function totalGearPointCost(distancePointCost, attacksPointCost, strengthPointCost, armorPenetrationPointCost) { 
         let rawPointCost = (distancePointCost + attacksPointCost + strengthPointCost + armorPenetrationPointCost)
         let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
