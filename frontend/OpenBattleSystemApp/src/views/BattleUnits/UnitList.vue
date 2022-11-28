@@ -70,8 +70,7 @@ async function getBattleUnits() {
                                                 <th>PT</th>
                                                 <th>MT</th>
                                                 <th>HP</th>
-                                                <th>CS</th>
-                                                <th>M</th>
+                                                <th>MV</th>
                                                 <th>Cost</th>
                                             </tr>
                                         </thead>
@@ -82,7 +81,6 @@ async function getBattleUnits() {
                                                 <td>{{ unit.physicalToughness }}</td>
                                                 <td>{{ unit.mentalToughness }}</td>
                                                 <td>{{ unit.hitPoints }}</td>
-                                                <td>{{ unit.combatSaveValue }}</td>
                                                 <td>{{ unit.movement }}</td>
                                                 <td>{{ unit.totalPointCost }}</td>
                                                 <!-- <td>{{ totalUnitPointCost(unit) }}</td> -->

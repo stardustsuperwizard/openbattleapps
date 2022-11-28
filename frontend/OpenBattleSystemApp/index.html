@@ -58,12 +58,80 @@
       </script>
 
     <script>
-    const http = new EasyHTTP();
-    const obj = () => {
-        return http.get('https://cdn.openbattlesystem.com/public/attributes.json')
-            .then(data)
-            .catch(err)
+    const obj = {
+    "attributes": {
+        "lowCost": {
+            "0": "0.00",
+            "1": "1.00",
+            "2": "1.25",
+            "3": "1.50",
+            "4": "1.75",
+            "5": "2.00",
+            "6": "2.25",
+            "7": "2.50",
+            "8": "3.00",
+            "9": "3.50",
+            "10": "4.00",
+            "11": "4.75",
+            "12": "5.50",
+            "13": "6.25",
+            "14": "7.00",
+            "15": "8.00",
+            "16": "9.25",
+            "17": "10.75",
+            "18": "12.25",
+            "19": "14.25",
+            "20": "16.50"
+        },
+        "midCost": {
+            "0": "0.00",
+            "1": "0.25",
+            "2": "0.50",
+            "3": "1.00",
+            "4": "1.50",
+            "5": "2.00",
+            "6": "2.75",
+            "7": "3.75",
+            "8": "5.00",
+            "9": "6.50",
+            "10": "8.50",
+            "11": "10.50",
+            "12": "13.50",
+            "13": "17.00",
+            "14": "21.75",
+            "15": "27.50",
+            "16": "34.50",
+            "17": "43.50",
+            "18": "54.50",
+            "19": "69.00",
+            "20": "85.00"
+        },
+        "highCost": {
+            "0": "0.00",
+            "1": "1.00",
+            "2": "1.50",
+            "3": "2.00",
+            "4": "2.50",
+            "5": "3.00",
+            "6": "3.75",
+            "7": "4.75",
+            "8": "6.00",
+            "9": "7.50",
+            "10": "9.50",
+            "11": "11.75",
+            "12": "14.50",
+            "13": "18.00",
+            "14": "22.75",
+            "15": "28.50",
+            "16": "35.50",
+            "17": "44.50",
+            "18": "55.50",
+            "19": "70.00",
+            "20": "85.00"
+        }
     }
+}
+
 
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
@@ -74,13 +142,7 @@
     function physicalToughnessPointCost(physicalToughness, hitPoints) { if (physicalToughness > 0 && physicalToughness < 21) { return getPointCost(physicalToughness.toString(), 'lowCost') * hitPoints } else { return 0 } }
     function mentalToughnessPointCost(mentalToughness, hitPoints) { if (mentalToughness > 0 && mentalToughness < 21) { return ( getPointCost(mentalToughness.toString(), 'lowCost') * hitPoints ) } else { return 0 } }
     function hitPointsPointCost(hitPoints) {  if (hitPoints > 1 && hitPoints < 21) { return ( getPointCost(hitPoints.toString(), 'highCost') * hitPoints ) } else { return 1.00 } }
-
-    // function rangedCombatPointCost(rangedCombat, hitPoints) { if (rangedCombat > 0 ){ return ( Math.pow(1.150, rangedCombat) ) * hitPoints } else { return 0 } }
-    // function closeCombatPointCost(closeCombat, hitPoints) { if (closeCombat > 0 ){ return ( Math.pow(1.150, closeCombat) ) * hitPoints } else { return 0 } }
     function combatSavePointCost(combatSave, hitPoints) {  return 0  }
-    // function physicalToughnessPointCost(physicalToughness, hitPoints) { if (physicalToughness > 0 ){ return ( Math.pow(1.25, physicalToughness) * hitPoints ) } else { return 0 } }
-    // function mentalToughnessPointCost(mentalToughness, hitPoints) { if (mentalToughness > 0 ){ return ( Math.pow(1.25, mentalToughness) * hitPoints ) } else { return 0 } }
-    // function hitPointsPointCost(hitPoints) {  if (hitPoints > 1 ){ return ( Math.pow(1.25, hitPoints) ) } else { return 1.00 } }
     function movementPointCost(movement, hitPoints) { return ( movement * 0.50 ) * hitPoints}
     function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostHP, pointcostCS, pointcostMV) {
         let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
@@ -89,6 +151,7 @@
         // console.log(roundedPointCost);
         return roundedPointCost
     }
+
     
     function armorPenetrationPointCost(armorPenetration, attacks) { if (armorPenetration > 0) { return (Math.pow(1.50, armorPenetration) - 1 ) * attacks } else { return 0 } }
     function strengthPointCost(strength, attacks) { if (strength > 0) { return Math.pow(1.15, strength) * attacks } else { return 0 } }
