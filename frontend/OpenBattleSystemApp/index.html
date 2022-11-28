@@ -60,15 +60,14 @@
     <script>
     const http = new EasyHTTP();
     async function getData(http) {
-        const data = await http.get('https://cdn.openbattlesystem.com/public/attributes.json');
-        return data
+        return await http.get('https://cdn.openbattlesystem.com/public/attributes.json')
     }
 
-    const obj = getData(http, data);
+    const obj = getData(http);
 
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
-   }
+    }
 
     function rangedCombatPointCost(rangedCombat, hitPoints) { if (rangedCombat > 0 && rangedCombat < 21) { return getPointCost(rangedCombat.toString(), 'midCost') * hitPoints } else { return 0 } }
     function closeCombatPointCost(closeCombat, hitPoints) { if (closeCombat > 0 && closeCombat < 21) { return getPointCost(closeCombat.toString(), 'midCost')  * hitPoints } else { return 0 } }
