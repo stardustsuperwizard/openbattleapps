@@ -10,6 +10,7 @@
     <link href="https://cdn.openbattlesystem.com/public/css/features.css" rel="stylesheet">
 
 
+    <script src="https://cdn.openbattlesystem.com/public/js/EasyHTTP.js"></script>
     <script src="https://cdn.openbattlesystem.com/public/js/EasyIDB.js"></script>
   </head>
   <body>
@@ -57,7 +58,9 @@
       </script>
 
     <script>
-    const obj = JSON.parse('https://cdn.openbattlesystem.com/public/attributes.json');
+    const http = new EasyHTTP();
+    const data = http.get('https://cdn.openbattlesystem.com/public/attributes.json');
+    const obj = JSON.parse(data);
 
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
