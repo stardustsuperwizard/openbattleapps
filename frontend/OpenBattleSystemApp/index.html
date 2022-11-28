@@ -60,7 +60,7 @@
     <script>
     const http = new EasyHTTP();
     const data = http.get('https://cdn.openbattlesystem.com/public/attributes.json');
-    const obj = JSON.parse(data);
+    const obj = data;
 
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
