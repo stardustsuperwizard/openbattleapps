@@ -59,19 +59,12 @@
 
     <script>
     const http = new EasyHTTP();
-    const data = http.get('https://cdn.openbattlesystem.com/public/attributes.json');
-    const obj = data;
-
+    http.get('https://cdn.openbattlesystem.com/public/attributes.json')
+        .then( data => {const obj = JSON.parse(data)})
+        .catch( err => console.log(err));
+        
     function getPointCost(attributeValue, costChart) {
         return parseFloat(obj['attributes'][costChart][attributeValue])
-   }
-
-   function calculateMidPointCost(attributeValue) {
-        return obj['attributes']['midCost'][attributeValue]
-   }
-
-   function calculateHighPointCost(attributeValue) {
-        return obj['attributes']['highCost'][attributeValue]
    }
 
     function rangedCombatPointCost(rangedCombat, hitPoints) { if (rangedCombat > 0 && rangedCombat < 21) { return getPointCost(rangedCombat.toString(), 'midCost') * hitPoints } else { return 0 } }
