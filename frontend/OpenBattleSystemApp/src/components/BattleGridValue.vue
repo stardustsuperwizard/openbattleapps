@@ -15,23 +15,24 @@ const props = defineProps({
 const diceRollRequired = computed(() => {
     // console.log(props.skillAttributeImported);
     // console.log(difficulty.value);
-    let score = parseInt(props.skillAttributeImported) - parseInt(props.difficultyImported);
-    if (score === -3) {
-        return '6 (roll second die, 6 required)'
-    } else if (score === -2) {
-        return '6'
-    } else if (score === -1) {
-        return '5+'
-    } else if (score === 0) {
-        return '4+'
-    } else if (score === 1) {
-        return '3+'
-    } else if (score >= 2 && score <= 9) {
-        return '2+'
-    } else if (score >= 10) {
+    let score = skillAttribute.value - difficulty.value;
+    if (score >= 9) {
         return '2+ (Re-roll failed dice)'
     } else {
-        return 'No chance'
+        let dividend = skillAttribute.value / difficulty.value;
+        if (dividend < 0.5) {
+            return 'Not possible.'
+        } else if (dividend === 0.5) {
+            return '6'
+        } else if (dividend > 0.5 && dividend < 1) {
+            return '5+'  
+        } else if (dividend === 1) {
+            return '4+'
+        } else if (dividend > 1 && dividend < 2) {
+            return '3+'
+        } else if (dividend >= 2) {
+            return '2+'
+        }  
     }
 });
 </script>
