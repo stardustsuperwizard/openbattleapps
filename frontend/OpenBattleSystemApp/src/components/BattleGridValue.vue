@@ -4,22 +4,22 @@ import { computed } from "vue";
 const props = defineProps({
     skillAttributeImported: {
         type: Number,
-        default: 0
+        default: 1
     },
     difficultyImported: {
         type: Number,
-        default: 0
+        default: 1
     }
 });
 
 const diceRollRequired = computed(() => {
     // console.log(props.skillAttributeImported);
     // console.log(difficulty.value);
-    let score = skillAttribute.value - difficulty.value;
+    let score = props.skillAttribute.value - props.difficulty.value;
     if (score >= 9) {
         return '2+ (Re-roll failed dice)'
     } else {
-        let dividend = skillAttribute.value / difficulty.value;
+        let dividend = props.skillAttribute.value / props.difficulty.value;
         if (dividend < 0.5) {
             return 'Not possible.'
         } else if (dividend === 0.5) {
