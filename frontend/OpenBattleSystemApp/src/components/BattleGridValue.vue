@@ -14,12 +14,12 @@ const props = defineProps({
 
 const diceRollRequired = computed(() => {
     // console.log(props.skillAttributeImported);
-    // console.log(difficulty.value);
-    let score = props.skillAttributeImported.value - props.difficultyImported.value;
+    // console.log(props.difficultyImported);
+    let score = props.skillAttributeImported - props.difficultyImported;
     if (score >= 9) {
         return '2+ (Re-roll failed dice)'
     } else {
-        let dividend = props.skillAttributeImported.value / props.difficultyImported.value;
+        let dividend = props.skillAttributeImported / props.difficultyImported;
         if (dividend < 0.5) {
             return 'Not possible.'
         } else if (dividend === 0.5) {

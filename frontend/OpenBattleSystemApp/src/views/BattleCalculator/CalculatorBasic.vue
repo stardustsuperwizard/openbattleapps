@@ -55,7 +55,7 @@ const diceRollRequired = computed(() => {
                             <span>Attribute value</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute--" :disabled="skillAttribute == 0">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute--" :disabled="skillAttribute == 1">-</button>
                             <input inputmode="numeric" type="text" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="skillAttribute">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute++">+</button>
                         </div>
