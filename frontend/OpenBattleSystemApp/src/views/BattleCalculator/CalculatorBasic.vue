@@ -20,7 +20,7 @@ const diceRollRequired = computed(() => {
             return 'Not possible.'
         } else if (dividend === 0.5) {
             return '6'
-        } elise if (dividend > 0.5 && dividend < 1) {
+        } else if (dividend > 0.5 && dividend < 1) {
             return '5+'  
         } else if (dividend === 1) {
             return '4+'
