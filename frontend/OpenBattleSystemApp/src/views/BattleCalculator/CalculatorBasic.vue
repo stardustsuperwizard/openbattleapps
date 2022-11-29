@@ -7,8 +7,8 @@ import BattleGridValue from '@/components/BattleGridValue.vue';
 const route = useRoute();
 const router= useRouter();
 
-const skillAttribute = ref(0);
-const difficulty = ref(0);
+const skillAttribute = ref(1);
+const difficulty = ref(1);
 
 const diceRollRequired = computed(() => {
     let score = skillAttribute.value - difficulty.value;
@@ -66,9 +66,9 @@ const diceRollRequired = computed(() => {
                             <span>Difficulty value</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty--" :disabled="difficulty == 0">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty--" :disabled="difficulty == 1">-</button>
                             <input inputmode="numeric" type="text" min="1" name="gearAttackLevel" id="gearAttackLevel" class="form-control" v-model.number="difficulty">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty++">+</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="difficulty++" :disabled="difficulty == 20">+</button>
                         </div>
                     </div>
 
