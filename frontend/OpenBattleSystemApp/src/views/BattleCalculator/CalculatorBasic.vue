@@ -24,7 +24,7 @@ const diceRollRequired = computed(() => {
             return '5+'  
         } else if (dividend === 1) {
             return '4+'
-        } else if (dividend > 1 and dividend < 2) {
+        } else if (dividend > 1 && dividend < 2) {
             return '3+'
         } else if (dividend >= 2) {
             return '2+'
