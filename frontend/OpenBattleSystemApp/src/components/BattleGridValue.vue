@@ -21,7 +21,11 @@ const diceRollRequired = computed(() => {
     } else {
         let dividend = props.skillAttributeImported.value / props.difficultyImported.value;
         if (dividend < 0.5) {
-            return 'Not possible.'
+            if (props.difficultyImported.value - (props.skillAttributeImported.value * 2) === 1) {
+                return '6'
+            } else { 
+                return 'Not possible.'
+            } 
         } else if (dividend === 0.5) {
             return '6'
         } else if (dividend > 0.5 && dividend < 1) {
