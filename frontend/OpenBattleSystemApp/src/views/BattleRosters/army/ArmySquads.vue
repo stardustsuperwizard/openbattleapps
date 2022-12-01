@@ -62,6 +62,10 @@ function addUnit(){
             'gearList': [],
             'totalCost': 0.00
         },
+        'armor': {
+            'armorList': [],
+            'totalCost': 0.00
+        },
         'totalUnitCost': 0.00
     });
 }
@@ -76,6 +80,16 @@ function addGear(unit){
     });
 }
 
+function addArmor(unit){
+    unit.armor.armorList.push({
+        'id': unit.armor.armorList.length + 1,
+        'armorId': 0,
+        'quantity': 0,
+        'pointCost': 0.00,
+        'totalCost': 0.00
+    });
+}
+
 
 // unit and gear management
 const selectedGearId = ref(0);
@@ -83,8 +97,24 @@ const selectedGearCost = ref(0);
 function selectedGear(gearItem) {
     gearItem.gearId = selectedGearId.value;
     gearItem.pointCost = selectedGearCost.value;
+    gearItem.totalCost = gearItem.quantity * gearItem.pointCost;
     getTotalCost();
 }
+
+const selectedArmorId = ref(0);
+const selectedArmorCost = ref(0);
+function selectedArmor(armorItem) {
+    armorItem.armorId = selectedArmorId.value;
+    armorItem.pointCost = selectedArmorCost.value;
+    armorItem.totalCost = armorItem.quantity * armorItem.pointCost;
+    getTotalCost();
+}
+
+function deleteArmor(armorItemIndex, unitArmor) {
+    unitArmor.splice(armorItemIndex, 1);
+    getTotalCost();
+}
+
 function deleteGear(gearItemIndex, unitGear) {
     unitGear.splice(gearItemIndex, 1);
     getTotalCost();
@@ -118,14 +148,19 @@ function getTotalCost() {
     squadCount.value = 0;
     squadTotal.value = 0;
     squadUnits.value.forEach((element) =>{
+        let armorCost = 0;
+        element.armor.armorList.forEach((e) => {
+            armorCost = armorCost + e.totalCost;
+        });
+        element.armor.totalCost = armorCost;
 
         let gearCost = 0;
         element.gear.gearList.forEach((e) => {
             gearCost = gearCost + e.totalCost;
         });
-
         element.gear.totalCost = gearCost;
-        element.totalUnitCost = element.totalCost + element.gear.totalCost;
+        
+        element.totalUnitCost = element.totalCost + element.gear.totalCost + element.armor.totalCost;
 
         squadCount.value = squadCount.value + element.quantity;
         squadTotal.value = squadTotal.value + element.totalUnitCost;
@@ -249,10 +284,25 @@ function save() {
                                     <button class="btn btn-danger flex-fill" v-on:click.prevent="deleteUnit(unitIndex)">Delete Unit</button>
                                 </div>
                             </div>
+                            <div class="row mb-1" v-for="(armorItem, armorItemIndex) in unit.armor.armorList">
+                                <div class="col-sm"></div>
+                                <div class="col-sm">
+                                    <GearSelector tableName="Armor" :squadId="unit.id" :startingGearId="armorItem.armorId" v-model:selectedGearId="selectedArmorId" v-model:selectedGearCost="selectedArmorCost" v-on:change="selectedArmor(armorItem)"></GearSelector>
+                                </div>
+                                <div class="col-sm input-group">
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(armorItem, 'negative')" :disabled="armorItem.quantity == 0">-</button>
+                                    <input inputmode="numeric" type="text" min="0" name="armorQuantity" id="armorQuantityId" class="form-control" v-model.number="armorItem.quantity">
+                                    <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(armorItem, 'positive')">+</button>
+                                </div>
+                                <div class="col-sm my-1">
+                                    <button class="btn btn-warning" v-on:click.prevent="deleteArmor(armorItemIndex, unit.armor.armorList)">Delete Armor</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" v-on:click.prevent="addArmor(unit)">Add Armor</button>
                             <div class="row mb-1" v-for="(gearItem, gearItemIndex) in unit.gear.gearList">
                                 <div class="col-sm"></div>
                                 <div class="col-sm">
-                                    <GearSelector :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-model:selectedGearCost="selectedGearCost" v-on:change="selectedGear(gearItem)"></GearSelector>
+                                    <GearSelector tableName="Gear" :squadId="unit.id" :startingGearId="gearItem.gearId" v-model:selectedGearId="selectedGearId" v-model:selectedGearCost="selectedGearCost" v-on:change="selectedGear(gearItem)"></GearSelector>
                                 </div>
                                 <div class="col-sm input-group">
                                     <button class="btn btn-outline-secondary" v-on:click.prevent="updateQuantityAndCost(gearItem, 'negative')" :disabled="gearItem.quantity == 0">-</button>
@@ -263,7 +313,7 @@ function save() {
                                     <button class="btn btn-warning" v-on:click.prevent="deleteGear(gearItemIndex, unit.gear.gearList)">Delete Gear</button>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary" v-on:click.prevent="addGear(unit)">Add Gear</button>
+                            <button class="btn btn-dark" v-on:click.prevent="addGear(unit)">Add Gear</button>
                         </div>
                     </fieldset>
                 </form>

@@ -10,7 +10,7 @@ const router= useRouter();
 
 const cover = ref(0);
 const distance = ref(0);
-const skillAttribute = ref(0);
+const skillAttribute = ref(1);
 
 const diceRollRequired = computed(() => {
     let score = skillAttribute.value - difficulty.value;
@@ -60,9 +60,9 @@ const difficulty = computed(() => {
                             <span>Ranged Combat value</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute--" :disabled="skillAttribute == 0">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute--" :disabled="skillAttribute == 1">-</button>
                             <input inputmode="numeric" type="text" min="0" name="gearDistanceLevel" id="gearDistanceLEvel" class="form-control" v-model.number="skillAttribute">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute++">+</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="skillAttribute++" :disabled="skillAttribute == 20">+</button>
                         </div>
                     </div>
 

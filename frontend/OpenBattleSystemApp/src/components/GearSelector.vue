@@ -5,6 +5,7 @@
         selectedGearCost: Number,
         startingGearId: Number,
         startingGearCost: Number,
+        tableName: String
     });
     const emit = defineEmits([
         'update:selectedGearId',
@@ -19,7 +20,7 @@
         }
     }
     function getGear() {
-        gear.value = idb.readTable('Gear')
+        gear.value = idb.readTable(props.tableName)
             .then((resp) => {
                 gear.value = resp
             });
@@ -49,10 +50,10 @@
         </div> -->
         <div class="form-floating">
             <select name="unit" id="unit" class="form-select" v-model="gearId" v-on:change="selectedGear">
-                <option value="0">Choose gear:</option>
+                <option value="0">Choose {{props.tableName}}:</option>
                 <option v-for="(each, index) in gear" v-bind:value="each.id">{{ each.gearName }}</option>
             </select>
-            <label for="unitName">Gear Profile</label>
+            <label for="unitName">{{props.tableName}} Profile</label>
         </div>
     </div>
 </template>
