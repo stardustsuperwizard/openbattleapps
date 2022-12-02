@@ -89,6 +89,41 @@ const router = createRouter({
       component: () => import('../views/BattleUnits/UnitSheet.vue')
     },
     {
+      path: '/battlenavigator/start',
+      name: 'battlenavigatorstart',
+      component: () => import('../views/BattleNavigator/Start.vue')
+    },
+    {
+      path: '/battlenavigator/movement/',
+      name: 'battlenavigatormovement',
+      component: () => import('../views/BattleNavigator/Movement.vue')
+    },
+    {
+      path: '/battlenavigator/combat/',
+      name: 'battlenavigatorcombat',
+      component: () => import('../views/BattleNavigator/Combat.vue')
+    },
+    {
+      path: '/battlenavigator/combatranged',
+      name: 'battlenavigatorcombatranged',
+      component: () => import('../views/BattleNavigator/CombatRanged.vue')
+    },
+    {
+      path: '/battlenavigator/combatclose',
+      name: 'battlenavigatorcombatclose',
+      component: () => import('../views/BattleNavigator/CombatClose.vue')
+    },
+    {
+      path: '/battlenavigator/morale',
+      name: 'battlenavigatormorale',
+      component: () => import('../views/BattleNavigator/Morale.vue')
+    },
+    {
+      path: '/battlenavigator/actions',
+      name: 'battlenavigatoractions',
+      component: () => import('../views/BattleNavigator/Actions.vue')
+    },
+    {
       path: '/rules/core/contents',
       name: 'rulescorecontents',
       component: () => import('../views/rules/core/Contents.vue')
