@@ -51,7 +51,7 @@ const showCalculator = ref(false);
                 </div>
                 <div v-else>
                     <PreviousMove class="btn btn-secondary mt-3 mx-1" v-bind:playerList="playerList" v-bind:indexNumber="index" v-model:index="index">Previous Move</PreviousMove>
-                    <router-link to="movement" class="btn btn-primary mt-3 mx-1">Next Round</router-link>
+                    <router-link to="start" class="btn btn-primary mt-3 mx-1">End Round</router-link>
                 </div>
         </div>
     </section>
