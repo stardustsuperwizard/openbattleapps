@@ -13,19 +13,19 @@ import NavBar from '@/components/NavBar.vue'
 <div class="container mt-5" id="custom-cards">
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
 
-        <!-- <div class="col">
-            <router-link to="/rules/core/contents" class="text-decoration-none">
+        <div class="col">
+            <router-link to="/battlerules/complete" class="text-decoration-none">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/mikolaj-DCzpr09cTXY-unsplash.jpg')">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Rules</h3>
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Rules</h3>
                     </div>
                 </div>
             </router-link>
-        </div> -->
+        </div>
 
         <div class="col">
             <router-link to="/battlenavigator/start" class="text-decoration-none">
-                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://cdn.openbattlesystem.com/mikolaj-DCzpr09cTXY-unsplash.jpg')">
+                <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Battle Navigator</h3>
                     </div>

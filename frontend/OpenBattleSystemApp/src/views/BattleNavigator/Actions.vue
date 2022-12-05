@@ -3,7 +3,6 @@ import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
 import NextMove from '@/components/NextMove.vue';
 import PreviousMove from '@/components/PreviousMove.vue';
-import BattleCalculator from '@/components/calculators/BattleCalculatorBasic.vue';
 
 const playerList = ref([1, 2]);
 const index = ref(0);
@@ -73,7 +72,7 @@ const showCalculator = ref(false);
                 <a href="#" class="text-dark text-decoration-none" v-on:click.prevent="showRules = !showRules" v-if="showRules"> v Rules</a>
             </h2>
             <div v-if="showRules">
-                <h4>Stuff</h4>
+                <BattleRules :tags="['actions']"></BattleRules>
             </div>
         </div>
     </section>

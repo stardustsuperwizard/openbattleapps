@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
+import BattleRules from '@/components/BattleNavigatorRules.vue';
 
 const playerList = ref([1, 2]);
 const index = ref(0);
@@ -17,7 +18,6 @@ const doneVariable = computed(() => {
 });
 
 const showRules = ref(false);
-const showRangedCalc = ref(false);
 </script>
 
 
@@ -57,10 +57,7 @@ const showRangedCalc = ref(false);
                 <a href="#" class="text-dark text-decoration-none" v-on:click.prevent="showRules = !showRules" v-if="showRules"> v Additional Rules</a>
             </h3>
                     <div v-if="showRules">
-                        <h4>Combat Sequence</h4>
-                        <h4>Ranged Combat</h4>
-                        <h4>Close Combat</h4>
-                        <h4>Ranged Combat in Close Combat</h4>
+                        <BattleRules :tags="['combat']"></BattleRules>
                     </div>
         </div>
     </section>

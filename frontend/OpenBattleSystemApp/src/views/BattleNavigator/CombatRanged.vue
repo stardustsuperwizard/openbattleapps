@@ -4,6 +4,7 @@ import NavBar from '@/components/NavBar.vue';
 import NextMove from '@/components/NextMove.vue';
 import PreviousMove from '@/components/PreviousMove.vue';
 import RangedCombatCalculator from '@/components/calculators/RangedCombatCalculator.vue';
+import BattleRules from '@/components/BattleNavigatorRules.vue';
 
 const playerList = ref([1, 2]);
 const index = ref(0);
@@ -73,9 +74,7 @@ const showRangedCalc = ref(false);
                 <a href="#" class="text-dark text-decoration-none" v-on:click.prevent="showRules = !showRules" v-if="showRules"> v Rules</a>
             </h2>
                     <div v-if="showRules">
-                        <h4>Combat Sequence</h4>
-                        <h4>Ranged Combat</h4>
-                        <h4>Ranged Combat in Close Combat</h4>
+                        <BattleRules :tags="['combat']"></BattleRules>
                     </div>
         </div>
     </section>

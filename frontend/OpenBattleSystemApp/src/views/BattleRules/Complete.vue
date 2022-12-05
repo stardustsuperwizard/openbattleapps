@@ -16,7 +16,6 @@ const vMyDirective = {
 }
 
 const orderedEntries = computed(() => {
-    console.log(rules.value);
     let x = rules.value;
     x.sort(function(a,b){ if (a.headingkey < b.headingkey) {return -1} else if (a.headingkey > b.headingkey) { return 1 } else { return 0 } });
     return x
@@ -28,7 +27,7 @@ const orderedEntries = computed(() => {
 <div v-my-directive>
     <NavBar>
         <template #left>
-            <router-link to="/rules/core/contents" class="d-flex align-items-center text-dark text-decoration-none">
+            <router-link to="/" class="d-flex align-items-center text-dark text-decoration-none">
                 <span class="fs-4">&lt; Back</span>
             </router-link>
         </template>
