@@ -106,6 +106,26 @@ class EasyIDB {
         })
     }
 
+    async readIndexKeys(objectStoreName, indexName) {
+        let db = await this.getDB();
+        return new Promise(resolve => {
+            let trans = db.transaction([objectStoreName], 'readonly');
+            trans.oncomplete = () => {
+                resolve(entries);
+            };
+
+            let store = trans.objectStore(objectStoreName);
+            let entries;
+
+            let myIndex = store.index(indexName);
+            let getAllRequest = myIndex.getAllKeys();
+
+            getAllRequest.onsuccess = event => {
+                entries = getAllRequest.result;
+            };
+        });
+    }
+
     async readIndex(objectStoreName, indexName, keyName=null) {
         let db = await this.getDB();
         return new Promise(resolve => {

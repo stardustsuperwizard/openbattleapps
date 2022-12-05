@@ -19,51 +19,91 @@
     <script src="https://cdn.openbattlesystem.com/public/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      tables = [
-          {
-              'name': 'Units',
-              'options': {
-                  autoIncrement: true,
-                  keyPath: 'id'
-              },
-              'index': []
-          },
-          {
-              'name': 'Armor',
-              'options': {
-                  autoIncrement: true,
-                  keyPath: 'id'
-              },
-              'index': []
-          },
-          {
-              'name': 'Gear',
-              'options': {
-                  autoIncrement: true,
-                  keyPath: 'id'
-              },
-              'index': []
-          },
-          {
-              'name': 'battleSquads',
-              'options': {
-                  autoIncrement: true,
-                  keyPath: 'id'
-              },
-              'index': []
-          },
-          {
-              'name': 'battleRosters',
-              'options': {
-                  autoIncrement: true,
-                  keyPath: 'id'
-              },
-              'index': []
-          },
-      ]
-      const idb = new EasyIDB('mainDB', tables, 11);
-      idb.getDB();
-      </script>
+        tables = [
+            {
+                'name': 'Units',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': []
+            },
+            {
+                'name': 'Armor',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': []
+            },
+            {
+                'name': 'Gear',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': []
+            },
+            {
+                'name': 'battleSquads',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': []
+            },
+            {
+                'name': 'battleRosters',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': []
+            },
+            {
+                'name': 'battleRules',
+                'options': {
+                    autoIncrement: true,
+                    keyPath: 'id'
+                },
+                'index': [
+                    {
+                        indexName: 'tags',
+                        keyPath: 'tags',
+                        objectParameters: {
+                            unique: false,
+                            multiEntry: true,
+                        }
+                    },
+                    {
+                        indexName: 'version',
+                        keyPath: 'version',
+                        objectParameters: {
+                            unique: false,
+                            multiEntry: false,
+                        }
+                    }
+                ]
+            },
+        ]
+        const idb = new EasyIDB('mainDB', tables, 16);
+        idb.getDB();
+        http = new EasyHTTP()
+        http.get('https://cdn.openbattlesystem.com/public/rules.json')
+            .then(response => {
+                // console.log(response.bibliography.version);
+                idb.readIndex('battleRules', 'version', response.bibliography.version)
+                    .then(entry => {
+                        if (entry.length == 0) {
+                            let version = response.bibliography.version;
+                            response.content.forEach(e => {
+                                e.version = version;
+                                idb.createEntry('battleRules', e);
+                            });
+                        }
+                    });
+            });
+    </script>
 
     <script>
     const obj = {

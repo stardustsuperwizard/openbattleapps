@@ -124,6 +124,11 @@ const router = createRouter({
       component: () => import('../views/BattleNavigator/Actions.vue')
     },
     {
+      path: '/rules/core/complete',
+      name: 'rulescorecomplete',
+      component: () => import('../views/rules/core/Complete.vue')
+    },
+    {
       path: '/rules/core/contents',
       name: 'rulescorecontents',
       component: () => import('../views/rules/core/Contents.vue')
