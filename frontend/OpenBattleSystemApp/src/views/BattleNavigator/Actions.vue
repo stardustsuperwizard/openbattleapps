@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
 import NextMove from '@/components/NextMove.vue';
 import PreviousMove from '@/components/PreviousMove.vue';
+import BattleRules from '@/components/BattleNavigatorRules.vue';
 
 const playerList = ref([1, 2]);
 const index = ref(0);

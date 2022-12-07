@@ -91,16 +91,16 @@
         http = new EasyHTTP()
         http.get('https://cdn.openbattlesystem.com/public/rules.json')
             .then(response => {
-                // console.log(response.bibliography.version);
                 idb.readIndex('battleRules', 'version', response.bibliography.version)
-                    .then(entry => {
-                        if (entry.length == 0) {
-                            let version = response.bibliography.version;
+                    .then(table => {
+                        table.forEach(entry => {
+                            idb.deleteEntry("battleRules", entry.id);
+                        });
+                        let version = response.bibliography.version;
                             response.content.forEach(e => {
                                 e.version = version;
                                 idb.createEntry('battleRules', e);
                             });
-                        }
                     });
             });
     </script>

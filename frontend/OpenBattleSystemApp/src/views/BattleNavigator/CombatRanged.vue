@@ -74,7 +74,7 @@ const showRangedCalc = ref(false);
                 <a href="#" class="text-dark text-decoration-none" v-on:click.prevent="showRules = !showRules" v-if="showRules"> v Rules</a>
             </h2>
                     <div v-if="showRules">
-                        <BattleRules :tags="['combat']"></BattleRules>
+                        <BattleRules :tags="['ranged combat']"></BattleRules>
                     </div>
         </div>
     </section>

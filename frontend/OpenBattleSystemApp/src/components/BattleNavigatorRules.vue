@@ -12,13 +12,10 @@ const rules = ref(new Set());
 const vMyDirective = {
     beforeMount: (el) => {
         props.tags.forEach((tag) => {
-            console.log(tag);
             idb.readIndex('battleRules', 'tags', tag)
             .then(response => {
                 response.forEach(element => {
-                    console.log(element);
                     rules.value.add(element);
-                    console.log(rules.value);
                 });
             });
         });

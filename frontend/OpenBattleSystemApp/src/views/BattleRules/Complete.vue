@@ -37,7 +37,7 @@ const orderedEntries = computed(() => {
             <div class="col">
                 
                 <div v-if="entry.headingkey.substring(2) === '0.0.0.0.0'">
-                    <h1>{{ entry.title }}</h1>
+                    <h1 v-bind:id="entry.title">{{ entry.title }}</h1>
                     <p v-if="entry.content.paragraphs" v-for="paragraph in entry.content.paragraphs">
                         {{paragraph.text}}
                         <ul v-if="paragraph.bulletpointlist">
@@ -47,7 +47,7 @@ const orderedEntries = computed(() => {
                 </div>
 
                 <div v-else-if="entry.headingkey.substring(4) === '0.0.0.0'">
-                    <h2>{{ entry.title }}</h2>
+                    <h2 v-bind:id="entry.title"><a v-bind:href="('#'+entry.title)" class="text-decoration-none text-dark">{{ entry.title }}</a></h2>
                     <p v-if="entry.content.paragraphs" v-for="paragraph in entry.content.paragraphs">
                         {{paragraph.text}}
                         <ul v-if="paragraph.bulletpointlist">
@@ -57,7 +57,7 @@ const orderedEntries = computed(() => {
                 </div>
 
                 <div v-else-if="entry.headingkey.substring(6) === '0.0.0'">
-                    <h3>{{ entry.title }}</h3>
+                    <h3 v-bind:id="entry.title"><a v-bind:href="('#'+entry.title)" class="text-decoration-none text-dark">{{ entry.title }}</a></h3>
                     <p v-if="entry.content.paragraphs" v-for="paragraph in entry.content.paragraphs">
                         {{paragraph.text}}
                         <ul v-if="paragraph.bulletpointlist">
@@ -67,7 +67,7 @@ const orderedEntries = computed(() => {
                 </div>
 
                 <div v-else-if="entry.headingkey.substring(8) === '0.0'">
-                    <h4>{{ entry.title }}</h4>
+                    <h4 v-bind:id="entry.title"><a v-bind:href="('#'+entry.title)" class="text-decoration-none text-dark">{{ entry.title }}</a></h4>
                     <p v-if="entry.content.paragraphs" v-for="paragraph in entry.content.paragraphs">
                         {{paragraph.text}}
                         <ul v-if="paragraph.bulletpointlist">
@@ -77,7 +77,7 @@ const orderedEntries = computed(() => {
                 </div>
 
                 <div v-else-if="entry.headingkey.substring(10) === '0'">
-                    <h5>{{ entry.title }}</h5>
+                    <h5 v-bind:id="entry.title"><a v-bind:href="('#'+entry.title)" class="text-decoration-none text-dark">{{ entry.title }}</a></h5>
                     <p v-if="entry.content.paragraphs" v-for="paragraph in entry.content.paragraphs">
                         {{paragraph.text}}
                         <ul v-if="paragraph.bulletpointlist">
