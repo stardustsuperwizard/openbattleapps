@@ -14,6 +14,7 @@ const mentalToughnessStarting = ref(0);
 const hitPointsStarting = ref(0);
 const combatSaveStarting = ref(0);
 const movementStarting = ref(0);
+const reflexStarting = ref(0);
 
 const unitId = ref(null);
 const unitName = ref('');
@@ -24,6 +25,7 @@ const mentalToughness = ref(0);
 const hitPoints = ref(1);
 const combatSave = ref(0);
 const movement = ref(0);
+const reflex = ref(0);
 
 const units = ref([]);
 
@@ -42,6 +44,7 @@ const valuePT = computed(() => { return physicalToughnessStarting.value + physic
 const valueMT = computed(() => { return mentalToughnessStarting.value + mentalToughness.value });
 const valueHP = computed(() => { return hitPointsStarting.value + hitPoints.value });
 const valueMV = computed(() => { return movementStarting.value + movement.value });
+const valueRF = computed(() => { return reflexStarting.value + reflex.value });
 
 const pointcostRC = computed(() => { return rangedCombatPointCost(rangedCombat.value, hitPoints.value) });
 const pointcostCC = computed(() => { return closeCombatPointCost(closeCombat.value, hitPoints.value) });
@@ -50,11 +53,12 @@ const pointcostPT = computed(() => { return physicalToughnessPointCost(physicalT
 const pointcostMT = computed(() => { return mentalToughnessPointCost(mentalToughness.value, hitPoints.value) });
 const pointcostHP = computed(() => { return hitPointsPointCost(hitPoints.value ) });
 const pointcostMV = computed(() => { return movementPointCost(movement.value, hitPoints.value) });
+const pointcostRF = computed(() => { return reflexPointCost(reflex.value, hitPoints.value) });
 
 const totalCost = computed(() => { return totalCostCalculator() });
 
 function totalCostCalculator() {
-    return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value );
+    return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostMV.value, pointcostHP.value, pointcostRF.value );
 
 //     let baseCost = pointCostStarting.value + totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value );
 //     if (baseCost >= 11) {
@@ -85,6 +89,7 @@ function addBattleUnit() {
             hitPoints: hitPoints.value,
             combatSave: combatSave.value,
             movement: movement.value,
+            reflex: reflex.value,
             totalPointCost: totalCost.value,
         }
     } else {
@@ -97,6 +102,8 @@ function addBattleUnit() {
             hitPoints: hitPoints.value,
             combatSave: combatSave.value,
             movement: movement.value,
+            reflex: reflex.value,
+
             totalPointCost: totalCost.value,
         }
     }
@@ -121,6 +128,7 @@ function editBattleUnit(id) {
             hitPoints.value = resp.hitPoints;
             combatSave.value = resp.combatSave;
             movement.value = resp.movement;
+            reflex.value = resp.reflex;
         });
 }
 </script>
@@ -226,7 +234,7 @@ function editBattleUnit(id) {
                             <span>Hit Points</span>
                         </div>
                         <div class="col-sm input-group">
-                            <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints--" :disabled="hitPoints == 0">-</button>
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints--" :disabled="(hitPoints == 1)">-</button>
                             <input inputmode="text" type="text" min="0" name="hitPoints" id="hitPoints" class="form-control" v-model="hitPoints">
                             <button class="btn btn-outline-secondary" v-on:click.prevent="hitPoints++" :disabled="hitPoints == 20">+</button>
                         </div>
@@ -237,7 +245,24 @@ function editBattleUnit(id) {
                             </div>
                         </div>
                     </div>
-        
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <span>Reflexes</span>
+                        </div>
+                        <div class="col-sm input-group">
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="reflex--" :disabled="reflex == 0">-</button>
+                            <input inputmode="text" type="text" min="0" name="reflex" id="relfex" class="form-control" v-model="reflex">
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="reflex++" :disabled="reflex == 20">+</button>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-floating">
+                                <input type="text" name="reflexCost" id="reflexCost" class="form-control" v-bind:value="pointcostRF" disabled>
+                                <label for="reflexCost">Cost</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row mb-3">
                         <div class="col-sm-3">
                             <span>Movement</span>

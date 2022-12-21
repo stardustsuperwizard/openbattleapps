@@ -214,9 +214,10 @@
     function mentalToughnessPointCost(mentalToughness, hitPoints) { if (mentalToughness > 0 && mentalToughness < 21) { return ( getPointCost(mentalToughness.toString(), 'lowCost') * hitPoints ) } else { return 0 } }
     function hitPointsPointCost(hitPoints) {  if (hitPoints > 1 && hitPoints < 21) { return ( getPointCost(hitPoints.toString(), 'highCost') * hitPoints ) } else { return 1.00 } }
     function combatSavePointCost(combatSave, hitPoints) {  return 0  }
+    function reflexPointCost(reflex, hitPoints) { if (reflex > 0 && reflex < 21) { return getPointCost(reflex.toString(), 'highCost')  * hitPoints } else { return 0 } }
     function movementPointCost(movement, hitPoints) { return ( movement * 0.50 ) * hitPoints}
-    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostHP, pointcostCS, pointcostMV) {
-        let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostHP +  pointcostCS + pointcostMV );
+    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostMV, pointcostHP, pointcostRF) {
+        let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostMV + pointcostHP + pointcostRF);
         // console.log(rawPointCost);
         let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
         // console.log(roundedPointCost);
