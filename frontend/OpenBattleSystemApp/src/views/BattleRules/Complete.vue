@@ -3,10 +3,10 @@ import { computed, ref } from "vue";
 import NavBar from '@/components/NavBar.vue';
 
 const rules = ref([]);
-const version = ref("0.0.1");
+const edition = ref("1.0");
 const vMyDirective = {
     beforeMount: (el) => {
-        idb.readIndex('battleRules', 'version', version.value)
+        idb.readIndex('battleRules', 'edition', edition.value)
             .then(response => {
                 response.forEach(element => {
                     rules.value.push(element);

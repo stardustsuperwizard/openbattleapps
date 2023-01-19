@@ -76,8 +76,8 @@
                         }
                     },
                     {
-                        indexName: 'version',
-                        keyPath: 'version',
+                        indexName: 'edition',
+                        keyPath: 'edition',
                         objectParameters: {
                             unique: false,
                             multiEntry: false,
@@ -86,19 +86,19 @@
                 ]
             },
         ]
-        const idb = new EasyIDB('mainDB', tables, 16);
+        const idb = new EasyIDB('mainDB', tables, 17);
         idb.getDB();
         http = new EasyHTTP()
         http.get('https://cdn.openbattlesystem.com/public/rules.json')
             .then(response => {
-                idb.readIndex('battleRules', 'version', response.bibliography.version)
+                idb.readIndex('battleRules', 'edition', response.bibliography.edition)
                     .then(table => {
                         table.forEach(entry => {
                             idb.deleteEntry("battleRules", entry.id);
                         });
-                        let version = response.bibliography.version;
+                        let edition = response.bibliography.edition;
                             response.content.forEach(e => {
-                                e.version = version;
+                                e.edition = edition;
                                 idb.createEntry('battleRules', e);
                             });
                     });
