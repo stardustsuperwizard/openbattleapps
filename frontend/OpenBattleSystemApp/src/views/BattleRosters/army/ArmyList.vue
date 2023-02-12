@@ -9,6 +9,24 @@ const router= useRouter();
 const squads = ref([]);
 const gear = ref({});
 const units = ref({});
+const stability = ref({
+    "1421-4890-a1d0-8af9": {
+        "id": "1421-4890-a1d0-8af9",
+        "name": "[Stability]: Stable"
+    },
+    "5762-a66c-0c7f-dab6": {
+        "id": "5762-a66c-0c7f-dab6",
+        "name": "[Stability]: Unstable"
+    },
+    "a93f-2e00-f81f-b6ee": {
+        "id": "a93f-2e00-f81f-b6ee",
+        "name": "[Stability]: Highly Unstable"
+    },
+    "2db7-7c35-4dd0-ad94": {
+        "id": "2db7-7c35-4dd0-ad94",
+        "name": "[Stability]: Critically Unstable"
+    }
+});
 
 const rosterNew = ref(false);
 const rosterId = ref(null);
@@ -374,6 +392,29 @@ function generateBSData() {
                 newEle.setAttribute("targetId", item.id);
                 newEle.setAttribute("type", "profile");
                 xmlDoc.getElementById(entryId).getElementsByTagName("infoLinks")[0].appendChild(newEle);
+
+                for (const rule in gear.value[item.id].specialRules) {
+                    console.log("vvvvvvvv")
+                    console.log(rule);
+                    newEle = xmlDoc.createElement("infoLink");
+                    newEle.setAttribute("id", crypto.randomUUID());
+                    newEle.setAttribute("name", gear.value[item.id].specialRules[rule].name);
+                    newEle.setAttribute("hidden", "false");
+                    newEle.setAttribute("targetId", gear.value[item.id].specialRules[rule].id);
+                    newEle.setAttribute("type", "rule");
+                    xmlDoc.getElementById(entryId).getElementsByTagName("infoLinks")[0].appendChild(newEle);
+                }
+
+                if (gear.value[item.id].stability != "1421-4890-a1d0-8af9") {
+                    console.log(gear.value[item.id].stability);
+                    newEle = xmlDoc.createElement("infoLink");
+                    newEle.setAttribute("id", crypto.randomUUID());
+                    newEle.setAttribute("name", stability.value[gear.value[item.id].stability].name);
+                    newEle.setAttribute("hidden", "false");
+                    newEle.setAttribute("targetId", stability.value[gear.value[item.id].stability].id);
+                    newEle.setAttribute("type", "profile");
+                    xmlDoc.getElementById(entryId).getElementsByTagName("infoLinks")[0].appendChild(newEle);
+                }
 
                 newEle = xmlDoc.createElement("costs");
                 xmlDoc.getElementById(entryId).appendChild(newEle);
