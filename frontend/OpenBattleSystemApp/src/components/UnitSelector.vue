@@ -1,14 +1,14 @@
 <script setup>
     import { defineProps, ref } from "vue";
     const props = defineProps({
-        selectedUnitId: Number,
+        selectedUnitId: String,
         selectedUnitCost: Number,
-        startingUnitId: Number,
-        squadId: Number
+        startingUnitId: String,
+        tableName: String
     });
     const emit = defineEmits([
         'update:selectedUnitId',
-        'update:selectedUnitCost'
+        'update:selectedUnitCost',
         // 'selectedUnitId'
     ]);
     const units = ref([]);
@@ -19,7 +19,7 @@
         }
     }
     async function getUnits() {
-        units.value = await idb.readTable('Units');
+        units.value = await idb.readTable(props.tableName);
     }
     function selectedUnit() {
         let unitCost;
@@ -28,7 +28,7 @@
                 unitCost = element.totalPointCost;
             }
         });
-        emit('update:selectedUnitId', parseInt(unitId.value));
+        emit('update:selectedUnitId', unitId.value);
         emit('update:selectedUnitCost', unitCost);
     }
 </script>
@@ -38,10 +38,10 @@
     <div v-my-directive>
         <div class="form-floating">
             <select name="unit" id="unit" class="form-select" v-model="unitId" v-on:change="selectedUnit">
-                <option value="0">Choose a unit:</option>
-                <option v-for="each in units" v-bind:value="each.id">{{ each.unitName }}</option>
+                <option value="0">Choose option:</option>
+                <option v-for="each in units" v-bind:value="each.id">{{ each.name }}</option>
             </select>
-            <label for="unitName">Unit Profile</label>
+            <label for="unitName">{{ tableName }} Profile</label>
         </div>
     </div>
 </template>

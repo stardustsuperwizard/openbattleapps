@@ -50,7 +50,7 @@ async function getBattleRosters() {
                         <div class="row">
                             <div class="col fw-light">
                                 <div class="table-responsive">
-                                    <table class="table table-sm">
+                                    <!-- <table class="table table-sm">
                                         <thead>
                                             <tr>
                                                 <th>Point Size</th>
@@ -61,7 +61,7 @@ async function getBattleRosters() {
                                                 <td>{{ roster.points }}</td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table> -->
                                 </div>
                             </div>
                             <div class="col"></div>

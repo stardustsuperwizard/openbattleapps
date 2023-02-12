@@ -1,10 +1,9 @@
 <script setup>
     import { defineProps, ref } from "vue";
     const props = defineProps({
-        selectedGearId: Number,
+        selectedGearId: String,
         selectedGearCost: Number,
-        startingGearId: Number,
-        startingGearCost: Number,
+        startingGearId: String,
         tableName: String
     });
     const emit = defineEmits([
@@ -33,7 +32,7 @@
                 gearCost = element.totalPointCost;
             }
         });
-        emit('update:selectedGearId', parseInt(gearId.value));
+        emit('update:selectedGearId', gearId.value);
         emit('update:selectedGearCost', gearCost);
     }
 </script>

@@ -27,18 +27,114 @@ const combatSave = ref(0);
 const movement = ref(0);
 const reflex = ref(0);
 
+const selectedRules = ref({});
+
 const units = ref([]);
+
+const specialRules = ref({
+    "2592-9ca5-f72d-103a": {
+        "name": "Fearless",
+        "id": "2592-9ca5-f72d-103a",
+        "points": 0.0,
+        "description": "Squad passes all Mental Toughness checks for Morale."
+    },
+    "681a-9bd5-68e2-8dc5" : {
+        "name": "Deepstrike",
+        "id": "681a-9bd5-68e2-8dc5",
+        "points": 0.0,
+        "description": "Squad begins the game in reserve, starting on round 2 this squad can be placed in the order of battle based on their initiative. When this squad is activated, their movement action is used to deploy anywhere on the board including in the engagement zone of an opposing squad. This move counts as their movement actions. The squad can continue with their remaining actions based on their squad status."
+    },
+    "4c70-78fe-51c8-d2a9" : {
+        "name": "Fly",
+        "id": "4c70-78fe-51c8-d2a9",
+        "points": 0.0,
+        "description": "Squad may pass over impassible squads or terrain."
+    },
+    "ae7d-7a7e-3bb6-bf16" : {
+        "name": "Hive Mind",
+        "id": "ae7d-7a7e-3bb6-bf16",
+        "points": 0.0,
+        "description": "When two or more squads are within 12” of each other they may use the highest Mental Toughness value for Morale Checks. If one of the the squads has Fearless this ability is conferred to the additional squad."
+    },
+    "8eae-e69f-a6d9-6eee" : {
+        "name": "Hold Steady!",
+        "id": "8eae-e69f-a6d9-6eee",
+        "points": 0.0,
+        "description": "When a squad remains stationary in the Action phase, subtract 1 from the Range Combat Difficulty value."
+    },
+    "2c8c-6a6e-9704-3c6a" : {
+        "name": "Individual Character",
+        "id": "2c8c-6a6e-9704-3c6a",
+        "points": 0.0,
+        "description": "If squad size is 1 unit, that unit may become an individual character. Individual Characters may attach to a squad at either the start of the game or by moving into coherency with that squad.\nThis confers the following advantages\:\n- Squad may use the individual character’s Mental Toughness attribute for Morale Checks.\n- Individual Character can no longer be targeted as a separate squad.\nIndividual characters may leave a squad by moving out of coherency."
+    },
+    "0bfb-425f-c71f-5e46" : {
+        "name": "Infiltration",
+        "id": "0bfb-425f-c71f-5e46",
+        "points": 0.0,
+        "description": "Unit wearing this armor is able to start the game anywhere on the board, but must be at least 6” away from any enemy squads."
+    },
+    "1ed5-199d-88cb-ebc6" : {
+        "name": "Lucky Shot",
+        "id": "1ed5-199d-88cb-ebc6",
+        "points": 0.0,
+        "description": "Squad units are able to hit on a roll of 6 regardless of difficulty."
+    },
+    "9017-f2a1-0870-0856" : {
+        "name": "Sniper",
+        "id": "9017-f2a1-0870-0856",
+        "points": 0.0,
+        "description": "Can target individual units In a squad."
+    },
+    "3c46-3884-957f-ddeb" : {
+        "name": "Mob Rule",
+        "id": "3c46-3884-957f-ddeb",
+        "points": 0.0,
+        "description": "Squad becomes a rally point. When a squad that is in status fallback and also has “mob rule” comes into contact with this squad, both squads may combine and have a status of normal."
+    },
+    "06e4-bfa9-4af0-6dc3" : {
+        "name": "Patient",
+        "id": "06e4-bfa9-4af0-6dc3",
+        "points": 0.0,
+        "description": "Used once per round at the beginning of your turn before any movement action. When declared, this squad drops to the bottom of the order of battle and play continues to the next player\’s turn.\nAdditionally, the squad gains the ability to declare patient again as an interrupt to the game round. When used, move this squad up in the battle order to go immediately following the current player\’s turn (including if you are the current player)."
+    },
+    "5944-c02b-39fe-46f1" : {
+        "name": "Rally to Me!",
+        "id": "5944-c02b-39fe-46f1",
+        "points": 0.0,
+        "description": "Prerequisites: Individual Character, Regroup\nThe unit/squad is now a considered a rally point and friendly squads may make a fallback move towards it. Individual Characters, cannot be a rally point for themselves and must fallback to the next nearest rally point. If the individual character is attached to a squad, the individual character and attached squad will fallback to the nearest rally point that is not the individual character."
+    },
+    "83ed-5b2a-523f-914e" : {
+        "name": "Regeneration",
+        "id": "83ed-5b2a-523f-914e",
+        "points": 0.0,
+        "description": "In the morale phase before any morale tests are taken, for every HP lost the unit may make a roll to attempt to recover lost HP. Form a pool of d6, 1 for every HP lost and roll. For each result of 5+, one Hit Point is restored. This ability can negate a morale check if all lost HP is recovered and one was required."
+    },
+    "0369-d009-4bb5-066e" : {
+        "name": "Regroup",
+        "id": "0369-d009-4bb5-066e",
+        "points": 0.0,
+        "description": "When a Squad begins the turn with the status of Fallback, in the Morale Phase, they will automatically regroup. Squad Status shall change to Normal."
+    },
+    "cbc9-55bd-024d-e154" : {
+        "name": "Wipe Them Out!",
+        "id": "cbc9-55bd-024d-e154",
+        "points": 0.0,
+        "description": "During the movement phase, if this squad makes contact with a defending squad that has the status of \’Fallback\’ the attacking squad make attempt to remove defending squad from the game:\n- Form a pool of D6, 1 for each Hit Point in the defending squad.\n- Attacker rolls dice from the pool and for each roll of a 6, one hit point is removed from the defending squad. No \‘to save\’ roll is permitted."
+    }
+});
+
 
 const vMyDirective = {
     beforeMount: (el) => {
         if (route.params.id != 'new') {
-            editBattleUnit(parseInt(route.params.id));
+            editBattleUnit(route.params.id);
         }
     }
 }
 
 const valueRC = computed(() => { return rangedCombatStarting.value + rangedCombat.value });
-// const valueCC = computed(() => { return closeCombatStarting.value + closeCombat.value });
+const valueCC = computed(() => { return closeCombatStarting.value + closeCombat.value });
 const valueCS = computed(() => { return combatSaveStarting.value + combatSave.value });
 const valuePT = computed(() => { return physicalToughnessStarting.value + physicalToughness.value });
 const valueMT = computed(() => { return mentalToughnessStarting.value + mentalToughness.value });
@@ -55,33 +151,83 @@ const pointcostHP = computed(() => { return hitPointsPointCost(hitPoints.value )
 const pointcostMV = computed(() => { return movementPointCost(movement.value, hitPoints.value) });
 const pointcostRF = computed(() => { return reflexPointCost(reflex.value, hitPoints.value) });
 
-const totalCost = computed(() => { return totalCostCalculator() });
+const baseCost = computed(() => { return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostMV.value, pointcostHP.value, pointcostRF.value, pointcostCS.value);});
 
-function totalCostCalculator() {
-    return totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostMV.value, pointcostHP.value, pointcostRF.value );
+const totalCost = computed(() => {
+    return baseCost.value + ruleCost()
+});
 
-//     let baseCost = pointCostStarting.value + totalUnitPointCost( pointcostRC.value, pointcostCC.value, pointcostPT.value, pointcostMT.value, pointcostCS.value, pointcostMV.value, pointcostHP.value );
-//     if (baseCost >= 11) {
-//         return baseCost * (baseCost * 0.10)
-//     } else {
-//         return baseCost
-//     }
 
-// if (baseCost > 10 && baseCost < 16 ) {
-    //     return baseCost * 1.5
-    // } else if (baseCost >= 16) {
-    //     return baseCost * (baseCost * 0.10)
-    // } else {
-    //     return baseCost
-    // }
+function ruleCost(){
+    let x = 0.0;
+    for (const rule in selectedRules.value) {
+        x = x + specialRules.value[rule].points;
+    }
+    return x
 }
+
+function calculatedRuleCost(id) {
+    if (id === '2592-9ca5-f72d-103a') { //fearless
+        specialRules.value[id].points = (valueMT.value * valueHP.value) + 5;
+    } else if (id === '681a-9bd5-68e2-8dc5') { //deepstrike
+        specialRules.value[id].points = (valueMV.value + valueRF.value) * 3;
+    } else if (id === '4c70-78fe-51c8-d2a9') { //Fly
+        specialRules.value[id].points = valueMV.value * 5;
+    } else if (id === 'ae7d-7a7e-3bb6-bf16') { //hivemind
+        specialRules.value[id].points = valueMT.value * 2;
+    } else if (id === '8eae-e69f-a6d9-6eee') { //hold steady
+        specialRules.value[id].points = valueRC.value + 1;
+    } else if (id === '2c8c-6a6e-9704-3c6a') { //individual character
+        specialRules.value[id].points = 0;
+    } else if (id === '0bfb-425f-c71f-5e46') { //infiltration
+        specialRules.value[id].points = (valueMV.value * valueHP.value) + valueRF.value;
+    } else if (id === '1ed5-199d-88cb-ebc6"') { //lucky shot
+        specialRules.value[id].points = (valueRC.value * valueHP.value) + 1;
+    } else if (id === '9017-f2a1-0870-0856') { //sniper
+        specialRules.value[id].points = ( (valueRC.value + valueRF.value) * 5 ) + 5;
+    } else if (id === '3c46-3884-957f-ddeb') { //mob rule
+        specialRules.value[id].points = valueMT.value;
+    } else if (id === '06e4-bfa9-4af0-6dc3') { //patient
+        specialRules.value[id].points = valueRF.value * 5;
+    } else if (id === '5944-c02b-39fe-46f1') { //Rally to me!
+        specialRules.value[id].points = valueMT.value * 2;
+    } else if (id === '83ed-5b2a-523f-914e') { //regeneration
+        specialRules.value[id].points = (valueHP.value * valueHP.value) + 5;
+    } else if (id === '0369-d009-4bb5-066e') { //regroup
+        specialRules.value[id].points = valueMT.value * 2;
+    } else if (id === 'cbc9-55bd-024d-e154') { //wipe them out!
+        specialRules.value[id].points = (valueCC.value * 2) + 2;
+    }
+
+
+
+    return specialRules.value[id].points
+
+}
+
+
+function check(event) {
+    console.log(event.target.id)
+    console.log(event.target.checked)
+    if (event.target.checked === true) {
+        selectedRules.value[event.target.id] = {
+            "id": specialRules.value[event.target.id].id,
+            "name": specialRules.value[event.target.id].name
+        }
+    } else {
+        delete selectedRules.value[event.target.id]
+    }
+    console.log(selectedRules.value)
+}
+
 
 function addBattleUnit() {
     let tempUnit;
+    console.log(selectedRules.value);
     if (unitId.value != null) {
         tempUnit = {
             id: unitId.value,
-            unitName: unitName.value,
+            name: unitName.value,
             rangedCombat: rangedCombat.value,
             closeCombat: closeCombat.value,
             physicalToughness: physicalToughness.value,
@@ -90,11 +236,13 @@ function addBattleUnit() {
             combatSave: combatSave.value,
             movement: movement.value,
             reflex: reflex.value,
+            specialRules: JSON.parse(JSON.stringify(selectedRules.value)),
             totalPointCost: totalCost.value,
         }
     } else {
         tempUnit = {
-            unitName: unitName.value,
+            id: crypto.randomUUID(),
+            name: unitName.value,
             rangedCombat: rangedCombat.value,
             closeCombat: closeCombat.value,
             physicalToughness: physicalToughness.value,
@@ -103,10 +251,11 @@ function addBattleUnit() {
             combatSave: combatSave.value,
             movement: movement.value,
             reflex: reflex.value,
-
+            specialRules: JSON.parse(JSON.stringify(selectedRules.value)),
             totalPointCost: totalCost.value,
         }
     }
+    console.log(tempUnit);
     idb.createEntry('Units', tempUnit);
     router.back();
 }
@@ -119,8 +268,9 @@ function deleteBattleUnit() {
 function editBattleUnit(id) {
     idb.readTableEntry('Units', id)
         .then((resp) => {
+            console.log(resp.specialRules)
             unitId.value = resp.id;
-            unitName.value = resp.unitName;
+            unitName.value = resp.name;
             rangedCombat.value = resp.rangedCombat;
             closeCombat.value = resp.closeCombat;
             physicalToughness.value = resp.physicalToughness;
@@ -129,6 +279,7 @@ function editBattleUnit(id) {
             combatSave.value = resp.combatSave;
             movement.value = resp.movement;
             reflex.value = resp.reflex;
+            selectedRules.value = resp.specialRules
         });
 }
 </script>
@@ -281,16 +432,72 @@ function editBattleUnit(id) {
                     </div>
 
                     <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <span>Armor Value</span>
+                        </div>
+                        <div class="col-sm input-group">
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave--" :disabled="combatSave == 0">-</button>
+                            <input inputmode="numeric" type="text" min="0" max="5" name="combatSave" id="combatSave" class="form-control" v-model="combatSave">
+                            <button class="btn btn-outline-secondary" v-on:click.prevent="combatSave++">+</button>
+                        </div>
                         <div class="col-sm">
                             <div class="form-floating">
-                                <input type="text" name="totalCost" id="totalCost" class="form-control" v-bind:value="totalCost" disabled>
-                                <label for="totalCost">Total Cost</label>
+                                <input type="text" name="combatSave" id="combatSave" class="form-control" v-bind:value="pointcostCS" disabled>
+                                <label for="combatSave">Cost</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm">
+                            <div class="form-floating">
+                                <input type="text" name="baseCost" id="baseCost" class="form-control" v-bind:value="baseCost" disabled>
+                                <label for="baseCost">Base Cost</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <span>Special Rules</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3" v-for="(rule,index) in specialRules">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span><input type="checkbox" v-bind:id="rule.id" @change="check($event)" :checked="selectedRules.hasOwnProperty(rule.id)"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Text input with checkbox" v-bind:value="rule.name" disabled>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">{{ calculatedRuleCost(rule.id) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                  
+
+                    <div class="row mb-3">
+                        <div class="col-sm">
+                            <div class="form-floating">
+                                <input type="text" name="baseCost" id="baseCost" class="form-control" v-bind:value="totalCost" disabled>
+                                <label for="baseCost">Total Cost</label>
                             </div>
                         </div>
                     </div>
                     <!-- <input type="Button" value="Clear" class="btn btn-secondary mt-3 mx-3" v-on:click.prevent="resetForm"> -->
-                    <button class="btn btn-danger mt-3" v-on:click="deleteBattleUnit()">Delete</button>
-
+                    <div class="row mb-3">
+                        <div class="col-sm d-flex">
+                            <a href="#" class="btn btn-primary flex-fill" v-on:click="addBattleUnit()">Save</a>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm d-flex">
+                            <a href="#" class="btn btn-danger flex-fill" v-on:click="deleteBattleUnit()">Delete</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

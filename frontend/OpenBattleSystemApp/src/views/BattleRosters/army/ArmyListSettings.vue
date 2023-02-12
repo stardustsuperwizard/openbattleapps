@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from "vue";
-import NavBar from '@/components/NavBar.vue';
+import { ref } from "vue";
+import NavBar from '@/components/NavBar.vue'; 
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
@@ -11,22 +11,12 @@ const squads = ref([]);
 const rosterNew = ref(false);
 const rosterId = ref(null);
 const rosterName = ref(null);
-const rosterPoints = ref(0);
-const rosterPointsAvailable = computed(() => { return rosterPoints.value - rosterPointsUsed.value });
 
-
-const rosterPointsUsed = computed(() => {
-    let pointCost = 0;
-    squads.value.forEach(element => {
-        pointCost = pointCost + element.totalCost;
-    });
-    return pointCost
-});
 
 const vMyDirective = {
     beforeMount: (el) => {
         if (route.params.id != 'new') {
-            getSquads(parseInt(route.params.id));
+            getSquads(route.params.id);
         } else {
             rosterNew.value = true;
         }
@@ -40,7 +30,6 @@ function getSquads(id) {
             // console.log(resp.squads);
             rosterId.value = resp.id;
             rosterName.value = resp.name;
-            rosterPoints.value = resp.points;
             squads.value = resp.squads;
         });
 }
@@ -52,13 +41,12 @@ function save() {
         tempvar = {
             'id': rosterId.value,
             'name': rosterName.value,
-            'points': rosterPoints.value,
             'squads': JSON.parse(JSON.stringify(squads.value))
         }
     } else {
         tempvar = {
+            'id': crypto.randomUUID(),
             'name': rosterName.value,
-            'points': rosterPoints.value,
             'squads': []
         }
     }
@@ -108,14 +96,6 @@ function deleteRoster() {
                             <div class="form-floating">
                                 <input type="text" name="rosterName" id="rosterName" class="form-control" v-model="rosterName">
                                 <label for="rosterName">Battle Roster Name</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <fieldset class="row mb-3">
-                        <div class="col-sm mb-3">
-                            <div class="form-floating">
-                                <input type="text" name="rosterPoints" id="rosterPoints" class="form-control" v-model="rosterPoints">
-                                <label for="rosterPoints">Total Roster Points</label>
                             </div>
                         </div>
                     </fieldset>

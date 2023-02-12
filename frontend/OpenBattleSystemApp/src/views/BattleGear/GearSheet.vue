@@ -18,7 +18,7 @@ const gearList = ref([]);
 const vMyDirective = {
     beforeMount: (el) => {
         if (route.params.id != 'new') {
-            editBattleGear(parseInt(route.params.id));
+            editBattleGear(route.params.id);
         }
     }
 }
@@ -36,7 +36,7 @@ function addBattleGear() {
     if (gearId.value != null) {
         tempGear = {
             'id': gearId.value,
-            'gearName': gearName.value,
+            'name': gearName.value,
             'distance': distance.value,
             'attacks': attacks.value,
             'strength': strength.value,
@@ -45,7 +45,8 @@ function addBattleGear() {
         }
     } else {
         tempGear = {
-            'gearName': gearName.value,
+            'id': crypto.randomUUID(),
+            'name': gearName.value,
             'distance': distance.value,
             'attacks': attacks.value,
             'strength': strength.value,
@@ -64,7 +65,7 @@ function editBattleGear(id) {
             .then((resp) => {
                 // console.log(resp);
                 gearId.value = resp.id;
-                gearName.value = resp.gearName;
+                gearName.value = resp.name;
                 distance.value = resp.distance;
                 attacks.value = resp.attacks;
                 strength.value = resp.strength;

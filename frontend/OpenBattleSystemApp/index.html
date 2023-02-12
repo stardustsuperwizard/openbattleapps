@@ -23,7 +23,6 @@
             {
                 'name': 'Units',
                 'options': {
-                    autoIncrement: true,
                     keyPath: 'id'
                 },
                 'index': []
@@ -39,7 +38,6 @@
             {
                 'name': 'Gear',
                 'options': {
-                    autoIncrement: true,
                     keyPath: 'id'
                 },
                 'index': []
@@ -55,7 +53,6 @@
             {
                 'name': 'battleRosters',
                 'options': {
-                    autoIncrement: true,
                     keyPath: 'id'
                 },
                 'index': []
@@ -86,7 +83,7 @@
                 ]
             },
         ]
-        const idb = new EasyIDB('mainDB', tables, 17);
+        const idb = new EasyIDB('mainDB', tables, 18);
         idb.getDB();
         http = new EasyHTTP()
         http.get('https://cdn.openbattlesystem.com/public/rules.json')
@@ -216,8 +213,8 @@
     function combatSavePointCost(combatSave, hitPoints) {  return 0  }
     function reflexPointCost(reflex, hitPoints) { if (reflex > 0 && reflex < 21) { return getPointCost(reflex.toString(), 'highCost')  * hitPoints } else { return 0 } }
     function movementPointCost(movement, hitPoints) { return ( movement * 0.50 ) * hitPoints}
-    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostMV, pointcostHP, pointcostRF) {
-        let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostMV + pointcostHP + pointcostRF);
+    function totalUnitPointCost(pointcostRC, pointcostCC, pointcostPT, pointcostMT, pointcostMV, pointcostHP, pointcostRF, pointCostAV) {
+        let rawPointCost = ( pointcostRC + pointcostCC + pointcostPT + pointcostMT + pointcostMV + pointcostHP + pointcostRF + pointCostAV);
         // console.log(rawPointCost);
         let roundedPointCost = Number(Math.round(`${rawPointCost}e2`) + 'e-2')
         // console.log(roundedPointCost);

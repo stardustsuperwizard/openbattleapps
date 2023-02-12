@@ -45,7 +45,7 @@ async function getBattleGear() {
                     <div class="col-11">
                         <div class="row">
                             <div class="col">
-                                <div class="d-flex flex-fill fs-3">{{gear.gearName }}</div>
+                                <div class="d-flex flex-fill fs-3">{{gear.name }}</div>
                             </div>
                         </div>
                         <div class="row">
